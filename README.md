@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Quick Cut - News Website
 
 A modern, responsive news website built with Next.js, TypeScript, and Tailwind CSS.
@@ -84,3 +85,7 @@ Mock data is located in `data/mockData.ts`. Replace this with actual API calls w
 ## License
 
 MIT
+=======
+# QuickCut_FE
+A daily dose of news
+>>>>>>> 33639300c2099d68f467eb52445890255717b60c
