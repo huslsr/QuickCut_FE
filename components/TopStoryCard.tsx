@@ -7,58 +7,51 @@ interface TopStoryCardProps {
 
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   return (
-    <article className="mb-12 group cursor-pointer">
-      <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-indigo-500/20">
-        {article.videoUrl && (
-          <div className="absolute top-6 right-6 z-20">
-             <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 animate-pulse">
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
+    <article className="mb-16 group cursor-pointer border-b border-gray-200 pb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        {/* Content Side */}
+        <div className="lg:col-span-5 order-2 lg:order-1">
+          <div className="flex items-center space-x-3 mb-6">
+            <span className="w-3 h-3 bg-accent rounded-full"></span>
+            <span className="text-xs font-bold uppercase tracking-widest text-accent">
+              Top Story
+            </span>
           </div>
-        )}
-        
-        <Image
-          src={article.imageUrl}
-          alt={article.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-700"
-          priority
-        />
-        
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent opacity-90" />
-        
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-          <div className="max-w-4xl">
-            <div className="flex items-center space-x-3 mb-4">
-              <span className="px-3 py-1 text-xs font-bold text-white bg-indigo-600 rounded-full uppercase tracking-wider shadow-lg shadow-indigo-600/30">
-                {article.category}
-              </span>
-              <span className="text-gray-300 text-sm font-medium border-l border-gray-500 pl-3">
-                {new Date(article.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-              </span>
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight font-serif group-hover:text-indigo-100 transition-colors">
-              {article.title}
-            </h1>
-            
-            <p className="text-lg text-gray-300 mb-8 line-clamp-2 max-w-2xl leading-relaxed">
-              {article.summary}
-            </p>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center text-white font-bold border-2 border-white/20">
-                  {article.author.charAt(0)}
-                </div>
-                <span className="text-white font-medium">{article.author}</span>
+          
+          <h1 className="text-5xl md:text-6xl font-black font-serif leading-[0.95] mb-6 group-hover:text-gray-700 transition-colors">
+            {article.title}
+          </h1>
+          
+          <p className="text-xl text-gray-600 mb-8 font-serif leading-relaxed">
+            {article.summary}
+          </p>
+          
+          <div className="flex items-center text-sm font-bold uppercase tracking-wider space-x-4">
+            <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-500">{article.author}</span>
+          </div>
+        </div>
+
+        {/* Image Side */}
+        <div className="lg:col-span-7 order-1 lg:order-2 relative h-[500px] w-full overflow-hidden">
+          <Image
+            src={article.imageUrl}
+            alt={article.title}
+            fill
+            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out"
+            priority
+          />
+          {article.videoUrl && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-20 h-20 bg-white/90 flex items-center justify-center rounded-full shadow-xl">
+                <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
               </div>
-              <span className="text-gray-500">•</span>
-              <span className="text-gray-300 text-sm">5 min read</span>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </article>

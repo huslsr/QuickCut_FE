@@ -7,46 +7,40 @@ interface FeaturedVideosProps {
 
 export default function FeaturedVideos({ videos }: FeaturedVideosProps) {
   return (
-    <div className="mb-12">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold text-gray-900 font-serif">Featured Videos</h3>
-        <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+    <div>
+      <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-2">
+        <h3 className="text-lg font-black uppercase tracking-widest">Watch</h3>
+        <button className="text-xs font-bold uppercase tracking-wider hover:text-accent transition-colors">
           View All
         </button>
       </div>
       
-      <div className="space-y-6">
+      <div className="space-y-8">
         {videos.map((video) => (
           <div key={video.id} className="group cursor-pointer">
-            <div className="relative w-full h-56 rounded-2xl overflow-hidden shadow-md mb-4">
+            <div className="relative w-full aspect-video mb-3 bg-black">
               <Image
                 src={video.imageUrl}
                 alt={video.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
               />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-              
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-6 h-6 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black text-white transition-all duration-300">
+                  <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
               </div>
-              
-              <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-white">
-                4:20
-              </div>
             </div>
             
-            <h4 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors font-serif leading-snug">
+            <h4 className="text-lg font-bold font-serif leading-tight group-hover:text-accent transition-colors">
               {video.title}
             </h4>
-            <div className="flex items-center text-xs text-gray-500 font-medium">
+            <div className="flex items-center text-xs font-bold uppercase tracking-wider text-gray-400 mt-2">
               <span>{video.author}</span>
               <span className="mx-2">•</span>
-              <span>{new Date(video.timestamp).toLocaleDateString()}</span>
+              <span>4:20</span>
             </div>
           </div>
         ))}

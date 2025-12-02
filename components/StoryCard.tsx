@@ -5,50 +5,33 @@ interface StoryCardProps {
   article: NewsArticle;
 }
 
-const categoryColors: Record<string, string> = {
-  Tech: 'bg-blue-100 text-blue-700',
-  Sports: 'bg-green-100 text-green-700',
-  Business: 'bg-purple-100 text-purple-700',
-  Entertainment: 'bg-pink-100 text-pink-700',
-  Politics: 'bg-red-100 text-red-700',
-  News: 'bg-gray-100 text-gray-700',
-};
-
 export default function StoryCard({ article }: StoryCardProps) {
-  const categoryStyle = categoryColors[article.category] || 'bg-gray-100 text-gray-700';
-
   return (
-    <article className="group flex gap-6 p-4 rounded-2xl transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 cursor-pointer border border-transparent hover:border-gray-100">
-      <div className="flex-shrink-0 w-48 h-32 relative rounded-xl overflow-hidden shadow-sm">
+    <article className="group cursor-pointer flex flex-col h-full">
+      <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden bg-gray-100">
         <Image
           src={article.imageUrl}
           alt={article.title}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-      </div>
-      <div className="flex-1 flex flex-col justify-center min-w-0">
-        <div className="flex items-center space-x-3 mb-2">
-          <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full ${categoryStyle}`}>
-            {article.category}
-          </span>
-          <span className="text-gray-400 text-xs font-medium">
-            {new Date(article.timestamp).toLocaleDateString()}
-          </span>
+        <div className="absolute top-4 left-4 bg-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black">
+          {article.category}
         </div>
-        
-        <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors font-serif leading-snug">
+      </div>
+      
+      <div className="flex-1 flex flex-col">
+        <h2 className="text-2xl font-bold font-serif leading-tight mb-3 group-hover:text-accent transition-colors">
           {article.title}
         </h2>
         
-        <p className="text-sm text-gray-500 line-clamp-2 mb-3 leading-relaxed">
+        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3 font-serif">
           {article.summary}
         </p>
         
-        <div className="flex items-center text-xs font-medium text-gray-400">
-          <span className="text-gray-600">{article.author}</span>
-          <span className="mx-2">•</span>
-          <span>3 min read</span>
+        <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-gray-400">
+          <span>{article.author}</span>
+          <span>{new Date(article.timestamp).toLocaleDateString()}</span>
         </div>
       </div>
     </article>
