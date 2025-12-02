@@ -51,13 +51,22 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold font-serif mb-6">Newsletter</h3>
             <p className="text-gray-400 text-sm mb-4">Subscribe to our newsletter for daily updates.</p>
-            <form className="flex flex-col space-y-3">
+            <form 
+              className="flex flex-col space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log('Footer Subscribe submitted');
+              }}
+            >
               <input 
                 type="email" 
                 placeholder="Enter your email" 
                 className="bg-gray-800 border border-gray-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               />
-              <button className="bg-indigo-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-sm">
+              <button 
+                type="submit"
+                className="bg-indigo-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-sm"
+              >
                 Subscribe
               </button>
             </form>

@@ -1,3 +1,5 @@
+'use client';
+
 import Header from '@/components/Header';
 import NewsFeed from '@/components/NewsFeed';
 import RightSidebar from '@/components/RightSidebar';
@@ -5,23 +7,36 @@ import Footer from '@/components/Footer';
 
 import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
+import { useEffect, useState } from 'react';
 
-export const dynamic = 'force-dynamic';
+export default function Home() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [videos, setVideos] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function Home() {
-  let articles: Article[] = [];
-  let videos: Article[] = [];
-  
-  try {
-    const [articlesData, videosData] = await Promise.all([
-      articleService.getAllArticles(),
-      articleService.getFeaturedVideos()
-    ]);
-    articles = articlesData;
-    videos = videosData;
-  } catch (error) {
-    console.error('Failed to fetch data:', error);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log('🚀 [Frontend] Starting data fetch...');
+      try {
+        console.log('📡 [Frontend] Fetching articles and videos...');
+        const [articlesData, videosData] = await Promise.all([
+          articleService.getAllArticles(),
+          articleService.getFeaturedVideos()
+        ]);
+        console.log('✅ [Frontend] Articles fetched:', articlesData);
+        console.log('✅ [Frontend] Videos fetched:', videosData);
+        setArticles(articlesData);
+        setVideos(videosData);
+      } catch (error) {
+        console.error('❌ [Frontend] Failed to fetch data:', error);
+      } finally {
+        setLoading(false);
+        console.log('🏁 [Frontend] Data fetch complete.');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const topStory = articles.length > 0 ? articles[0] : null;
   const newsArticles = articles.length > 1 ? articles.slice(1) : [];
@@ -40,6 +55,14 @@ export default async function Home() {
   const adaptedTopStory: NewsArticle | null = topStory ? mapToNewsArticle(topStory) : null;
   const adaptedArticles: NewsArticle[] = newsArticles.map(mapToNewsArticle);
   const adaptedVideos: NewsArticle[] = videos.map(mapToNewsArticle);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-white">

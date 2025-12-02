@@ -42,7 +42,14 @@ export default function RightSidebar({ featuredVideos }: RightSidebarProps) {
         <p className="text-gray-400 text-sm mb-6 font-serif">
           Essential news, expert analysis, and exclusive content delivered straight to your inbox.
         </p>
-        <button className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-accent hover:text-white transition-colors">
+        <button 
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log('Sidebar Subscribe clicked');
+          }}
+          className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-accent hover:text-white transition-colors"
+        >
           Subscribe Now
         </button>
       </div>
