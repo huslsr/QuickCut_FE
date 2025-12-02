@@ -6,39 +6,49 @@ interface StoryCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  Tech: 'bg-blue-600',
-  Sports: 'bg-green-600',
-  Business: 'bg-purple-600',
-  Entertainment: 'bg-pink-600',
-  Politics: 'bg-red-600',
-  News: 'bg-gray-600',
+  Tech: 'bg-blue-100 text-blue-700',
+  Sports: 'bg-green-100 text-green-700',
+  Business: 'bg-purple-100 text-purple-700',
+  Entertainment: 'bg-pink-100 text-pink-700',
+  Politics: 'bg-red-100 text-red-700',
+  News: 'bg-gray-100 text-gray-700',
 };
 
 export default function StoryCard({ article }: StoryCardProps) {
-  const categoryColor = categoryColors[article.category] || 'bg-gray-600';
+  const categoryStyle = categoryColors[article.category] || 'bg-gray-100 text-gray-700';
 
   return (
-    <article className="flex gap-4 pb-6 mb-6 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 p-2 rounded transition-colors cursor-pointer">
-      <div className="flex-shrink-0 w-32 h-24 relative rounded overflow-hidden">
+    <article className="group flex gap-6 p-4 rounded-2xl transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 cursor-pointer border border-transparent hover:border-gray-100">
+      <div className="flex-shrink-0 w-48 h-32 relative rounded-xl overflow-hidden shadow-sm">
         <Image
           src={article.imageUrl}
           alt={article.title}
           fill
-          className="object-cover hover:scale-105 transition-transform duration-300"
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
         />
       </div>
-      <div className="flex-1 min-w-0">
-        <span className={`text-xs font-semibold text-white px-2 py-1 rounded uppercase mb-2 inline-block ${categoryColor}`}>
-          {article.category}
-        </span>
-        <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-gray-700">
+      <div className="flex-1 flex flex-col justify-center min-w-0">
+        <div className="flex items-center space-x-3 mb-2">
+          <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full ${categoryStyle}`}>
+            {article.category}
+          </span>
+          <span className="text-gray-400 text-xs font-medium">
+            {new Date(article.timestamp).toLocaleDateString()}
+          </span>
+        </div>
+        
+        <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors font-serif leading-snug">
           {article.title}
         </h2>
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">{article.summary}</p>
-        <div className="flex items-center text-xs text-gray-500">
-          <span>{article.author}</span>
+        
+        <p className="text-sm text-gray-500 line-clamp-2 mb-3 leading-relaxed">
+          {article.summary}
+        </p>
+        
+        <div className="flex items-center text-xs font-medium text-gray-400">
+          <span className="text-gray-600">{article.author}</span>
           <span className="mx-2">•</span>
-          <time>{new Date(article.timestamp).toLocaleDateString()}</time>
+          <span>3 min read</span>
         </div>
       </div>
     </article>
