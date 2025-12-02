@@ -2,16 +2,25 @@ import Header from '@/components/Header';
 import NewsFeed from '@/components/NewsFeed';
 import RightSidebar from '@/components/RightSidebar';
 import Footer from '@/components/Footer';
-import { featuredVideos } from '@/data/mockData';
+
 import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   let articles: Article[] = [];
+  let videos: Article[] = [];
+  
   try {
-    articles = await articleService.getAllArticles();
+    const [articlesData, videosData] = await Promise.all([
+      articleService.getAllArticles(),
+      articleService.getFeaturedVideos()
+    ]);
+    articles = articlesData;
+    videos = videosData;
   } catch (error) {
-    console.error('Failed to fetch articles:', error);
+    console.error('Failed to fetch data:', error);
   }
 
   const topStory = articles.length > 0 ? articles[0] : null;
@@ -30,6 +39,7 @@ export default async function Home() {
 
   const adaptedTopStory: NewsArticle | null = topStory ? mapToNewsArticle(topStory) : null;
   const adaptedArticles: NewsArticle[] = newsArticles.map(mapToNewsArticle);
+  const adaptedVideos: NewsArticle[] = videos.map(mapToNewsArticle);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -48,7 +58,7 @@ export default async function Home() {
                   </div>
                </div>
             )}
-            <RightSidebar featuredVideos={featuredVideos} />
+            <RightSidebar featuredVideos={adaptedVideos} />
           </div>
         </div>
       </main>

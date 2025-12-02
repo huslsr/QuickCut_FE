@@ -8,6 +8,7 @@ export interface Article {
     publishedDate: string;
     sourceUrl: string;
     imageUrl: string;
+    videoUrl?: string;
     category: {
         id: number;
         name: string;
@@ -22,6 +23,11 @@ export const articleService = {
 
     getArticleById: async (id: number) => {
         const response = await apiClient.get<Article>(`/articles/${id}`);
+        return response.data;
+    },
+
+    getFeaturedVideos: async () => {
+        const response = await apiClient.get<Article[]>('/articles/videos');
         return response.data;
     },
 };
