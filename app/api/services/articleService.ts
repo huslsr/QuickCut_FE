@@ -1,7 +1,7 @@
 import apiClient from '../client';
 
 export interface Article {
-    id: number;
+    id: string;
     title: string;
     summary: string;
     content: string;
@@ -10,7 +10,7 @@ export interface Article {
     imageUrl: string;
     videoUrl?: string;
     category: {
-        id: number;
+        id: string;
         name: string;
     };
 }
@@ -23,7 +23,7 @@ export const articleService = {
         return response.data;
     },
 
-    async getArticleById(id: number): Promise<Article> {
+    async getArticleById(id: string): Promise<Article> {
         console.log(`📡 [Service] Calling GET /articles/${id}`);
         const response = await apiClient.get<Article>(`/articles/${id}`);
         console.log(`✅ [Service] GET /articles/${id} response status: ${response.status}`);

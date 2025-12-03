@@ -1,7 +1,7 @@
 import apiClient from '../client';
 
 export interface User {
-    id: number;
+    id: string;
     username: string;
     email: string;
     phone: string;
@@ -16,7 +16,7 @@ export const userService = {
         return response.data;
     },
 
-    getUserById: async (id: number) => {
+    getUserById: async (id: string) => {
         const response = await apiClient.get<User>(`/users/${id}`);
         return response.data;
     },
@@ -26,12 +26,12 @@ export const userService = {
         return response.data;
     },
 
-    updateUser: async (id: number, user: Partial<User>) => {
+    updateUser: async (id: string, user: Partial<User>) => {
         const response = await apiClient.put<User>(`/users/${id}`, user);
         return response.data;
     },
 
-    deleteUser: async (id: number) => {
+    deleteUser: async (id: string) => {
         await apiClient.delete(`/users/${id}`);
     },
 };
