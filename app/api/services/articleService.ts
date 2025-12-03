@@ -31,9 +31,9 @@ export const articleService = {
     },
 
     async getFeaturedVideos(): Promise<Article[]> {
-        console.log('📡 [Service] Calling GET /articles/videos');
-        const response = await apiClient.get<Article[]>('/articles/videos');
-        console.log(`✅ [Service] GET /articles/videos response status: ${response.status}`);
+        console.log('📡 [Service] Calling GET /articles/featured-videos');
+        const response = await apiClient.get<Article[]>('/articles/featured-videos');
+        console.log(`✅ [Service] GET /articles/featured-videos response status: ${response.status}`);
         return response.data;
     }
 };
