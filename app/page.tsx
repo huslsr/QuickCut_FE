@@ -16,22 +16,17 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('🚀 [Frontend] Starting data fetch...');
       try {
-        console.log('📡 [Frontend] Fetching articles and videos...');
         const [articlesData, videosData] = await Promise.all([
           articleService.getAllArticles(),
           articleService.getFeaturedVideos()
         ]);
-        console.log('✅ [Frontend] Articles fetched:', articlesData);
-        console.log('✅ [Frontend] Videos fetched:', videosData);
         setArticles(articlesData);
         setVideos(videosData);
       } catch (error) {
         console.error('❌ [Frontend] Failed to fetch data:', error);
       } finally {
         setLoading(false);
-        console.log('🏁 [Frontend] Data fetch complete.');
       }
     };
 
@@ -46,10 +41,10 @@ export default function Home() {
     title: article.title,
     summary: article.summary,
     imageUrl: article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070',
-    category: article.category?.name || 'General',
+    category: article.categoryId || 'General',
     author: 'QuickCut Team',
-    timestamp: new Date(article.publishedDate).toLocaleDateString(),
-    sourceUrl: article.sourceUrl || '#',
+    timestamp: new Date(article.publishedAt).toLocaleDateString(),
+    sourceUrl: article.url || '#',
   });
 
   const adaptedTopStory: NewsArticle | null = topStory ? mapToNewsArticle(topStory) : null;

@@ -5,35 +5,26 @@ export interface Article {
     title: string;
     summary: string;
     content: string;
-    publishedDate: string;
-    sourceUrl: string;
+    publishedAt: string;
+    url: string;
     imageUrl: string;
     videoUrl?: string;
-    category: {
-        id: string;
-        name: string;
-    };
+    categoryId: string;
 }
 
 export const articleService = {
     async getAllArticles(): Promise<Article[]> {
-        console.log('📡 [Service] Calling GET /articles');
         const response = await apiClient.get<Article[]>('/articles');
-        console.log(`✅ [Service] GET /articles response status: ${response.status}`);
         return response.data;
     },
 
     async getArticleById(id: string): Promise<Article> {
-        console.log(`📡 [Service] Calling GET /articles/${id}`);
         const response = await apiClient.get<Article>(`/articles/${id}`);
-        console.log(`✅ [Service] GET /articles/${id} response status: ${response.status}`);
         return response.data;
     },
 
     async getFeaturedVideos(): Promise<Article[]> {
-        console.log('📡 [Service] Calling GET /articles/featured-videos');
         const response = await apiClient.get<Article[]>('/articles/featured-videos');
-        console.log(`✅ [Service] GET /articles/featured-videos response status: ${response.status}`);
         return response.data;
     }
 };

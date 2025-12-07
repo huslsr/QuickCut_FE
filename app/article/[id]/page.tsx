@@ -74,10 +74,10 @@ export default function ArticleDetail() {
           {/* Category & Date */}
           <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-6">
             <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-              {article.category?.name || 'General'}
+              {article.categoryId || 'General'}
             </span>
             <span className="text-gray-500 text-sm font-serif">
-              {new Date(article.publishedDate).toLocaleDateString(undefined, {
+              {new Date(article.publishedAt).toLocaleDateString(undefined, {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -116,10 +116,10 @@ export default function ArticleDetail() {
           </div>
           
           {/* Source Link */}
-           {article.sourceUrl && (
+           {article.url && (
             <div className="mt-12 pt-8 border-t border-gray-200">
               <a 
-                href={article.sourceUrl}
+                href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-accent hover:text-accent/80 font-bold uppercase tracking-wide text-sm"
