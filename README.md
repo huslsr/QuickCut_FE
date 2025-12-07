@@ -1,88 +1,73 @@
-# Quick Cut - News Website
+# QuickCut Frontend 📰
 
-A daily dose of news
+The modern, responsive web interface for QuickCut. Built with **Next.js 14 (App Router)** and **Tailwind CSS**, it offers a premium news reading experience with dynamic routing, search, and categorization.
 
-A modern, responsive news website built with Next.js, TypeScript, and Tailwind CSS.
+## 🛠️ Tech Stack
+- **Next.js 14**: React framework with App Router for server-side rendering and static generation.
+- **TypeScript**: For type-safe code and better developer experience.
+- **Tailwind CSS**: Utility-first CSS framework for rapid, beautiful UI design.
+- **Axios**: HTTP client for API requests.
 
-## Features
+## ✨ Features
+- **Dynamic News Feed**: Fetches latest articles from the backend.
+- **Category Browsing**: Dedicated pages for specific topics (Cricket, Tech, etc.).
+- **Search**: Real-time search functionality.
+- **Static Pages**: Dynamic "About Us", "Privacy Policy" pages fetched from API.
+- **Responsive Design**: Mobile-first approach with a custom hamburger menu.
+- **Production Ready**: Optimized for Vercel deployment.
 
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Modern UI**: Clean, card-based layout with intuitive navigation
-- **Component-Based Architecture**: Modular React components for easy maintenance
-- **TypeScript**: Full type safety throughout the application
-- **Tailwind CSS**: Utility-first styling for rapid development
-
-## Project Structure
-
-```
-QuickCut/
-├── app/
-│   ├── layout.tsx       # Root layout
-│   ├── page.tsx         # Home page
-│   └── globals.css      # Global styles
-├── components/
-│   ├── Header.tsx       # Top navigation header
-│   ├── SubNav.tsx       # Category navigation
-│   ├── NewsFeed.tsx     # Main news feed
-│   ├── TopStoryCard.tsx # Hero story card
-│   ├── StoryCard.tsx    # Individual story card
-│   ├── RightSidebar.tsx # Sidebar with videos and ads
-│   ├── FeaturedVideos.tsx # Video listings
-│   └── Footer.tsx       # Footer component
-├── data/
-│   └── mockData.ts      # Mock data for development
-├── types/
-│   └── news.ts          # TypeScript type definitions
-└── package.json         # Dependencies
-```
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js 18+
+- NPM
 
-- Node.js 18+ installed
-- npm or yarn package manager
+### Environment Variables
+Create a `.env.local` file:
 
-### Installation
-
-1. Install dependencies:
-```bash
-npm install
+```env
+# URL of your running Backend (Local or Production)
+NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
 ```
 
-2. Run the development server:
+### Installation & Run
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/huslsr/QuickCut_FE.git
+    cd QuickCut_FE
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## 📦 Building for Production
+
+To build the application for production usage:
+
 ```bash
-npm run dev
+npm run build
+npm start
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+## ☁️ Deployment
 
-## Development
+This project is optimized for **Vercel**.
+1.  Import project to Vercel.
+2.  **Important Settings**:
+    *   **Build Command**: `npm run build`
+    *   **Install Command**: `npm install`
+    *   **Output Directory**: Leave default (toggle OFF overrides).
+3.  Add Environment Variable `NEXT_PUBLIC_API_URL` pointing to your production backend.
+4.  Deploy!
 
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-
-### Adding New Components
-
-Components are located in the `components/` directory. Each component is a self-contained module with its own styling using Tailwind CSS.
-
-### Mock Data
-
-Mock data is located in `data/mockData.ts`. Replace this with actual API calls when integrating with a backend.
-
-## Next Steps
-
-1. **Backend Integration**: Connect to a FastAPI backend or other API
-2. **Image Optimization**: Set up Cloudinary or similar service for image optimization
-3. **Video Player**: Integrate ReactPlayer for video playback
-4. **State Management**: Add React Query for API caching
-5. **Analytics**: Integrate Google Tag Manager
-6. **SEO**: Enhance meta tags and add sitemap
-
-## License
-
-MIT
+---
+*Built with ❤️ for QuickCut.*
