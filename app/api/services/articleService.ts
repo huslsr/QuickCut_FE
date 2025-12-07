@@ -13,9 +13,14 @@ export interface Article {
 }
 
 export const articleService = {
-    async getAllArticles(categoryId?: string): Promise<Article[]> {
-        const params = categoryId ? { categoryId } : {};
+    async getAllArticles(categoryId?: string, query?: string): Promise<Article[]> {
+        console.log(`[Frontend] Fetching articles - Category: ${categoryId}, Query: ${query}`);
+        const params: any = {};
+        if (categoryId) params.categoryId = categoryId;
+        if (query) params.query = query;
+
         const response = await apiClient.get<Article[]>('/articles', { params });
+        console.log(`[Frontend] Received ${response.data.length} articles`);
         return response.data;
     },
 

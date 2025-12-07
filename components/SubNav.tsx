@@ -13,6 +13,7 @@ export default function SubNav() {
     const fetchCategories = async () => {
       try {
         const data = await categoryService.getAllCategories();
+        console.log('[SubNav] Categories:', data);
         setCategories(data);
       } catch (error) {
         console.error('Failed to fetch categories:', error);

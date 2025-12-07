@@ -2,11 +2,29 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleSearch = () => {
+      setIsSearchOpen(!isSearchOpen);
+      if (isSearchOpen) setSearchQuery(''); // Clear on close
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(`[Header] Submitting search for: ${searchQuery}`);
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b-4 border-black">
@@ -29,7 +47,7 @@ export default function Header() {
             </span>
           </div>
 
-          {/* Mobile Menu Button (Visible on small screens) */}
+           {/* Mobile Menu Button (Visible on small screens) */}
           <div className="md:hidden flex items-center">
             <button 
               onClick={toggleMenu}
@@ -54,12 +72,39 @@ export default function Header() {
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center space-x-6">
-            <button className="text-black hover:text-accent transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+           <div className="flex items-center space-x-6">
+            
+            {isSearchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search..."
+                        className="border-b-2 border-black focus:outline-none px-2 py-1 text-sm font-serif w-32 sm:w-48 transition-all"
+                        autoFocus
+                    />
+                    <button type="submit" className="ml-2 text-black hover:text-accent">
+                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                     <button type="button" onClick={toggleSearch} className="ml-2 text-gray-400 hover:text-black">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </form>
+            ) : (
+                <button 
+                    onClick={toggleSearch}
+                    className="text-black hover:text-accent transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+            )}
             <button 
               type="button"
               onClick={(e) => {

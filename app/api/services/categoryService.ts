@@ -9,6 +9,7 @@ export interface Category {
 export const categoryService = {
     async getAllCategories(): Promise<Category[]> {
         const response = await apiClient.get<Category[]>('/categories');
+        console.log('[Frontend] getAllCategories response:', response.data);
         return response.data;
     },
 
