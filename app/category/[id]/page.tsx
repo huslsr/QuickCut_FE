@@ -16,6 +16,9 @@ export default function CategoryPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const pageSize = 9;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,10 +26,11 @@ export default function CategoryPage() {
       
       // Fetch Articles
       try {
-        console.log(`[CategoryPage] Requesting articles for category ${id}`);
-        const articlesData = await articleService.getAllArticles(id);
-        console.log(`[CategoryPage] Fetched ${articlesData.length} articles`);
-        setArticles(articlesData);
+        console.log(`[CategoryPage] Requesting articles for category ${id}, page ${page}`);
+        const response = await articleService.getAllArticles(id, undefined, page, pageSize);
+        console.log(`[CategoryPage] Fetched ${response.content.length} articles`);
+        setArticles(response.content);
+        setTotalPages(response.totalPages);
       } catch (error) {
         console.error('[CategoryPage] Failed to fetch articles:', error);
       }
@@ -47,7 +51,7 @@ export default function CategoryPage() {
     if (id) {
       fetchData();
     }
-  }, [id]);
+  }, [id, page]);
 
   const mapToNewsArticle = (article: Article): NewsArticle => ({
     id: article.id.toString(),
@@ -92,11 +96,58 @@ export default function CategoryPage() {
           </div>
 
           {articles.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
-              {articles.map((article) => (
-                <StoryCard key={article.id} article={mapToNewsArticle(article)} />
-              ))}
-            </div>
+            <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                {articles.map((article) => (
+                    <StoryCard key={article.id} article={mapToNewsArticle(article)} />
+                ))}
+                </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                    <div className="flex justify-center items-center space-x-8 mt-16 border-t border-gray-100 pt-8">
+                        <button
+                            onClick={() => setPage(p => Math.max(0, p - 1))}
+                            disabled={page === 0}
+                            className={`px-6 py-3 border-2 border-black font-bold uppercase tracking-widest transition-colors ${
+                                page === 0 
+                                ? 'opacity-30 cursor-not-allowed bg-gray-50' 
+                                : 'hover:bg-black hover:text-white'
+                            }`}
+                        >
+                            Previous
+                        </button>
+                        <div className="flex items-center space-x-2 font-serif italic text-gray-500">
+                            <span>Page</span>
+                            <input
+                                type="number"
+                                min={1}
+                                max={totalPages}
+                                value={page + 1}
+                                onChange={(e) => {
+                                    const val = parseInt(e.target.value);
+                                    if (!isNaN(val) && val >= 1 && val <= totalPages) {
+                                        setPage(val - 1);
+                                    }
+                                }}
+                                className="w-16 text-center border-b-2 border-gray-300 focus:border-black outline-none bg-transparent font-sans font-bold not-italic text-black"
+                            />
+                            <span>of {totalPages}</span>
+                        </div>
+                        <button
+                            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                            disabled={page >= totalPages - 1}
+                            className={`px-6 py-3 border-2 border-black font-bold uppercase tracking-widest transition-colors ${
+                                page >= totalPages - 1 
+                                ? 'opacity-30 cursor-not-allowed bg-gray-50' 
+                                : 'hover:bg-black hover:text-white'
+                            }`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
+            </>
           ) : (
              <div className="flex items-center justify-center min-h-[300px]">
                 <div className="text-center">
