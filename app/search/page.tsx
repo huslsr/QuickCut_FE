@@ -21,8 +21,8 @@ function SearchContent() {
       setLoading(true);
       try {
         // Pass undefined for categoryId, and query for the search term
-        const data = await articleService.getAllArticles(undefined, query);
-        setArticles(data);
+        const response = await articleService.getAllArticles(undefined, query);
+        setArticles(response.content);
       } catch (error) {
         console.error('Failed to fetch search results:', error);
       } finally {
