@@ -13,8 +13,17 @@ export default function SubNav() {
     const fetchCategories = async () => {
       try {
         const data = await categoryService.getAllCategories();
-        console.log('[SubNav] Categories:', data);
-        setCategories(data);
+        
+        // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
+        const sortOrder = ['8', '7', '4', '6', '5', '3', '1', '2'];
+        
+        const sortedData = data.sort((a, b) => {
+             const indexA = sortOrder.indexOf(a.id);
+             const indexB = sortOrder.indexOf(b.id);
+             return indexA - indexB;
+        });
+
+        setCategories(sortedData);
       } catch (error) {
         console.error('Failed to fetch categories:', error);
       }
