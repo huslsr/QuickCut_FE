@@ -7,30 +7,41 @@ interface FeaturedVideosProps {
 
 export default function FeaturedVideos({ videos }: FeaturedVideosProps) {
   return (
-    <div className="mb-8">
-      <h3 className="text-xl font-bold text-gray-900 mb-4">Featured Videos</h3>
-      <div className="space-y-6">
+    <div>
+      <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-2">
+        <h3 className="text-lg font-black uppercase tracking-widest">Watch</h3>
+        <button className="text-xs font-bold uppercase tracking-wider hover:text-accent transition-colors">
+          View All
+        </button>
+      </div>
+      
+      <div className="space-y-8">
         {videos.map((video) => (
-          <div key={video.id} className="cursor-pointer group">
-            <div className="relative w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-3">
+          <div key={video.id} className="group cursor-pointer">
+            <div className="relative w-full aspect-video mb-3 bg-black">
               <Image
                 src={video.imageUrl}
                 alt={video.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 group-hover:bg-opacity-50 transition">
-                <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black text-white transition-all duration-300">
+                  <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
               </div>
             </div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-gray-700">
+            
+            <h4 className="text-lg font-bold font-serif leading-tight group-hover:text-accent transition-colors">
               {video.title}
             </h4>
-            <p className="text-xs text-gray-600 line-clamp-2">{video.summary}</p>
+            <div className="flex items-center text-xs font-bold uppercase tracking-wider text-gray-400 mt-2">
+              <span>{video.author}</span>
+              <span className="mx-2">•</span>
+              <span>4:20</span>
+            </div>
           </div>
         ))}
       </div>

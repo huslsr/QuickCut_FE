@@ -1,58 +1,196 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleSearch = () => {
+      setIsSearchOpen(!isSearchOpen);
+      if (isSearchOpen) setSearchQuery(''); // Clear on close
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(`[Header] Submitting search for: ${searchQuery}`);
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b-4 border-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-lg">QC</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">Quick Cut</span>
-            </div>
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Left: Date & Menu */}
+          <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-500">
+            <button 
+              onClick={toggleMenu}
+              className="text-black hover:text-accent transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <span className="uppercase tracking-widest text-xs">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </span>
           </div>
 
-          {/* Center Navigation (Hidden on mobile) */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <select className="border border-gray-300 rounded px-2 py-1 text-sm">
-                <option>English</option>
-                <option>Hindi</option>
-              </select>
-              <span className="text-gray-500">|</span>
-              <span>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
-              <span className="text-gray-500">{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-            </div>
-          </nav>
+           {/* Mobile Menu Button (Visible on small screens) */}
+          <div className="md:hidden flex items-center">
+            <button 
+              onClick={toggleMenu}
+              className="text-black hover:text-accent transition-colors focus:outline-none"
+            >
+               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
 
-          {/* Right Side Icons */}
-          <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-            <button className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 text-sm">
-              Login
+          {/* Center: Logo */}
+          <div className="flex-1 flex justify-center">
+            <Link href="/" className="text-center cursor-pointer group">
+              <h1 className="text-4xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors">
+                QUICKCUT
+              </h1>
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 group-hover:text-black transition-colors">
+                Global Perspective
+              </span>
+            </Link>
+          </div>
+
+          {/* Right: Actions */}
+           <div className="flex items-center space-x-6">
+            
+            {isSearchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search..."
+                        className="border-b-2 border-black focus:outline-none px-2 py-1 text-sm font-serif w-32 sm:w-48 transition-all"
+                        autoFocus
+                    />
+                    <button type="submit" className="ml-2 text-black hover:text-accent">
+                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                     <button type="button" onClick={toggleSearch} className="ml-2 text-gray-400 hover:text-black">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </form>
+            ) : (
+                <button 
+                    onClick={toggleSearch}
+                    className="text-black hover:text-accent transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+            )}
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log('Subscribe clicked');
+              }}
+              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black px-5 py-2 hover:bg-black hover:text-white transition-all"
+            >
+              Subscribe
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Additional Header Elements */}
-        <div className="border-t border-gray-200 py-2 hidden md:block">
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>In the News</span>
-            <div className="flex items-center space-x-4">
-              <span>Breaking: Major story unfolding</span>
-            </div>
+      {/* Sidebar Overlay */}
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+          onClick={toggleMenu}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar Drawer */}
+      <div 
+        className={`fixed top-0 left-0 h-full w-[300px] bg-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-black ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="p-6 h-full flex flex-col">
+          {/* Close Button */}
+          <div className="flex justify-between items-center mb-12">
+             <h2 className="text-2xl font-black font-serif tracking-tight">MENU</h2>
+             <button 
+              onClick={toggleMenu}
+              className="text-black hover:text-accent transition-colors"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 space-y-8">
+            <Link 
+              href="/" 
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
+              onClick={toggleMenu}
+            >
+              Home
+            </Link>
+            <Link 
+              href="#" 
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
+              onClick={toggleMenu}
+            >
+              Featured Stories
+            </Link>
+            <Link 
+              href="#" 
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
+              onClick={toggleMenu}
+            >
+              Latest News
+            </Link>
+            <Link 
+              href="#" 
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
+              onClick={toggleMenu}
+            >
+              Videos
+            </Link>
+             <Link 
+              href="#" 
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-accent"
+              onClick={toggleMenu}
+            >
+              Subscribe
+            </Link>
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="mt-auto pt-8 border-t border-gray-100 text-sm text-gray-400">
+             <p>&copy; {new Date().getFullYear()} QuickCut.</p>
+             <p className="mt-2">All rights reserved.</p>
           </div>
         </div>
       </div>

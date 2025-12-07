@@ -1,46 +1,42 @@
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface StoryCardProps {
   article: NewsArticle;
 }
 
-const categoryColors: Record<string, string> = {
-  Tech: 'bg-blue-600',
-  Sports: 'bg-green-600',
-  Business: 'bg-purple-600',
-  Entertainment: 'bg-pink-600',
-  Politics: 'bg-red-600',
-  News: 'bg-gray-600',
-};
-
 export default function StoryCard({ article }: StoryCardProps) {
-  const categoryColor = categoryColors[article.category] || 'bg-gray-600';
-
   return (
-    <article className="flex gap-4 pb-6 mb-6 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 p-2 rounded transition-colors cursor-pointer">
-      <div className="flex-shrink-0 w-32 h-24 relative rounded overflow-hidden">
-        <Image
-          src={article.imageUrl}
-          alt={article.title}
-          fill
-          className="object-cover hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div className="flex-1 min-w-0">
-        <span className={`text-xs font-semibold text-white px-2 py-1 rounded uppercase mb-2 inline-block ${categoryColor}`}>
-          {article.category}
-        </span>
-        <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-gray-700">
-          {article.title}
-        </h2>
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">{article.summary}</p>
-        <div className="flex items-center text-xs text-gray-500">
-          <span>{article.author}</span>
-          <span className="mx-2">•</span>
-          <time>{new Date(article.timestamp).toLocaleDateString()}</time>
+    <Link href={`/article/${article.id}`} className="group cursor-pointer flex flex-col h-full">
+      <article className="flex flex-col h-full">
+        <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden bg-gray-100">
+          <Image
+            src={article.imageUrl}
+            alt={article.title}
+            fill
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+          <div className="absolute top-4 left-4 bg-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black">
+            {article.category}
+          </div>
         </div>
-      </div>
-    </article>
+        
+        <div className="flex-1 flex flex-col">
+          <h2 className="text-2xl font-bold font-serif leading-tight mb-3 group-hover:text-accent transition-colors">
+            {article.title}
+          </h2>
+          
+          <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3 font-serif">
+            {article.summary}
+          </p>
+          
+          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-gray-400">
+            <span>{article.author}</span>
+            <span>{new Date(article.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          </div>
+        </div>
+      </article>
+    </Link>
   );
 }

@@ -1,5 +1,6 @@
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface TopStoryCardProps {
   article: NewsArticle;
@@ -7,38 +8,53 @@ interface TopStoryCardProps {
 
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   return (
-    <article className="mb-8">
-      <div className="relative w-full h-96 bg-gray-200 rounded-lg overflow-hidden group cursor-pointer">
-        {article.videoUrl ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="w-20 h-20 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition">
-              <svg className="w-10 h-10 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
+    <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
+      <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        {/* Content Side */}
+        <div className="lg:col-span-5 order-2 lg:order-1">
+          <div className="flex items-center space-x-3 mb-6">
+            <span className="w-3 h-3 bg-accent rounded-full"></span>
+            <span className="text-xs font-bold uppercase tracking-widest text-accent">
+              Top Story
+            </span>
           </div>
-        ) : null}
-        <Image
-          src={article.imageUrl}
-          alt={article.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
-          <span className="text-xs font-semibold text-white bg-red-600 px-2 py-1 rounded uppercase mb-2 inline-block">
-            {article.category}
-          </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+          
+          <h1 className="text-5xl md:text-6xl font-black font-serif leading-[0.95] mb-6 group-hover:text-gray-700 transition-colors">
             {article.title}
           </h1>
-          <p className="text-gray-200 text-sm mb-3">{article.summary}</p>
-          <div className="flex items-center text-xs text-gray-300">
-            <span>By {article.author}</span>
-            <span className="mx-2">•</span>
-            <time>{new Date(article.timestamp).toLocaleDateString()}</time>
+          
+          <p className="text-xl text-gray-600 mb-8 font-serif leading-relaxed">
+            {article.summary}
+          </p>
+          
+          <div className="flex items-center text-sm font-bold uppercase tracking-wider space-x-4">
+            <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-500">{article.author}</span>
           </div>
         </div>
-      </div>
-    </article>
+
+        {/* Image Side */}
+        <div className="lg:col-span-7 order-1 lg:order-2 relative h-[500px] w-full overflow-hidden">
+          <Image
+            src={article.imageUrl}
+            alt={article.title}
+            fill
+            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out"
+            priority
+          />
+          {article.videoUrl && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-20 h-20 bg-white/90 flex items-center justify-center rounded-full shadow-xl">
+                <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          )}
+        </div>
+      </article>
+    </Link>
   );
 }
