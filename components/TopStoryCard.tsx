@@ -6,7 +6,20 @@ interface TopStoryCardProps {
   article: NewsArticle;
 }
 
+const CATEGORY_MAP: Record<string, string> = {
+  '1': 'Cricket',
+  '2': 'Football',
+  '3': 'Movies',
+  '4': 'Politics',
+  '5': 'Tech',
+  '6': 'Business',
+  '7': 'World',
+  '8': 'General',
+};
+
 export default function TopStoryCard({ article }: TopStoryCardProps) {
+  const categoryName = CATEGORY_MAP[article.category] || article.category;
+
   return (
     <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
       <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -25,7 +38,7 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 font-serif leading-relaxed">
-            {article.summary}
+            {categoryName}
           </p>
           
           <div className="flex items-center text-sm font-bold uppercase tracking-wider space-x-4">

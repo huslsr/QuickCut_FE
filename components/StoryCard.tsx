@@ -6,7 +6,20 @@ interface StoryCardProps {
   article: NewsArticle;
 }
 
+const CATEGORY_MAP: Record<string, string> = {
+  '1': 'Cricket',
+  '2': 'Football',
+  '3': 'Movies',
+  '4': 'Politics',
+  '5': 'Tech',
+  '6': 'Business',
+  '7': 'World',
+  '8': 'General',
+};
+
 export default function StoryCard({ article }: StoryCardProps) {
+  const categoryName = CATEGORY_MAP[article.category] || article.category;
+
   return (
     <Link href={`/article/${article.id}`} className="group cursor-pointer flex flex-col h-full">
       <article className="flex flex-col h-full">
@@ -18,7 +31,7 @@ export default function StoryCard({ article }: StoryCardProps) {
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
           <div className="absolute top-4 left-4 bg-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black">
-            {article.category}
+            {categoryName}
           </div>
         </div>
         
