@@ -13,8 +13,9 @@ export interface Article {
 }
 
 export const articleService = {
-    async getAllArticles(): Promise<Article[]> {
-        const response = await apiClient.get<Article[]>('/articles');
+    async getAllArticles(categoryId?: string): Promise<Article[]> {
+        const params = categoryId ? { categoryId } : {};
+        const response = await apiClient.get<Article[]>('/articles', { params });
         return response.data;
     },
 

@@ -1,6 +1,7 @@
 'use client';
 
 import Header from '@/components/Header';
+import SubNav from '@/components/SubNav';
 import NewsFeed from '@/components/NewsFeed';
 import RightSidebar from '@/components/RightSidebar';
 import Footer from '@/components/Footer';
@@ -62,6 +63,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
+      <SubNav />
       <main className="flex-1 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col lg:flex-row gap-16">
