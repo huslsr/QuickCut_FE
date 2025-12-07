@@ -74,7 +74,7 @@ export default function SearchPage() {
               Search Results
             </h1>
             <p className="mt-4 text-xl text-gray-500 font-serif">
-               Showing results for <span className="font-bold text-black">"{query}"</span>
+               Showing results for <span className="font-bold text-black">&quot;{query}&quot;</span>
             </p>
           </div>
 
@@ -88,7 +88,7 @@ export default function SearchPage() {
              <div className="flex items-center justify-center min-h-[300px]">
                 <div className="text-center">
                   <h2 className="text-2xl font-bold font-serif mb-2">No Stories Found</h2>
-                  <p className="text-gray-500">We couldn't find any articles matching your search.</p>
+                  <p className="text-gray-500">We couldn&apos;t find any articles matching your search.</p>
                 </div>
              </div>
           )}
