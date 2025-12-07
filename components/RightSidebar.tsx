@@ -1,11 +1,15 @@
+import Link from 'next/link';
 import FeaturedVideos from './FeaturedVideos';
 import { NewsArticle } from '@/types/news';
 
 interface RightSidebarProps {
   featuredVideos: NewsArticle[];
+  trendingArticles?: NewsArticle[];
 }
 
-export default function RightSidebar({ featuredVideos }: RightSidebarProps) {
+export default function RightSidebar({ featuredVideos, trendingArticles = [] }: RightSidebarProps) {
+  // Use passed trending articles, or fallback to first 5 featured videos if not provided (as a temporary measure if data is missing)
+  const filteredTrending = trendingArticles.length > 0 ? trendingArticles.slice(0, 5) : [];
   return (
     <aside className="w-full lg:w-[350px] flex-shrink-0 space-y-12 border-l border-gray-100 lg:pl-12">
       
@@ -15,19 +19,21 @@ export default function RightSidebar({ featuredVideos }: RightSidebarProps) {
           <h3 className="text-lg font-black uppercase tracking-widest">Trending</h3>
         </div>
         <ul className="space-y-6">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <li key={i} className="group cursor-pointer flex items-start space-x-4">
-              <span className="text-4xl font-black text-gray-200 group-hover:text-accent transition-colors leading-none">
-                {i}
-              </span>
-              <div>
-                <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1 block">
-                  Technology
+          {filteredTrending.map((article, index) => (
+            <li key={article.id} className="group cursor-pointer">
+              <Link href={`/article/${article.id}`} className="flex items-start space-x-4">
+                <span className="text-4xl font-black text-gray-200 group-hover:text-accent transition-colors leading-none">
+                  {index + 1}
                 </span>
-                <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4">
-                  The future of AI is not what you think it is.
-                </h4>
-              </div>
+                <div>
+                  <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1 block">
+                    {article.category}
+                  </span>
+                  <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4 line-clamp-2">
+                    {article.title}
+                  </h4>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>

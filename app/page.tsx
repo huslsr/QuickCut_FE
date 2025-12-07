@@ -90,7 +90,7 @@ export default function Home() {
                   </div>
                </div>
             )}
-            <RightSidebar featuredVideos={adaptedVideos} />
+            <RightSidebar featuredVideos={adaptedVideos} trendingArticles={adaptedArticles.slice(0, 5)} />
           </div>
         </div>
       </main>
