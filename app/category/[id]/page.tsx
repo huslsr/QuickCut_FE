@@ -20,18 +20,28 @@ export default function CategoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      
+      // Fetch Articles
       try {
-        const [articlesData, categoryData] = await Promise.all([
-          articleService.getAllArticles(id),
-          categoryService.getCategoryById(id)
-        ]);
+        console.log(`[CategoryPage] Requesting articles for category ${id}`);
+        const articlesData = await articleService.getAllArticles(id);
+        console.log(`[CategoryPage] Fetched ${articlesData.length} articles`);
         setArticles(articlesData);
+      } catch (error) {
+        console.error('[CategoryPage] Failed to fetch articles:', error);
+      }
+
+      // Fetch Category Details
+      try {
+        console.log(`[CategoryPage] Requesting category details for ${id}`);
+        const categoryData = await categoryService.getCategoryById(id);
+        console.log(`[CategoryPage] Fetched category:`, categoryData);
         setCategory(categoryData);
       } catch (error) {
-        console.error('Failed to fetch category data:', error);
-      } finally {
-        setLoading(false);
+        console.error('[CategoryPage] Failed to fetch category details:', error);
       }
+      
+      setLoading(false);
     };
 
     if (id) {

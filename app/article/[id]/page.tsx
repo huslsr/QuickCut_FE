@@ -7,11 +7,13 @@ import { useParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { articleService, Article } from '../../api/services/articleService';
+import { categoryService } from '../../api/services/categoryService';
 
 export default function ArticleDetail() {
   const params = useParams();
   const id = params.id as string;
   const [article, setArticle] = useState<Article | null>(null);
+  const [categoryName, setCategoryName] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,6 +23,15 @@ export default function ArticleDetail() {
         setLoading(true);
         const data = await articleService.getArticleById(id);
         setArticle(data);
+        
+        if (data.categoryId) {
+          try {
+            const catData = await categoryService.getCategoryById(data.categoryId);
+            setCategoryName(catData.name);
+          } catch (e) {
+            console.error('Failed to fetch category name');
+          }
+        }
       } catch (err) {
         console.error('Error fetching article:', err);
         setError('Failed to load article');
@@ -74,7 +85,7 @@ export default function ArticleDetail() {
           {/* Category & Date */}
           <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-6">
             <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-              {article.categoryId || 'General'}
+              {categoryName || article.categoryId || 'General'}
             </span>
             <span className="text-gray-500 text-sm font-serif">
               {new Date(article.publishedAt).toLocaleDateString(undefined, {

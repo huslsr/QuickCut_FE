@@ -10,20 +10,32 @@ import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
 import { useEffect, useState } from 'react';
 
+import { categoryService, Category } from './api/services/categoryService';
+
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [videos, setVideos] = useState<Article[]>([]);
+  const [categories, setCategories] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [articlesData, videosData] = await Promise.all([
+        const [articlesData, videosData, categoriesData] = await Promise.all([
           articleService.getAllArticles(),
-          articleService.getFeaturedVideos()
+          articleService.getFeaturedVideos(),
+          categoryService.getAllCategories()
         ]);
+        
+        // Create a map of ID -> Name
+        const categoryMap: Record<string, string> = {};
+        categoriesData.forEach(cat => {
+            categoryMap[cat.id] = cat.name;
+        });
+        
         setArticles(articlesData);
         setVideos(videosData);
+        setCategories(categoryMap);
       } catch (error) {
         console.error('❌ [Frontend] Failed to fetch data:', error);
       } finally {
@@ -42,9 +54,9 @@ export default function Home() {
     title: article.title,
     summary: article.summary,
     imageUrl: article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070',
-    category: article.categoryId || 'General',
+    category: categories[article.categoryId || ''] || article.categoryId || 'General',
     author: 'QuickCut Team',
-    timestamp: new Date(article.publishedAt).toLocaleDateString(),
+    timestamp: article.publishedAt, 
     sourceUrl: article.url || '#',
   });
 
