@@ -7,6 +7,17 @@ interface RightSidebarProps {
   trendingArticles?: NewsArticle[];
 }
 
+const CATEGORY_MAP: Record<string, string> = {
+  '1': 'Cricket',
+  '2': 'Football',
+  '3': 'Movies',
+  '4': 'Politics',
+  '5': 'Tech',
+  '6': 'Business',
+  '7': 'World',
+  '8': 'General',
+};
+
 export default function RightSidebar({ featuredVideos, trendingArticles = [] }: RightSidebarProps) {
   // Use passed trending articles, or fallback to first 5 featured videos if not provided (as a temporary measure if data is missing)
   const filteredTrending = trendingArticles.length > 0 ? trendingArticles.slice(0, 5) : [];
@@ -27,7 +38,7 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
                 </span>
                 <div>
                   <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1 block">
-                    {article.category}
+                    {CATEGORY_MAP[article.category] || article.category}
                   </span>
                   <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4 line-clamp-2">
                     {article.title}
