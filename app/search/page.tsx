@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -9,7 +7,7 @@ import StoryCard from '@/components/StoryCard';
 import { articleService, Article } from '@/app/api/services/articleService';
 import { NewsArticle } from '@/types/news';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   console.log(`[SearchPage] Query param: ${query}`);
@@ -97,5 +95,17 @@ export default function SearchPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }
