@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 
 import { categoryService, Category } from './api/services/categoryService';
 
+import { APP_CONFIG } from '@/app/config/constants';
+
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [videos, setVideos] = useState<Article[]>([]);
@@ -19,7 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const pageSize = 18;
+  const pageSize = APP_CONFIG.PAGINATION.HOME_PAGE_SIZE;
 
   const [inputPage, setInputPage] = useState('1');
 

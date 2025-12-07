@@ -10,6 +10,8 @@ import { articleService, Article } from '@/app/api/services/articleService';
 import { categoryService, Category } from '@/app/api/services/categoryService';
 import { NewsArticle } from '@/types/news';
 
+import { APP_CONFIG } from '@/app/config/constants';
+
 export default function CategoryPage() {
   const params = useParams();
   const id = params.id as string;
@@ -18,7 +20,7 @@ export default function CategoryPage() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const pageSize = 9;
+  const pageSize = APP_CONFIG.PAGINATION.CATEGORY_PAGE_SIZE;
 
   useEffect(() => {
     const fetchData = async () => {
