@@ -15,7 +15,7 @@ export default function SubNav() {
         const data = await categoryService.getAllCategories();
         
         // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
-        const sortOrder = ['8', '7', '4', '6', '5', '3', '1', '2'];
+        const sortOrder = ['8', '1', '7', '4', '6', '5', '3', '2'];
         
         const sortedData = data.sort((a, b) => {
              const indexA = sortOrder.indexOf(a.id);
