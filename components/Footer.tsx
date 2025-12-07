@@ -1,4 +1,22 @@
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { categoryService, Category } from '@/app/api/services/categoryService';
+
 export default function Footer() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await categoryService.getAllCategories();
+        setCategories(data.slice(0, 6)); // Show top 6
+      } catch (error) {
+        console.error('Failed to fetch footer categories');
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,9 +47,11 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold font-serif mb-6">Categories</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              {['Technology', 'Business', 'Sports', 'Entertainment', 'Politics', 'Science'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="hover:text-indigo-400 transition-colors">{item}</a>
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link href={`/category/${category.id}`} className="hover:text-indigo-400 transition-colors">
+                    {category.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -40,9 +60,17 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold font-serif mb-6">Company</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              {['About Us', 'Careers', 'Privacy Policy', 'Terms of Service', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="hover:text-indigo-400 transition-colors">{item}</a>
+              {[
+                { name: 'About Us', slug: 'about-us' },
+                { name: 'Careers', slug: 'careers' },
+                { name: 'Privacy Policy', slug: 'privacy-policy' },
+                { name: 'Terms of Service', slug: 'terms-of-service' },
+                { name: 'Contact', slug: 'contact' }
+              ].map((item) => (
+                <li key={item.slug}>
+                  <Link href={`/company/${item.slug}`} className="hover:text-indigo-400 transition-colors">
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>

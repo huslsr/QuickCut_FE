@@ -105,11 +105,14 @@ export default function Header() {
                   </svg>
                 </button>
             )}
+            <Link href="/login" className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors">
+              Login
+            </Link>
             <button 
               type="button"
               onClick={(e) => {
                 e.preventDefault();
-                console.log('Subscribe clicked');
+                alert('Subscription feature coming soon! Stay tuned.');
               }}
               className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black px-5 py-2 hover:bg-black hover:text-white transition-all"
             >
