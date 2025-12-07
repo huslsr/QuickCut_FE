@@ -22,39 +22,29 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
 
   return (
     <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
-      <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <article className="flex flex-col gap-8">
         
-        {/* Content Side */}
-        <div className="lg:col-span-5 order-2 lg:order-1">
-          <div className="flex items-center space-x-3 mb-6">
+        {/* Header: Label & Title */}
+        <div className="w-full text-center max-w-5xl mx-auto">
+          <div className="flex items-center justify-center space-x-3 mb-6">
             <span className="w-3 h-3 bg-accent rounded-full"></span>
             <span className="text-xs font-bold uppercase tracking-widest text-accent">
               Top Story
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-black font-serif leading-[0.95] mb-6 group-hover:text-gray-700 transition-colors">
+          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-gray-700 transition-colors">
             {article.title}
           </h1>
-          
-          <p className="text-xl text-gray-600 mb-8 font-serif leading-relaxed">
-            {categoryName}
-          </p>
-          
-          <div className="flex items-center text-sm font-bold uppercase tracking-wider space-x-4">
-            <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-500">{article.author}</span>
-          </div>
         </div>
 
-        {/* Image Side */}
-        <div className="lg:col-span-7 order-1 lg:order-2 relative h-[500px] w-full overflow-hidden">
+        {/* Image */}
+        <div className="relative h-[600px] w-full overflow-hidden">
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
-            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out"
+            className="object-cover transition-all duration-700 ease-out"
             priority
           />
           {article.videoUrl && (
@@ -67,6 +57,20 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             </div>
           )}
         </div>
+
+        {/* Metadata/Summary (Below Image) */}
+        <div className="w-full text-center max-w-3xl mx-auto">
+           <p className="text-xl text-gray-600 mb-6 font-serif leading-relaxed">
+            {categoryName}
+          </p>
+          
+          <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
+            <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-500">{article.author || 'QuickCut Editorial'}</span>
+          </div>
+        </div>
+
       </article>
     </Link>
   );
