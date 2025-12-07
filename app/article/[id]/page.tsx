@@ -9,6 +9,17 @@ import Footer from '@/components/Footer';
 import { articleService, Article } from '../../api/services/articleService';
 import { categoryService } from '../../api/services/categoryService';
 
+const CATEGORY_MAP: Record<string, string> = {
+  '1': 'Cricket',
+  '2': 'Football',
+  '3': 'Movies',
+  '4': 'Politics',
+  '5': 'Tech',
+  '6': 'Business',
+  '7': 'World',
+  '8': 'General',
+};
+
 export default function ArticleDetail() {
   const params = useParams();
   const id = params.id as string;
@@ -85,7 +96,7 @@ export default function ArticleDetail() {
           {/* Category & Date */}
           <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-6">
             <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-              {categoryName || article.categoryId || 'General'}
+              {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
             </span>
             <span className="text-gray-500 text-sm font-serif">
               {new Date(article.publishedAt).toLocaleDateString(undefined, {
