@@ -1,5 +1,6 @@
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface TopStoryCardProps {
   article: NewsArticle;
@@ -7,8 +8,8 @@ interface TopStoryCardProps {
 
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   return (
-    <article className="mb-16 group cursor-pointer border-b border-gray-200 pb-12">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
+      <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         
         {/* Content Side */}
         <div className="lg:col-span-5 order-2 lg:order-1">
@@ -53,7 +54,7 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             </div>
           )}
         </div>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 }
