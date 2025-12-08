@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { formatDate } from '@/app/utils/dateFormatter';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -8,6 +9,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { articleService, Article } from '../../api/services/articleService';
 import { categoryService } from '../../api/services/categoryService';
+import LikeButton from '@/components/LikeButton';
+import CommentSection from '@/components/CommentSection';
+import RelatedArticles from '@/components/RelatedArticles';
 
 const CATEGORY_MAP: Record<string, string> = {
   '1': 'Cricket',
@@ -88,31 +92,29 @@ export default function ArticleDetail() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
       <Header />
       
       <main className="flex-1 w-full">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Category & Date */}
-          <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-6">
-            <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-              {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
-            </span>
-            <span className="text-gray-500 text-sm font-serif">
-              {new Date(article.publishedAt).toLocaleString(undefined, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </span>
-          </div>
-
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-serif leading-tight mb-8 text-gray-900">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black font-serif leading-tight mb-6 text-gray-900 dark:text-white">
             {article.title}
           </h1>
+
+          {/* Metadata & Actions */}
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center space-x-4">
+              <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
+                {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
+              </span>
+              <span className="text-gray-500 dark:text-gray-400 text-sm font-serif">
+                {formatDate(article.publishedAt)}
+              </span>
+            </div>
+            <LikeButton articleId={article.id} />
+          </div>
 
           {/* Featured Image */}
           <div className="relative w-full aspect-[16/9] mb-12 overflow-hidden bg-gray-100">
@@ -126,14 +128,14 @@ export default function ArticleDetail() {
           </div>
 
           {/* Summary / Lead */}
-          <div className="prose prose-lg max-w-none mb-10">
-             <p className="text-xl md:text-2xl font-serif text-gray-700 leading-relaxed border-l-4 border-accent pl-6 italic">
+          <div className="prose prose-lg max-w-none mb-10 dark:prose-invert">
+             <p className="text-xl md:text-2xl font-serif text-gray-700 dark:text-gray-300 leading-relaxed border-l-4 border-accent pl-6 italic">
               {article.summary}
             </p>
           </div>
 
           {/* Content */}
-          <div className="prose prose-lg max-w-none font-serif text-gray-800 leading-loose">
+          <div className="prose prose-lg max-w-none font-serif text-gray-800 dark:text-gray-200 leading-loose dark:prose-invert">
             {article.content.split('\n').map((paragraph, index) => (
               paragraph.trim() && <p key={index} className="mb-6">{paragraph}</p>
             ))}
@@ -155,6 +157,10 @@ export default function ArticleDetail() {
               </a>
             </div>
           )}
+          
+          <CommentSection articleId={article.id} />
+          
+          <RelatedArticles currentArticleId={article.id} categoryId={article.categoryId} />
 
         </article>
       </main>

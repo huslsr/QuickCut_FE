@@ -38,5 +38,9 @@ export const articleService = {
     async getFeaturedVideos(): Promise<Article[]> {
         const response = await apiClient.get<Article[]>('/articles/featured-videos');
         return response.data;
+    },
+
+    async getArticlesByCategory(categoryId: string): Promise<{ content: Article[], totalPages: number }> {
+        return this.getAllArticles(categoryId);
     }
 };

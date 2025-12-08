@@ -1,26 +1,39 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
-import "./globals.css";
-import BackToTop from "@/components/BackToTop";
+import { AuthProvider } from '@/app/context/AuthProvider';
+import { ThemeProvider } from '@/app/context/ThemeContext';
+import './globals.css';
+import type { Metadata } from 'next';
+import { Playfair_Display, Inter } from 'next/font/google';
+import BackToTop from '@/components/BackToTop';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  variable: '--font-playfair',
+});
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  title: "Quick Cut - Latest News & Updates",
-  description: "Your source for the latest news, updates, and stories from around the world",
+  title: 'QuickCut | Breaking News & In-Depth Analysis',
+  description: 'Your trusted source for global news, expert perspectives, and timely updates.',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="font-sans antialiased bg-gray-50 text-gray-900">
-        {children}
-        <BackToTop />
+    <html lang="en">
+      <body className={`${playfair.variable} ${inter.variable} font-sans antialiased text-gray-900 bg-white dark:bg-background dark:text-foreground`}>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+            <BackToTop />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

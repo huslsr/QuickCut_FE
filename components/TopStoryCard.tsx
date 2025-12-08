@@ -33,7 +33,7 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             </span>
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-gray-700 transition-colors">
+          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors text-black dark:text-white">
             {article.title}
           </h1>
         </div>
@@ -60,12 +60,12 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
 
         {/* Metadata/Summary (Below Image) */}
         <div className="w-full text-center max-w-3xl mx-auto">
-           <p className="text-xl text-gray-600 mb-6 font-serif leading-relaxed">
+           <p className="text-xl text-gray-600 dark:text-gray-300 mb-6 font-serif leading-relaxed">
             {categoryName}
           </p>
           
           <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
-            <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
+            <span className="text-black dark:text-white border-b-2 border-black dark:border-white pb-1">Read Full Story</span>
             {article.author && (
                 <>
                     <span className="text-gray-400">•</span>

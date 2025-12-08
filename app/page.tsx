@@ -98,7 +98,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
       <Header />
       <SubNav />
       <main className="flex-1 w-full">
@@ -108,9 +108,9 @@ export default function Home() {
                 {adaptedTopStory ? (
                     <NewsFeed topStory={adaptedTopStory} articles={adaptedArticles} />
                 ) : (
-                   <div className="flex-1 flex items-center justify-center min-h-[400px] border-t-4 border-black">
+                   <div className="flex-1 flex items-center justify-center min-h-[400px] border-t-4 border-black dark:border-white">
                       <div className="text-center">
-                        <h2 className="text-4xl font-black font-serif mb-4">No Stories Found</h2>
+                        <h2 className="text-4xl font-black font-serif mb-4 dark:text-white">No Stories Found</h2>
                         <p className="text-gray-500 font-serif text-lg">Please seed the database to see content here.</p>
                       </div>
                    </div>
@@ -118,19 +118,19 @@ export default function Home() {
                 
                 {/* Pagination Controls */}
                  {totalPages > 1 && (
-                    <div className="flex justify-center items-center space-x-8 mt-12 mb-8 border-t border-gray-100 pt-8">
+                    <div className="flex justify-center items-center space-x-8 mt-12 mb-8 border-t border-gray-100 dark:border-gray-800 pt-8">
                         <button
                             onClick={() => setPage(p => Math.max(0, p - 1))}
                             disabled={page === 0}
-                            className={`px-6 py-3 border-2 border-black font-bold uppercase tracking-widest transition-colors ${
+                            className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
                                 page === 0 
-                                ? 'opacity-30 cursor-not-allowed bg-gray-50' 
-                                : 'hover:bg-black hover:text-white'
+                                ? 'opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 dark:text-gray-500' 
+                                : 'hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
                             }`}
                         >
                             Previous
                         </button>
-                        <div className="flex items-center space-x-2 font-serif italic text-gray-500">
+                        <div className="flex items-center space-x-2 font-serif italic text-gray-500 dark:text-gray-400">
                             <span>Page</span>
                             <input
                                 type="number"
@@ -145,17 +145,17 @@ export default function Home() {
                                         (e.target as HTMLInputElement).blur();
                                     }
                                 }}
-                                className="w-16 text-center border-b-2 border-gray-300 focus:border-black outline-none bg-transparent font-sans font-bold not-italic text-black"
+                                className="w-16 text-center border-b-2 border-gray-300 focus:border-black dark:border-gray-600 dark:focus:border-white outline-none bg-transparent font-sans font-bold not-italic text-black dark:text-white"
                             />
                             <span>of {totalPages}</span>
                         </div>
                         <button
                             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                             disabled={page >= totalPages - 1}
-                            className={`px-6 py-3 border-2 border-black font-bold uppercase tracking-widest transition-colors ${
+                            className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
                                 page >= totalPages - 1 
-                                ? 'opacity-30 cursor-not-allowed bg-gray-50' 
-                                : 'hover:bg-black hover:text-white'
+                                ? 'opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 dark:text-gray-500' 
+                                : 'hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
                             }`}
                         >
                             Next

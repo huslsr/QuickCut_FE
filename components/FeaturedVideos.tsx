@@ -8,9 +8,9 @@ interface FeaturedVideosProps {
 export default function FeaturedVideos({ videos }: FeaturedVideosProps) {
   return (
     <div>
-      <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-2">
-        <h3 className="text-lg font-black uppercase tracking-widest">Watch</h3>
-        <button className="text-xs font-bold uppercase tracking-wider hover:text-accent transition-colors">
+      <div className="flex items-center justify-between mb-6 border-b-2 border-black dark:border-white pb-2">
+        <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white">Watch</h3>
+        <button className="text-xs font-bold uppercase tracking-wider hover:text-accent transition-colors text-black dark:text-white">
           View All
         </button>
       </div>
