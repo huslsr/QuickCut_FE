@@ -4,7 +4,7 @@ export interface NewsArticle {
   category: string;
   imageUrl: string;
   summary: string;
-  author: string;
+  author?: string;
   timestamp: string;
   sourceUrl: string;
   videoUrl?: string;

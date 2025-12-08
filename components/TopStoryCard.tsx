@@ -66,8 +66,12 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
           
           <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
             <span className="text-black border-b-2 border-black pb-1">Read Full Story</span>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-500">{article.author || 'QuickCut Editorial'}</span>
+            {article.author && (
+                <>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-gray-500">{article.author}</span>
+                </>
+            )}
           </div>
         </div>
 

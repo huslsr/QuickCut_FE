@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -9,6 +9,17 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const timer = setInterval(() => {
+        // Trigger re-render for time update
+        setMounted(prev => prev); 
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleSearch = () => {
@@ -42,9 +53,14 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <span className="uppercase tracking-widest text-xs">
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-            </span>
+            <div className="flex flex-col">
+                 <span className="uppercase tracking-widest text-xs font-bold text-black">
+                  {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
+                </span>
+                <span className="text-[10px] tracking-wider text-gray-400">
+                  {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
+                </span>
+            </div>
           </div>
 
            {/* Mobile Menu Button (Visible on small screens) */}
@@ -112,7 +128,10 @@ export default function Header() {
               type="button"
               onClick={(e) => {
                 e.preventDefault();
-                alert('Subscription feature coming soon! Stay tuned.');
+                const footer = document.getElementById('footer-subscribe');
+                if (footer) {
+                    footer.scrollIntoView({ behavior: 'smooth' });
+                }
               }}
               className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black px-5 py-2 hover:bg-black hover:text-white transition-all"
             >
@@ -158,36 +177,26 @@ export default function Header() {
               className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
               onClick={toggleMenu}
             >
-              Home
-            </Link>
-            <Link 
-              href="#" 
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
-              onClick={toggleMenu}
-            >
               Featured Stories
             </Link>
             <Link 
-              href="#" 
+              href="/latest" 
               className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
               onClick={toggleMenu}
             >
               Latest News
             </Link>
-            <Link 
-              href="#" 
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors"
-              onClick={toggleMenu}
-            >
-              Videos
-            </Link>
-             <Link 
-              href="#" 
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-accent"
-              onClick={toggleMenu}
+             <button 
+              onClick={(e) => {
+                  e.preventDefault();
+                  toggleMenu();
+                  const footer = document.getElementById('footer-subscribe');
+                  if (footer) footer.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-accent text-left w-full"
             >
               Subscribe
-            </Link>
+            </button>
           </nav>
 
           {/* Sidebar Footer */}

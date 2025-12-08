@@ -45,7 +45,7 @@ export default function StoryCard({ article }: StoryCardProps) {
           </p>
           
           <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-gray-400">
-            <span>{article.author}</span>
+            {article.author && <span>{article.author}</span>}
             <span>{new Date(article.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
           </div>
         </div>

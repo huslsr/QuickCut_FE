@@ -27,7 +27,9 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
       {/* Trending Section */}
       <div>
         <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-2">
-          <h3 className="text-lg font-black uppercase tracking-widest">Trending</h3>
+          <Link href="/trending" className="group">
+             <h3 className="text-lg font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 underline decoration-2 underline-offset-4 transition-all">Trending</h3>
+          </Link>
         </div>
         <ul className="space-y-6">
           {filteredTrending.map((article, index) => (

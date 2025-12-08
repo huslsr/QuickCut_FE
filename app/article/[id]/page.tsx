@@ -99,10 +99,12 @@ export default function ArticleDetail() {
               {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
             </span>
             <span className="text-gray-500 text-sm font-serif">
-              {new Date(article.publishedAt).toLocaleDateString(undefined, {
+              {new Date(article.publishedAt).toLocaleString(undefined, {
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric'
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
               })}
             </span>
           </div>

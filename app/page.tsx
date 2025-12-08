@@ -80,7 +80,7 @@ export default function Home() {
     summary: article.summary,
     imageUrl: article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070',
     category: categories[article.categoryId || ''] || article.categoryId || 'General',
-    author: 'QuickCut Team',
+    // author: 'QuickCut Team', // Removed as per request
     timestamp: article.publishedAt, 
     sourceUrl: article.url || '#',
   });
