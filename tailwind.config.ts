@@ -9,11 +9,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      background: "var(--background)",
-      foreground: "var(--foreground)",
-      secondary: "var(--secondary)",
-      accent: "var(--accent)",
-      border: "var(--border)",
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
+        border: "var(--border)",
+      },
     },
   },
   plugins: [],
