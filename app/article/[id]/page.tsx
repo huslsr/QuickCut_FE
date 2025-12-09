@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import { articleService, Article } from '../../api/services/articleService';
 import { categoryService } from '../../api/services/categoryService';
 import LikeButton from '@/components/LikeButton';
+import BookmarkButton from '@/components/BookmarkButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedArticles from '@/components/RelatedArticles';
 
@@ -113,7 +114,10 @@ export default function ArticleDetail() {
                 {formatDate(article.publishedAt)}
               </span>
             </div>
-            <LikeButton articleId={article.id} />
+            <div className="flex items-center space-x-2">
+                <BookmarkButton articleId={article.id} />
+                <LikeButton articleId={article.id} />
+            </div>
           </div>
 
           {/* Featured Image */}

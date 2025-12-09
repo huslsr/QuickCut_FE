@@ -210,6 +210,13 @@ export default function Header() {
                  <div className="block text-lg font-bold font-serif text-gray-500 mb-2">
                     {/* Hi, {user.username} */}
                  </div>
+                 <Link 
+                   href="/bookmarks"
+                   className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white mb-4"
+                   onClick={toggleMenu}
+                 >
+                   My Bookmarks
+                 </Link>
                  <button 
                    onClick={() => {
                        toggleMenu();

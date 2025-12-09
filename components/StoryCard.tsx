@@ -4,6 +4,8 @@ import { NewsArticle } from '@/types/news';
 import { formatDate } from '@/app/utils/dateFormatter';
 import Image from 'next/image';
 import Link from 'next/link';
+import { bookmarkService } from '@/app/api/services/bookmarkService';
+import { useAuth } from '@/app/context/AuthProvider';
 
 interface StoryCardProps {
   article: NewsArticle;
@@ -21,6 +23,7 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export default function StoryCard({ article }: StoryCardProps) {
+  const { user } = useAuth();
   const categoryName = CATEGORY_MAP[article.category] || article.category;
 
   return (
@@ -36,6 +39,32 @@ export default function StoryCard({ article }: StoryCardProps) {
           <div className="absolute top-4 left-4 bg-white dark:bg-black dark:text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black dark:border-white">
             {categoryName}
           </div>
+          
+          <div className="absolute top-4 right-16 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-md z-10"
+               onClick={async (e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+                 if (!user) {
+                   // Optional: router.push('/login') or alert
+                   alert('Please login to bookmark stories!');
+                   return;
+                 }
+                 try {
+                     if (user?.id) {
+                        await bookmarkService.addBookmark(user.id, article.id);
+                        alert('Story bookmarked!');
+                     }
+                 } catch (err) {
+                     alert('Failed to bookmark.');
+                 }
+               }}
+               title="Bookmark this story"
+          >
+             <svg className="w-4 h-4 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+             </svg>
+          </div>
+
           <div className="absolute top-4 right-4 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-md z-10" 
                onClick={(e) => {
                  e.preventDefault();
