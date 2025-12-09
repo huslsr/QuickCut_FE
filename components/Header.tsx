@@ -208,7 +208,7 @@ export default function Header() {
             {user ? (
                <>
                  <div className="block text-lg font-bold font-serif text-gray-500 mb-2">
-                    Hi, {user.username}
+                    {/* Hi, {user.username} */}
                  </div>
                  <button 
                    onClick={() => {
