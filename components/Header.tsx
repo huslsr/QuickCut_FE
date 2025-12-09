@@ -204,6 +204,31 @@ export default function Header() {
             >
               Latest News
             </Link>
+
+            {user ? (
+               <>
+                 <div className="block text-lg font-bold font-serif text-gray-500 mb-2">
+                    Hi, {user.username}
+                 </div>
+                 <button 
+                   onClick={() => {
+                       toggleMenu();
+                       logout();
+                   }}
+                   className="block text-2xl font-bold font-serif hover:text-red-600 transition-colors text-red-500 text-left w-full"
+                 >
+                   Logout
+                 </button>
+               </>
+            ) : (
+                <Link 
+                  href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`}
+                  className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+                  onClick={toggleMenu}
+                >
+                  Login
+                </Link>
+            )}
              <button 
               onClick={(e) => {
                   e.preventDefault();
