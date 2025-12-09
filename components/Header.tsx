@@ -132,16 +132,13 @@ export default function Header() {
                     >
                         Logout
                     </button>
-                    <ThemeToggle />
                 </div>
             ) : (
-                <div className="flex items-center space-x-4">
-                    <Link href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`} className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-black dark:text-white">
+                 <Link href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`} className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-black dark:text-white">
                     Login
-                    </Link>
-                    <ThemeToggle />
-                </div>
+                 </Link>
             )}
+            <ThemeToggle />
             <button 
               type="button"
               onClick={(e) => {
