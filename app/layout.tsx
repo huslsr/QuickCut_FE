@@ -25,6 +25,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'QuickCut | Breaking News & In-Depth Analysis',
   description: 'Your trusted source for global news, expert perspectives, and timely updates.',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 };
 
 export default function RootLayout({
@@ -34,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${playfair.variable} ${inter.variable} font-sans antialiased bg-background text-foreground`}>
+      <body className={`${playfair.variable} ${inter.variable} font-sans antialiased bg-background text-foreground overflow-x-hidden`}>
         <div id="google_translate_element" className="fixed bottom-0 right-0 opacity-0 pointer-events-none" />
         <ThemeProvider>
           <AuthProvider>
