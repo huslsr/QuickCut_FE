@@ -13,7 +13,7 @@ import LikeButton from '@/components/LikeButton';
 import BookmarkButton from '@/components/BookmarkButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedArticles from '@/components/RelatedArticles';
-import ReadingProgress from '@/components/ReadingProgress';
+
 
 const CATEGORY_MAP: Record<string, string> = {
   '1': 'Cricket',
@@ -95,7 +95,7 @@ export default function ArticleDetail() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
-      <ReadingProgress />
+
       <Header />
       
       <main className="flex-1 w-full">
