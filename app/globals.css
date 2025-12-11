@@ -66,8 +66,16 @@
 }
 
 @layer base {
+
+  html,
   body {
     @apply bg-background text-foreground antialiased;
+    max-width: 100vw;
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  body {
     top: 0px !important;
     /* Force body to top to override Google Translate shift */
   }
