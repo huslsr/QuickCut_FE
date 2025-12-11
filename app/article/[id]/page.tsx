@@ -135,7 +135,7 @@ export default function ArticleDetail() {
 
           {/* Summary / Lead */}
           <div className="prose prose-lg max-w-none mb-10 dark:prose-invert">
-             <p className="text-xl md:text-2xl font-serif text-gray-700 dark:text-gray-300 leading-relaxed border-l-4 border-accent pl-6 italic">
+             <p className="text-xl md:text-2xl font-serif text-gray-700 dark:text-gray-300 leading-relaxed italic">
               {article.summary}
             </p>
           </div>
