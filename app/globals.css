@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 :root {
-  /* Editorial High Contrast Palette */
-  --background: #ffffff;
-  --foreground: #111111;
+  /* Editorial Premium Palette (Stone) */
+  --background: #fafaf9; /* Stone 50 - Premium Paper */
+  --foreground: #0c0a09; /* Stone 950 - Softer Black */
 
-  --primary: #000000;
-  --primary-foreground: #ffffff;
+  --primary: #1c1917; /* Stone 900 */
+  --primary-foreground: #fafaf9;
 
-  --secondary: #f3f4f6;
-  --secondary-foreground: #111111;
+  --secondary: #f5f5f4; /* Stone 100 */
+  --secondary-foreground: #1c1917;
 
-  --accent: #e11d48;
+  --accent: #e11d48; /* Rose 600 - Keeping existing accent */
   --accent-foreground: #ffffff;
 
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
+  --muted: #f5f5f4; /* Stone 100 */
+  --muted-foreground: #57534e; /* Stone 500 */
 
-  --border: #e5e7eb;
-  --input: #e5e7eb;
+  --border: #e7e5e4; /* Stone 200 */
+  --input: #e7e5e4;
 
   --radius: 0rem;
 }
@@ -60,6 +60,7 @@
 @layer base {
   body {
     @apply bg-background text-foreground antialiased;
+    top: 0px !important; /* Force body to top to override Google Translate shift */
   }
 
   h1,
@@ -86,4 +87,23 @@
   .image-hover-zoom {
     @apply transition-transform duration-700 ease-out hover:scale-105;
   }
+}
+
+/* Hide Google Translate Banner and Attribution */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+/* Hide the Google Translate branding footer */
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}
+
+/* Hide the hover tooltip */
+#goog-gt-tt {
+  display: none !important;
 }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthProvider';
 import ThemeToggle from './ThemeToggle';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -138,6 +139,7 @@ export default function Header() {
                     Login
                  </Link>
             )}
+
             <ThemeToggle />
             <button 
               type="button"
@@ -244,15 +246,22 @@ export default function Header() {
             >
               Subscribe
             </button>
-          </nav>
+             {/* Language Selector */}
+             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+                <span className="block text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">
+                  Language
+                </span>
+                <LanguageSwitcher />
+             </div>
+           </nav>
 
-          {/* Sidebar Footer */}
-          <div className="mt-auto pt-8 border-t border-gray-100 dark:border-gray-700 text-sm text-gray-400">
-             <p>&copy; {new Date().getFullYear()} QuickCut.</p>
-             <p className="mt-2">All rights reserved.</p>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
+           {/* Sidebar Footer */}
+           <div className="mt-auto pt-8 border-t border-gray-100 dark:border-gray-700 text-sm text-gray-400">
+              <p>&copy; {new Date().getFullYear()} QuickCut.</p>
+              <p className="mt-2">All rights reserved.</p>
+           </div>
+         </div>
+       </div>
+     </header>
+   );
+ }
