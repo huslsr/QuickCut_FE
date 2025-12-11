@@ -1,7 +1,7 @@
 import { AuthProvider } from '@/app/context/AuthProvider';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import BackToTop from '@/components/BackToTop';
 import Script from 'next/script';
@@ -15,6 +15,12 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: 'QuickCut | Breaking News & In-Depth Analysis',
