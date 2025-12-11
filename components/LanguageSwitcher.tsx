@@ -53,7 +53,7 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 notranslate">
       <button
         onClick={() => switchLanguage('en')}
         className={`px-4 py-2 text-sm font-bold uppercase tracking-wider border border-black dark:border-white transition-colors ${

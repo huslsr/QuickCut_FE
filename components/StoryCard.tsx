@@ -28,7 +28,7 @@ export default function StoryCard({ article }: StoryCardProps) {
 
   return (
     <Link href={`/article/${article.id}`} className="group cursor-pointer flex flex-col h-full">
-      <article className="flex flex-col h-full bg-white dark:bg-neutral-900 border border-transparent dark:border-neutral-800 transition-colors">
+      <article className="flex flex-col h-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-none transition-all duration-300 hover:shadow-md">
         <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden bg-gray-100 dark:bg-gray-800">
           <Image
             src={article.imageUrl}
@@ -36,7 +36,7 @@ export default function StoryCard({ article }: StoryCardProps) {
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <div className="absolute top-4 left-4 bg-white dark:bg-black dark:text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black dark:border-white">
+          <div className="absolute top-4 left-4 bg-white text-black dark:bg-black dark:text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black dark:border-white">
             {categoryName}
           </div>
           

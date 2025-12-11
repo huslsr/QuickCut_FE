@@ -62,7 +62,7 @@ export default function CategoryPage() {
     imageUrl: article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070',
     category: category?.name || article.categoryId || 'General',
     author: 'QuickCut Team',
-    timestamp: new Date(article.publishedAt).toLocaleDateString(),
+    timestamp: article.publishedAt,
     sourceUrl: article.url || '#',
   });
 

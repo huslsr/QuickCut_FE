@@ -150,7 +150,7 @@ export default function Header() {
                     footer.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black dark:border-white px-5 py-2 hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black dark:border-white px-5 py-2 text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black transition-all"
             >
               Subscribe
             </button>
