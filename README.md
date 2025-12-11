@@ -27,8 +27,12 @@ Create a `.env.local` file:
 
 ```env
 # URL of your running Backend (Local or Production)
+# URL of your running Backend (Local or Production)
 NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
 ```
+
+### Image Configuration
+This project is configured to allow images from various domains (e.g., `tmpfiles.org`, `catbox.moe`). If you change your image hosting provider in the backend, ensure you also update `next.config.js` to allow the new domain.
 
 ### Installation & Run
 
