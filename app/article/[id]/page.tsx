@@ -121,12 +121,12 @@ export default function ArticleDetail() {
           </div>
 
           {/* Featured Image */}
-          <div className="relative w-full aspect-[16/9] mb-12 overflow-hidden bg-gray-100">
+          <div className="relative w-full h-[50vh] min-h-[400px] mb-12 overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
             <Image
               src={article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070'}
               alt={article.title}
               fill
-              className="object-cover object-top"
+              className="object-contain"
               priority
             />
           </div>
