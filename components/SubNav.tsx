@@ -36,7 +36,7 @@ export default function SubNav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Category Links */}
-          <div className="flex items-center space-x-1 overflow-x-auto scrollbar-hide py-2">
+          <div className="flex items-center space-x-1 overflow-x-auto scrollbar-hide py-2 w-full max-w-[100vw]">
             <Link
                href="/"
                className={`px-4 py-2 rounded whitespace-nowrap text-sm font-medium transition-colors ${
