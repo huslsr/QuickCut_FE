@@ -125,7 +125,7 @@ export default function Home() {
                             className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
                                 page === 0 
                                 ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                : 'hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
                             }`}
                         >
                             Previous
@@ -155,7 +155,7 @@ export default function Home() {
                             className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
                                 page >= totalPages - 1 
                                 ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                : 'hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
                             }`}
                         >
                             Next
