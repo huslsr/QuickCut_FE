@@ -91,7 +91,11 @@ export default function StoryCard({ article }: StoryCardProps) {
           
           <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-gray-400">
             {article.author && <span>{article.author}</span>}
-            <span>{formatDate(article.timestamp)}</span>
+            <div className="flex flex-col items-end">
+                <span>{formatDate(article.timestamp)}</span>
+                {/* DEBUG: Show raw to verify server response */}
+                <span className="text-[9px] lowercase opacity-50">{article.timestamp}</span>
+            </div>
           </div>
         </div>
       </article>
