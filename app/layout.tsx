@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import BackToTop from '@/components/BackToTop';
 import Script from 'next/script';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -43,6 +44,7 @@ export default function RootLayout({
             <BackToTop />
           </AuthProvider>
         </ThemeProvider>
+        <SpeedInsights />
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
