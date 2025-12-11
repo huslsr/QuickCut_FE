@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import BackToTop from '@/components/BackToTop';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -60,6 +61,7 @@ export default function RootLayout({
             }
           `}
         </Script>
+        <Analytics />
       </body>
     </html>
   );
