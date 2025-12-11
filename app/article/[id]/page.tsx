@@ -148,7 +148,7 @@ export default function ArticleDetail() {
           </div>
           
           {/* Source Link */}
-           {article.url && (
+           {/* {article.url && (
             <div className="mt-12 pt-8 border-t border-gray-200">
               <a 
                 href={article.url}
@@ -162,7 +162,7 @@ export default function ArticleDetail() {
                 </svg>
               </a>
             </div>
-          )}
+          )} */}
           
           <CommentSection articleId={article.id} />
           
