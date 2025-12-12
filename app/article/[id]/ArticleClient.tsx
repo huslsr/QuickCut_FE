@@ -9,9 +9,6 @@ import LikeButton from '@/components/LikeButton';
 import BookmarkButton from '@/components/BookmarkButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedArticles from '@/components/RelatedArticles';
-import BookmarkButton from '@/components/BookmarkButton';
-import CommentSection from '@/components/CommentSection';
-import RelatedArticles from '@/components/RelatedArticles';
 
 
 const CATEGORY_MAP: Record<string, string> = {
