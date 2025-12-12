@@ -26,8 +26,36 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'QuickCut | Breaking News & In-Depth Analysis',
+  metadataBase: new URL('https://quickcut.info'),
+  title: {
+    default: 'QuickCut | Breaking News & In-Depth Analysis',
+    template: '%s | QuickCut News',
+  },
   description: 'Your trusted source for global news, expert perspectives, and timely updates.',
+  openGraph: {
+    title: 'QuickCut | Breaking News & In-Depth Analysis',
+    description: 'Your trusted source for global news, expert perspectives, and timely updates.',
+    url: 'https://quickcut.info',
+    siteName: 'QuickCut News',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'QuickCut News',
+    creator: '@quickcutnews',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
   icons: {
     icon: 'https://i.ibb.co/3W1DqK3/image.png',
