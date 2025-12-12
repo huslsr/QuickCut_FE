@@ -1,4 +1,5 @@
 import { AuthProvider } from '@/app/context/AuthProvider';
+import { CategoryProvider } from '@/app/context/CategoryContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
@@ -46,7 +47,9 @@ export default function RootLayout({
         <div id="google_translate_element" className="fixed bottom-0 right-0 opacity-0 pointer-events-none" />
         <ThemeProvider>
           <AuthProvider>
-            {children}
+            <CategoryProvider>
+              {children}
+            </CategoryProvider>
             <BackToTop />
           </AuthProvider>
         </ThemeProvider>
