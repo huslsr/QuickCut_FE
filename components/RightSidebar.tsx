@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
+import { subscriptionService } from '@/app/api/services/subscriptionService';
 import FeaturedVideos from './FeaturedVideos';
 import { NewsArticle } from '@/types/news';
 
@@ -21,6 +25,27 @@ const CATEGORY_MAP: Record<string, string> = {
 export default function RightSidebar({ featuredVideos, trendingArticles = [] }: RightSidebarProps) {
   // Use passed trending articles, or fallback to first 5 featured videos if not provided (as a temporary measure if data is missing)
   const filteredTrending = trendingArticles.length > 0 ? trendingArticles.slice(0, 5) : [];
+  
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if(!email) return;
+    setLoading(true);
+    try {
+       await subscriptionService.subscribe(email);
+       setShowSuccess(true);
+       setEmail('');
+    } catch(e) {
+       console.error(e);
+       alert('Failed to subscribe. Please try again.');
+    } finally {
+       setLoading(false);
+    }
+  };
+
   return (
     <aside className="w-full lg:w-[350px] flex-shrink-0 space-y-12 border-l border-gray-100 dark:border-gray-800 lg:pl-12">
       
@@ -71,16 +96,31 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
         <p className="text-gray-400 text-sm mb-6 font-serif">
           Essential news, expert analysis, and exclusive content delivered straight to your inbox.
         </p>
-        <button 
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log('Sidebar Subscribe clicked');
-          }}
-          className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-accent hover:text-white transition-colors"
-        >
-          Subscribe Now
-        </button>
+        
+        {!showSuccess ? (
+             <form onSubmit={handleSubscribe} className="flex flex-col space-y-3">
+                <input 
+                    type="email" 
+                    placeholder="Your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 text-black text-sm font-bold placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+                <button 
+                type="submit"
+                disabled={loading}
+                className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-accent hover:text-white transition-colors disabled:opacity-50"
+                >
+                {loading ? 'Subscribing...' : 'Subscribe Now'}
+                </button>
+             </form>
+        ) : (
+            <div className="bg-green-900/50 p-4 border border-green-500 rounded">
+                <p className="text-green-400 font-bold mb-2">Thanks for subscribing!</p>
+                <p className="text-xs text-green-300">You&apos;re on the list.</p>
+            </div>
+        )}
       </div>
     </aside>
   );
