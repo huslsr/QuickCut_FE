@@ -8,8 +8,8 @@ export default function SubNav() {
   const pathname = usePathname();
   const { categories } = useCategories();
 
-  // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
-  const sortOrder = ['8', '1', '7', '4', '6', '5', '3', '2'];
+  // Custom Sort Order: General (8) -> Health (9) -> World (7) -> Politics (4) -> Business (6) -> Stocks (10) -> Tech (5) -> Movies (3) -> Cricket (1) -> Sports (2)
+  const sortOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
 
   const sortedCategories = [...categories].sort((a, b) => {
     const indexA = sortOrder.indexOf(a.id);

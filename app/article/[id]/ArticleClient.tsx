@@ -21,6 +21,8 @@ const CATEGORY_MAP: Record<string, string> = {
   '6': 'Business',
   '7': 'World',
   '8': 'General',
+  '9': 'Health',
+  '10': 'Stocks',
 };
 
 interface ArticleClientProps {
