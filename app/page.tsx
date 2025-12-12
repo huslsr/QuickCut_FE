@@ -10,14 +10,13 @@ import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
 import { useEffect, useState } from 'react';
 
-import { categoryService, Category } from './api/services/categoryService';
-
+import { useCategories } from '@/app/context/CategoryContext';
 import { APP_CONFIG } from '@/app/config/constants';
 
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [videos, setVideos] = useState<Article[]>([]);
-  const [categories, setCategories] = useState<Record<string, string>>({});
+  const { categoryMap } = useCategories();
   
   // Granular Loading States
   const [loadingArticles, setLoadingArticles] = useState(true);
@@ -30,17 +29,9 @@ export default function Home() {
   const [inputPage, setInputPage] = useState('1');
 
   useEffect(() => {
-    // 1. Fetch Categories (Fast, Independent)
-    const fetchCategories = async () => {
-        try {
-            const data = await categoryService.getAllCategories();
-            const categoryMap: Record<string, string> = {};
-            data.forEach(cat => { categoryMap[cat.id] = cat.name; });
-            setCategories(categoryMap);
-        } catch (e) { console.error('Failed categories', e); }
-    };
-
     // 2. Fetch Featured Videos (Independent)
+    // Disabled per user request (no videos available)
+    /*
     const fetchVideos = async () => {
         setLoadingVideos(true);
         try {
@@ -53,8 +44,9 @@ export default function Home() {
         }
     };
 
-    fetchCategories();
     fetchVideos();
+    */
+    setLoadingVideos(false); // Ensure loading state is cleared
   }, []); // Run once on mount
 
   useEffect(() => {
@@ -106,16 +98,18 @@ export default function Home() {
   };
 
   const mapToNewsArticle = (article: Article): NewsArticle => {
-    const categoryName = categories[article.categoryId || ''] || article.categoryId || 'General';
+    // Create Map on the fly (efficient enough for small list)
+    const catName = categoryMap[article.categoryId || ''] || article.categoryId || 'General';
+
     // Use article image -> Category Fallback -> General Fallback
-    const fallback = CATEGORY_FALLBACK_IMAGES[categoryName] || CATEGORY_FALLBACK_IMAGES['General'];
+    const fallback = CATEGORY_FALLBACK_IMAGES[catName] || CATEGORY_FALLBACK_IMAGES['General'];
     
     return {
         id: article.id.toString(),
         title: article.title,
         summary: article.summary,
         imageUrl: article.imageUrl || fallback,
-        category: categoryName,
+        category: catName,
         timestamp: article.publishedAt, 
         sourceUrl: article.url || '#',
     };

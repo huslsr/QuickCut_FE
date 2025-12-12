@@ -1,35 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCategories } from '@/app/context/CategoryContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Category, categoryService } from '@/app/api/services/categoryService';
 
 export default function SubNav() {
-  const [categories, setCategories] = useState<Category[]>([]);
   const pathname = usePathname();
+  const { categories } = useCategories();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await categoryService.getAllCategories();
-        
-        // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
-        const sortOrder = ['8', '1', '7', '4', '6', '5', '3', '2'];
-        
-        const sortedData = data.sort((a, b) => {
-             const indexA = sortOrder.indexOf(a.id);
-             const indexB = sortOrder.indexOf(b.id);
-             return indexA - indexB;
-        });
+  // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
+  const sortOrder = ['8', '1', '7', '4', '6', '5', '3', '2'];
 
-        setCategories(sortedData);
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const sortedCategories = [...categories].sort((a, b) => {
+    const indexA = sortOrder.indexOf(a.id);
+    const indexB = sortOrder.indexOf(b.id);
+    return indexA - indexB;
+  });
 
   return (
     <nav className="bg-gray-50 dark:bg-black/40 backdrop-blur-md border-b border-gray-200 dark:border-white/10 sticky top-20 z-40 transition-colors">
@@ -47,7 +33,7 @@ export default function SubNav() {
             >
               All Stories
             </Link>
-            {categories.map((category) => {
+            {sortedCategories.map((category) => {
               const isActive = pathname === `/category/${category.id}`;
               return (
                 <Link

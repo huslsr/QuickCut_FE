@@ -1,23 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { categoryService, Category } from '@/app/api/services/categoryService';
+import { useState } from 'react';
+import { useCategories } from '@/app/context/CategoryContext';
 
 export default function Footer() {
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await categoryService.getAllCategories();
-        setCategories(data.slice(0, 6)); // Show top 6
-      } catch (error) {
-        console.error('Failed to fetch footer categories');
-      }
-    };
-    fetchCategories();
-  }, []);
+  const { categories } = useCategories();
+  const footerCategories = categories.slice(0, 6); // Show top 6
 
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -93,7 +82,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold font-serif mb-6">Categories</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              {categories.map((category) => (
+              {footerCategories.map((category) => (
                 <li key={category.id}>
                   <Link href={`/category/${category.id}`} className="hover:text-indigo-400 transition-colors">
                     {category.name}
