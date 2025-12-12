@@ -119,8 +119,30 @@ export default function Home() {
   const adaptedArticles: NewsArticle[] = newsArticles.map(mapToNewsArticle);
   const adaptedVideos: NewsArticle[] = videos.map(mapToNewsArticle);
 
+  /* Structured Data for SEO */
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsMediaOrganization',
+    name: 'QuickCut News',
+    url: 'https://quickcut.info',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://ibb.co/S1jGJWc'
+    },
+    sameAs: [
+      'https://x.com/QuicCut',
+      'https://www.facebook.com/profile.php?id=61584552434821',
+      'https://www.instagram.com/quickcut_official_news/'
+    ],
+    description: 'Your trusted source for global news, expert perspectives, and timely updates.'
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <SubNav />
       <main className="flex-1 w-full">
