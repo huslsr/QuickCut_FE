@@ -127,7 +127,7 @@ export default function Home() {
     url: 'https://quickcut.info',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://i.ibb.co/3W1DqK3/image.png'
+      url: 'https://ibb.co/S1jGJWc'
     },
     sameAs: [
       'https://x.com/QuicCut',
