@@ -50,7 +50,7 @@ export default function Header() {
           <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-500">
             <button 
               onClick={toggleMenu}
-              className="text-black dark:text-white hover:text-accent transition-colors focus:outline-none"
+              className="text-black dark:text-white hover:text-accent active:scale-95 transition-all focus:outline-none"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,7 +71,7 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             <button 
               onClick={toggleMenu}
-              className="text-black dark:text-white hover:text-accent transition-colors focus:outline-none"
+              className="text-black dark:text-white hover:text-accent active:scale-95 transition-all focus:outline-none"
             >
                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -118,7 +118,7 @@ export default function Header() {
             ) : (
                 <button 
                     onClick={toggleSearch}
-                    className="text-black dark:text-white hover:text-accent transition-colors"
+                    className="text-black dark:text-white hover:text-accent active:scale-95 transition-all"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -152,7 +152,7 @@ export default function Header() {
                     footer.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black dark:border-white px-5 py-2 text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black dark:border-white px-5 py-2 text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black active:scale-95 transition-all"
             >
               Subscribe
             </button>

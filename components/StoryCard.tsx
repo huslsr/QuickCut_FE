@@ -37,6 +37,7 @@ export default function StoryCard({ article }: StoryCardProps) {
             src={imgSrc}
             alt={article.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             onError={() => {
                 setImgSrc(getFallbackImage(categoryName));
@@ -46,7 +47,7 @@ export default function StoryCard({ article }: StoryCardProps) {
             {categoryName}
           </div>
           
-          <div className="absolute top-4 right-16 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-md z-10"
+          <div className="absolute top-4 right-16 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 active:scale-90 transition-transform shadow-md z-10"
                onClick={async (e) => {
                  e.preventDefault();
                  e.stopPropagation();
@@ -71,7 +72,7 @@ export default function StoryCard({ article }: StoryCardProps) {
              </svg>
           </div>
 
-          <div className="absolute top-4 right-4 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-md z-10" 
+          <div className="absolute top-4 right-4 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 active:scale-90 transition-transform shadow-md z-10" 
                onClick={(e) => {
                  e.preventDefault();
                  e.stopPropagation();
