@@ -13,14 +13,21 @@ export default function SubNav() {
     const fetchCategories = async () => {
       try {
         const data = await categoryService.getAllCategories();
-        
-        // Custom Sort Order: General (8) -> World (7) -> Politics (4) -> Business (6) -> Tech (5) -> Movies (3) -> Cricket (1) -> Football (2)
-        const sortOrder = ['8', '1', '7', '4', '6', '5', '3', '2'];
-        
-        const sortedData = data.sort((a, b) => {
-             const indexA = sortOrder.indexOf(a.id);
-             const indexB = sortOrder.indexOf(b.id);
-             return indexA - indexB;
+
+        // Prefer backend orderIndex, fall back to a sensible manual order
+        const fallbackOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
+
+        const sortedData = [...data].sort((a, b) => {
+             const orderA = a.orderIndex ?? fallbackOrder.indexOf(a.id);
+             const orderB = b.orderIndex ?? fallbackOrder.indexOf(b.id);
+
+             const normalizedA = orderA === -1 ? Number.MAX_SAFE_INTEGER : orderA;
+             const normalizedB = orderB === -1 ? Number.MAX_SAFE_INTEGER : orderB;
+
+             if (normalizedA !== normalizedB) {
+               return normalizedA - normalizedB;
+             }
+             return a.name.localeCompare(b.name);
         });
 
         setCategories(sortedData);
