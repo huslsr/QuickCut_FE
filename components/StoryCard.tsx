@@ -6,6 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { bookmarkService } from '@/app/api/services/bookmarkService';
 import { useAuth } from '@/app/context/AuthProvider';
+import { useState } from 'react';
+import { getFallbackImage } from '@/app/config/fallbacks';
 
 interface StoryCardProps {
   article: NewsArticle;
@@ -25,16 +27,20 @@ const CATEGORY_MAP: Record<string, string> = {
 export default function StoryCard({ article }: StoryCardProps) {
   const { user } = useAuth();
   const categoryName = CATEGORY_MAP[article.category] || article.category;
+  const [imgSrc, setImgSrc] = useState(article.imageUrl);
 
   return (
     <Link href={`/article/${article.id}`} className="group cursor-pointer flex flex-col h-full">
       <article className="flex flex-col h-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-none transition-all duration-300 hover:shadow-md">
         <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden bg-gray-100 dark:bg-gray-800">
           <Image
-            src={article.imageUrl}
+            src={imgSrc}
             alt={article.title}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            onError={() => {
+                setImgSrc(getFallbackImage(categoryName));
+            }}
           />
           <div className="absolute top-4 left-4 bg-white text-black dark:bg-black dark:text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border border-black dark:border-white">
             {categoryName}

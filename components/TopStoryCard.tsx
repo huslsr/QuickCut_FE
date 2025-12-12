@@ -1,6 +1,8 @@
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { getFallbackImage } from '@/app/config/fallbacks';
 
 interface TopStoryCardProps {
   article: NewsArticle;
@@ -19,6 +21,7 @@ const CATEGORY_MAP: Record<string, string> = {
 
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   const categoryName = CATEGORY_MAP[article.category] || article.category;
+  const [imgSrc, setImgSrc] = useState(article.imageUrl);
 
   return (
     <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
@@ -41,11 +44,12 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
         {/* Image */}
         <div className="relative h-[600px] w-full overflow-hidden">
           <Image
-            src={article.imageUrl}
+            src={imgSrc}
             alt={article.title}
             fill
             className="object-cover transition-all duration-700 ease-out"
             priority
+            onError={() => setImgSrc(getFallbackImage(categoryName))}
           />
           {article.videoUrl && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
