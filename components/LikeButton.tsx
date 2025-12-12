@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthProvider';
 import { interactionService } from '@/app/api/services/interactionService';
+import { getGuestId } from '@/app/utils/guestId';
 
 export default function LikeButton({ articleId }: { articleId: string }) {
   const { user } = useAuth();
@@ -15,18 +16,21 @@ export default function LikeButton({ articleId }: { articleId: string }) {
     interactionService.getLikeCount(articleId).then(setCount);
     
     // Check status if user is logged in
-    if (user && user.id) {
-       interactionService.getLikeStatus(articleId, user.id).then(setLiked);
+    const actorId = user?.id || getGuestId();
+    if (actorId) {
+       interactionService.getLikeStatus(articleId, actorId).then(setLiked);
     }
   }, [articleId, user]);
 
   const handleToggle = async () => {
-    if (!user) return; // Should potentially show login modal or tooltip
+    // if (!user) return; // Removed to allow guest likes
     if (loading) return;
+
+    const actorId = user?.id || getGuestId();
 
     setLoading(true);
     try {
-      const response = await interactionService.toggleLike(articleId, user.id || '');
+      const response = await interactionService.toggleLike(articleId, actorId);
       setLiked(response.liked);
       setCount(prev => response.liked ? prev + 1 : prev - 1);
     } catch (err) {
@@ -39,9 +43,9 @@ export default function LikeButton({ articleId }: { articleId: string }) {
   return (
     <button 
       onClick={handleToggle}
-      disabled={!user || loading}
-      className={`flex items-center space-x-2 group transition-colors ${!user ? 'cursor-default opacity-50' : ''}`}
-      title={!user ? 'Login to like' : ''}
+      disabled={loading}
+      className="flex items-center space-x-2 group transition-colors"
+      title={user ? '' : 'Like as Guest'}
     >
       <div className={`p-2 rounded-full transition-colors ${liked ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700'}`}>
         <svg 

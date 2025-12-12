@@ -1,37 +1,38 @@
 export const formatDate = (dateString: string | Date | undefined): string => {
     if (!dateString) return '';
 
-    // If it's already a Date object, fallback to string conversion
-    const str = typeof dateString === 'object' ? dateString.toISOString() : dateString;
+    try {
+        // Convert input to string if it's a Date object
+        let str = typeof dateString === 'object' ? dateString.toISOString() : dateString;
 
-    // Expected format: 2025-12-11T20:06:56
-    // Regex to extract parts: YYYY-MM-DDTHH:mm
-    const match = str.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+        // If the date string looks like an ISO date but has no timezone info (no Z or +),
+        // we append 'Z' to treat it as UTC.
+        // Backend (Java/Mongo) sends LocalDateTime which is implicitly UTC but lacks the 'Z' suffix in JSON.
+        // Example input: "2025-12-11T20:06:56" -> Treat as "2025-12-11T20:06:56Z"
+        if (str.includes('T') && !str.endsWith('Z') && !str.includes('+')) {
+            str += 'Z';
+        }
 
-    if (match) {
-        const [_, year, month, day, hour, minute] = match;
-        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-        const monthName = months[parseInt(month) - 1];
+        const date = new Date(str);
 
-        let h = parseInt(hour);
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12;
-        h = h ? h : 12;
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            // Fallback for weird formats, just return as is or empty
+            return String(dateString);
+        }
 
-        // Return guaranteed string with (IST) indicator to prove fix
-        return `${day} ${monthName} ${year}, ${h.toString().padStart(2, '0')}:${minute} ${ampm}`;
+        // Format to user's local timezone (e.g., IST if user is in India)
+        return date.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        }).toUpperCase();
+
+    } catch (e) {
+        console.error("Date formatting error:", e);
+        return String(dateString);
     }
-
-    console.log("DateFormatter Regex Failed for:", str);
-
-    // Fallback
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    }).toUpperCase() + " (FB)";
 };
