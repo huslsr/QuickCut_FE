@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import BackToTop from '@/components/BackToTop';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const playfair = Playfair_Display({ 
@@ -27,6 +28,11 @@ export const metadata: Metadata = {
   title: 'QuickCut | Breaking News & In-Depth Analysis',
   description: 'Your trusted source for global news, expert perspectives, and timely updates.',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  icons: {
+    icon: 'https://i.ibb.co/3W1DqK3/image.png',
+    shortcut: 'https://i.ibb.co/3W1DqK3/image.png',
+    apple: 'https://i.ibb.co/3W1DqK3/image.png',
+  },
 };
 
 export default function RootLayout({
@@ -62,6 +68,7 @@ export default function RootLayout({
             }
           `}
         </Script>
+        <Analytics />
       </body>
     </html>
   );
