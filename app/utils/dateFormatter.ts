@@ -5,13 +5,12 @@ export const formatDate = (dateString: string | Date | undefined): string => {
         // Convert input to string if it's a Date object
         let str = typeof dateString === 'object' ? dateString.toISOString() : dateString;
 
-        // If the date string looks like an ISO date but has no timezone info (no Z or +),
-        // we append 'Z' to treat it as UTC.
-        // Backend (Java/Mongo) sends LocalDateTime which is implicitly UTC but lacks the 'Z' suffix in JSON.
-        // Example input: "2025-12-11T20:06:56" -> Treat as "2025-12-11T20:06:56Z"
-        if (str.includes('T') && !str.endsWith('Z') && !str.includes('+')) {
-            str += 'Z';
-        }
+        // If the date string looks like an ISO date but has no timezone info,
+        // we treat it as local time (browser default behavior) to avoid double-shifting 
+        // in local development environments where backend runs in the same timezone.
+        // if (str.includes('T') && !str.endsWith('Z') && !str.includes('+')) {
+        //    str += 'Z';
+        // }
 
         const date = new Date(str);
 
