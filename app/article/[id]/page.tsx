@@ -1,179 +1,106 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { formatDate } from '@/app/utils/dateFormatter';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { articleService, Article } from '../../api/services/articleService';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import ArticleClient from './ArticleClient';
+import { articleService } from '../../api/services/articleService';
 import { categoryService } from '../../api/services/categoryService';
-import LikeButton from '@/components/LikeButton';
-import BookmarkButton from '@/components/BookmarkButton';
-import CommentSection from '@/components/CommentSection';
-import RelatedArticles from '@/components/RelatedArticles';
 
+interface PageProps {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
-const CATEGORY_MAP: Record<string, string> = {
-  '1': 'Cricket',
-  '2': 'Football',
-  '3': 'Movies',
-  '4': 'Politics',
-  '5': 'Tech',
-  '6': 'Business',
-  '7': 'World',
-  '8': 'General',
-  '9': 'Health',
-  '10': 'Stocks',
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = params;
 
-export default function ArticleDetail() {
-  const params = useParams();
-  const id = params.id as string;
-  const [article, setArticle] = useState<Article | null>(null);
-  const [categoryName, setCategoryName] = useState<string>('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        setLoading(true);
-        const data = await articleService.getArticleById(id);
-        setArticle(data);
-        
-        if (data.categoryId) {
-          try {
-            const catData = await categoryService.getCategoryById(data.categoryId);
-            setCategoryName(catData.name);
-          } catch (e) {
-            console.error('Failed to fetch category name');
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching article:', err);
-        setError('Failed to load article');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) {
-      fetchArticle();
+  try {
+    const article = await articleService.getArticleById(id);
+    
+    if (!article) {
+      return {
+        title: 'Article Not Found',
+      };
     }
-  }, [id]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col bg-white">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
-        </main>
-        <Footer />
-      </div>
-    );
+    return {
+      title: article.title,
+      description: article.summary,
+      openGraph: {
+        title: article.title,
+        description: article.summary,
+        images: [
+          {
+            url: article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c',
+            width: 1200,
+            height: 630,
+            alt: article.title,
+          },
+        ],
+        type: 'article',
+        publishedTime: article.publishedAt,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: article.title,
+        description: article.summary,
+        images: [article.imageUrl || ''],
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'QuickCut News',
+    };
+  }
+}
+
+export default async function ArticlePage({ params }: PageProps) {
+  const { id } = params;
+  
+  let article;
+  let categoryName = '';
+
+  try {
+    article = await articleService.getArticleById(id);
+    if (!article) {
+      notFound();
+    }
+    
+    if (article.categoryId) {
+        try {
+            const cat = await categoryService.getCategoryById(article.categoryId);
+            categoryName = cat.name;
+        } catch (e) {
+            console.log('Error fetching category', e);
+        }
+    }
+
+  } catch (error) {
+    console.error('Error fetching article for SSR:', error);
+    notFound();
   }
 
-  if (error || !article) {
-    return (
-      <div className="min-h-screen flex flex-col bg-white">
-        <Header />
-        <main className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-          <h1 className="text-3xl font-black font-serif mb-4">Article Not Found</h1>
-          <p className="text-gray-600 mb-8">The article you are looking for does not exist or has been removed.</p>
-          <Link 
-            href="/"
-            className="px-6 py-3 bg-black text-white font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors"
-          >
-            Back to Home
-          </Link>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  // Create JSON-LD for Google Structure
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    image: [article.imageUrl],
+    datePublished: article.publishedAt,
+    description: article.summary,
+    author: [{
+        '@type': 'Organization',
+        name: 'QuickCut News',
+        url: 'https://quickcut.info'
+    }]
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
-
-      <Header />
-      
-      <main className="flex-1 w-full">
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Category & Date */}
-          {/* Title */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black font-serif leading-tight mb-6 text-gray-900 dark:text-white">
-            {article.title}
-          </h1>
-
-          {/* Metadata & Actions */}
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center space-x-4">
-              <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-                {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
-              </span>
-              <span className="text-gray-500 dark:text-gray-400 text-sm font-serif">
-                {formatDate(article.publishedAt)}
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-                <BookmarkButton articleId={article.id} />
-                <LikeButton articleId={article.id} />
-            </div>
-          </div>
-
-          {/* Featured Image */}
-          <div className="relative w-full h-[50vh] min-h-[400px] mb-12 overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
-            <Image
-              src={article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070'}
-              alt={article.title}
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-
-          {/* Summary / Lead */}
-          <div className="prose prose-lg max-w-none mb-10 dark:prose-invert">
-             <p className="text-xl md:text-2xl font-serif text-gray-700 dark:text-gray-300 leading-relaxed italic">
-              {article.summary}
-            </p>
-          </div>
-
-          {/* Content */}
-          <div className="prose prose-lg max-w-none font-serif text-gray-800 dark:text-gray-200 leading-loose dark:prose-invert">
-            {article.content.split('\n').map((paragraph, index) => (
-              paragraph.trim() && <p key={index} className="mb-6">{paragraph}</p>
-            ))}
-          </div>
-          
-          {/* Source Link */}
-           {/* {article.url && (
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <a 
-                href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-accent hover:text-accent/80 font-bold uppercase tracking-wide text-sm"
-              >
-                Read Original Source
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </div>
-          )} */}
-          
-          <CommentSection articleId={article.id} />
-          
-          <RelatedArticles currentArticleId={article.id} categoryId={article.categoryId} />
-
-        </article>
-      </main>
-
-      <Footer />
-    </div>
+    <>
+      {/* Inject Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ArticleClient article={article} categoryName={categoryName} />
+    </>
   );
 }

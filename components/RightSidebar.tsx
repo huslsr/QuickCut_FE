@@ -54,13 +54,15 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
         </ul>
       </div>
 
-      {/* Ad Placeholder */}
+      {/* Ad Placeholder Removed for Polish */}
+      {/* 
       <div className="w-full bg-gray-100 dark:bg-neutral-900 flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-gray-800 text-center">
          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Advertisement</span>
          <div className="w-full h-64 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
             <span className="font-serif text-gray-500 italic">Ad Space</span>
          </div>
       </div>
+      */}
 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />

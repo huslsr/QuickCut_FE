@@ -1,42 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCategories } from '@/app/context/CategoryContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Category, categoryService } from '@/app/api/services/categoryService';
 
 export default function SubNav() {
-  const [categories, setCategories] = useState<Category[]>([]);
   const pathname = usePathname();
+  const { categories } = useCategories();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await categoryService.getAllCategories();
+  // Custom Sort Order: General (8) -> Health (9) -> World (7) -> Politics (4) -> Business (6) -> Stocks (10) -> Tech (5) -> Movies (3) -> Cricket (1) -> Sports (2)
+  const sortOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
 
-        // Prefer backend orderIndex, fall back to a sensible manual order
-        const fallbackOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
-
-        const sortedData = [...data].sort((a, b) => {
-             const orderA = a.orderIndex ?? fallbackOrder.indexOf(a.id);
-             const orderB = b.orderIndex ?? fallbackOrder.indexOf(b.id);
-
-             const normalizedA = orderA === -1 ? Number.MAX_SAFE_INTEGER : orderA;
-             const normalizedB = orderB === -1 ? Number.MAX_SAFE_INTEGER : orderB;
-
-             if (normalizedA !== normalizedB) {
-               return normalizedA - normalizedB;
-             }
-             return a.name.localeCompare(b.name);
-        });
-
-        setCategories(sortedData);
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const sortedCategories = [...categories].sort((a, b) => {
+    const indexA = sortOrder.indexOf(a.id);
+    const indexB = sortOrder.indexOf(b.id);
+    return indexA - indexB;
+  });
 
   return (
     <nav className="bg-gray-50 dark:bg-black/40 backdrop-blur-md border-b border-gray-200 dark:border-white/10 sticky top-20 z-40 transition-colors">
@@ -54,7 +33,7 @@ export default function SubNav() {
             >
               All Stories
             </Link>
-            {categories.map((category) => {
+            {sortedCategories.map((category) => {
               const isActive = pathname === `/category/${category.id}`;
               return (
                 <Link

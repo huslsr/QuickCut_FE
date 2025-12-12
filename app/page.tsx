@@ -10,14 +10,13 @@ import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
 import { useEffect, useState } from 'react';
 
-import { categoryService, Category } from './api/services/categoryService';
-
+import { useCategories } from '@/app/context/CategoryContext';
 import { APP_CONFIG } from '@/app/config/constants';
 
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [videos, setVideos] = useState<Article[]>([]);
-  const [categories, setCategories] = useState<Record<string, string>>({});
+  const { categoryMap } = useCategories();
   
   // Granular Loading States
   const [loadingArticles, setLoadingArticles] = useState(true);
@@ -30,17 +29,9 @@ export default function Home() {
   const [inputPage, setInputPage] = useState('1');
 
   useEffect(() => {
-    // 1. Fetch Categories (Fast, Independent)
-    const fetchCategories = async () => {
-        try {
-            const data = await categoryService.getAllCategories();
-            const categoryMap: Record<string, string> = {};
-            data.forEach(cat => { categoryMap[cat.id] = cat.name; });
-            setCategories(categoryMap);
-        } catch (e) { console.error('Failed categories', e); }
-    };
-
     // 2. Fetch Featured Videos (Independent)
+    // Disabled per user request (no videos available)
+    /*
     const fetchVideos = async () => {
         setLoadingVideos(true);
         try {
@@ -53,8 +44,9 @@ export default function Home() {
         }
     };
 
-    fetchCategories();
     fetchVideos();
+    */
+    setLoadingVideos(false); // Ensure loading state is cleared
   }, []); // Run once on mount
 
   useEffect(() => {
@@ -106,16 +98,18 @@ export default function Home() {
   };
 
   const mapToNewsArticle = (article: Article): NewsArticle => {
-    const categoryName = categories[article.categoryId || ''] || article.categoryId || 'General';
+    // Create Map on the fly (efficient enough for small list)
+    const catName = categoryMap[article.categoryId || ''] || article.categoryId || 'General';
+
     // Use article image -> Category Fallback -> General Fallback
-    const fallback = CATEGORY_FALLBACK_IMAGES[categoryName] || CATEGORY_FALLBACK_IMAGES['General'];
+    const fallback = CATEGORY_FALLBACK_IMAGES[catName] || CATEGORY_FALLBACK_IMAGES['General'];
     
     return {
         id: article.id.toString(),
         title: article.title,
         summary: article.summary,
         imageUrl: article.imageUrl || fallback,
-        category: categoryName,
+        category: catName,
         timestamp: article.publishedAt, 
         sourceUrl: article.url || '#',
     };
@@ -154,18 +148,40 @@ export default function Home() {
 
                             {/* Pagination Controls */}
                             {totalPages > 1 && (
-                                <div className="flex justify-center items-center space-x-8 mt-12 mb-8 border-t border-gray-100 dark:border-gray-800 pt-8">
-                                    <button
-                                        onClick={() => setPage(p => Math.max(0, p - 1))}
-                                        disabled={page === 0}
-                                        className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
-                                            page === 0 
-                                            ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                            : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
-                                        }`}
-                                    >
-                                        Previous
-                                    </button>
+                                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mt-12 mb-8 border-t border-gray-100 dark:border-gray-800 pt-8">
+                                    <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                                        <button
+                                            onClick={() => setPage(p => Math.max(0, p - 1))}
+                                            disabled={page === 0}
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors text-sm sm:text-base ${
+                                                page === 0 
+                                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
+                                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                            }`}
+                                        >
+                                            Previous
+                                        </button>
+                                        
+                                        {/* Mobile: Hide page input here, show below? Or keep it? 
+                                            Let's put buttons side-by-side on mobile and page count below/between.
+                                            Actually, let's keep it simple: 
+                                            Mobile:
+                                            [Previous] [Next]
+                                            Page 1 of 18
+                                        */}
+                                         <button
+                                            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                                            disabled={page >= totalPages - 1}
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors text-sm sm:text-base sm:hidden ${
+                                                page >= totalPages - 1 
+                                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
+                                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                            }`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+
                                     <div className="flex items-center space-x-2 font-serif italic text-gray-500 dark:text-gray-400">
                                         <span>Page</span>
                                         <input
@@ -185,10 +201,11 @@ export default function Home() {
                                         />
                                         <span>of {totalPages}</span>
                                     </div>
+
                                     <button
                                         onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                         disabled={page >= totalPages - 1}
-                                        className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
+                                        className={`hidden sm:block px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
                                             page >= totalPages - 1 
                                             ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
                                             : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
