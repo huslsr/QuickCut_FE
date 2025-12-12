@@ -28,22 +28,33 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://quickcut.info'),
   title: {
-    default: 'QuickCut | Breaking News & In-Depth Analysis',
+    default: 'QuickCut News | Breaking Global Stories & In-Depth Analysis',
     template: '%s | QuickCut News',
   },
-  description: 'Your trusted source for global news, expert perspectives, and timely updates.',
+  description: 'Stay ahead with QuickCut News. Your trusted source for unbiased reporting, real-time updates on global events, technology trends, business insights, and cultural stories.',
+  keywords: ['news', 'breaking news', 'world news', 'technology', 'business', 'politics', 'entertainment', 'analysis', 'quickcut'],
   openGraph: {
-    title: 'QuickCut | Breaking News & In-Depth Analysis',
-    description: 'Your trusted source for global news, expert perspectives, and timely updates.',
+    title: 'QuickCut News | Breaking Global Stories & In-Depth Analysis',
+    description: 'Stay ahead with QuickCut News. Your trusted source for unbiased reporting, real-time updates on global events, technology trends, business insights, and cultural stories.',
     url: 'https://quickcut.info',
     siteName: 'QuickCut News',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: 'https://i.ibb.co/3W1DqK3/image.png',
+        width: 1200,
+        height: 630,
+        alt: 'QuickCut News - Breaking Stories',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'QuickCut News',
+    title: 'QuickCut News | Breaking Global Stories',
+    description: 'Your trusted source for unbiased reporting and real-time updates on global events.',
     creator: '@quickcutnews',
+    images: ['https://i.ibb.co/3W1DqK3/image.png'],
   },
   robots: {
     index: true,
@@ -56,7 +67,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  // Removed viewport from metadata as it is exported separately
   icons: {
     icon: 'https://i.ibb.co/3W1DqK3/image.png',
     shortcut: 'https://i.ibb.co/3W1DqK3/image.png',
