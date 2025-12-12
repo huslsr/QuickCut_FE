@@ -60,10 +60,10 @@ export default function BookmarkButton({ articleId }: { articleId: string }) {
     <button 
       onClick={handleToggle}
       disabled={loading}
-      className={`flex items-center justify-center p-2 rounded-full transition-colors group ${!user ? 'opacity-50' : ''}`}
+      className="flex items-center justify-center p-2 rounded-full transition-colors group"
       title={bookmarked ? "Remove Bookmark" : "Bookmark this story"}
     >
-      <div className={`p-2 rounded-full transition-colors ${bookmarked ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700'}`}>
+      <div className={`p-2 rounded-full transition-colors ${bookmarked ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 group-hover:bg-gray-200 dark:group-hover:bg-gray-700'}`}>
         <svg 
             className={`w-5 h-5 ${bookmarked ? 'fill-current' : 'fill-none'} stroke-current`} 
             viewBox="0 0 24 24" 

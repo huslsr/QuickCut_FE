@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthProvider';
+import { useCategories } from '@/app/context/CategoryContext';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -14,6 +15,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { categories } = useCategories();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function Header() {
 
           {/* Center: Logo */}
           <div className="flex-1 flex justify-center">
-            <Link href="/" className="text-center cursor-pointer group">
+            <Link href="/" className="text-center cursor-pointer group block">
               <h1 className="text-4xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-black dark:text-white">
                 QUICKCUT
               </h1>
@@ -173,7 +175,7 @@ export default function Header() {
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="p-6 h-full flex flex-col">
+        <div className="p-6 h-full flex flex-col overflow-y-auto">
           {/* Close Button */}
           <div className="flex justify-between items-center mb-12">
              <h2 className="text-2xl font-black font-serif tracking-tight text-black dark:text-white">MENU</h2>
@@ -188,21 +190,38 @@ export default function Header() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 space-y-8">
+          <nav className="flex-1 space-y-6">
             <Link 
               href="/" 
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
               onClick={toggleMenu}
             >
-              Featured Stories
+              All Stories
             </Link>
             <Link 
               href="/latest" 
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
               onClick={toggleMenu}
             >
               Latest News
             </Link>
+            
+            {/* Categories */}
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Categories</h3>
+               <div className="space-y-3">
+                   {categories.map(cat => (
+                        <Link 
+                            key={cat.id}
+                            href={`/category/${cat.id}`}
+                            className="block text-lg font-medium hover:text-accent transition-colors text-gray-600 dark:text-gray-300"
+                            onClick={toggleMenu}
+                        >
+                            {cat.name}
+                        </Link>
+                   ))}
+               </div>
+            </div>
 
             {user ? (
                <>
