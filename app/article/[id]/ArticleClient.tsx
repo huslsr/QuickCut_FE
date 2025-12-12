@@ -9,6 +9,7 @@ import LikeButton from '@/components/LikeButton';
 import BookmarkButton from '@/components/BookmarkButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedArticles from '@/components/RelatedArticles';
+import ShareButtons from '@/components/ShareButtons';
 
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -59,6 +60,8 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
               </span>
             </div>
             <div className="flex items-center space-x-2">
+                <ShareButtons title={article.title} url={`https://quickcut.info/article/${article.id}`} />
+                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
                 <BookmarkButton articleId={article.id} />
                 <LikeButton articleId={article.id} />
             </div>
