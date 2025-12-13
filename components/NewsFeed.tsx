@@ -12,8 +12,8 @@ export default function NewsFeed({ topStory, articles }: NewsFeedProps) {
     <div className="flex-1">
       <TopStoryCard article={topStory} />
       
-      <div className="border-t-4 border-black dark:border-white pt-8 mb-12">
-        <h2 className="text-3xl font-black font-serif mb-8 uppercase tracking-tighter dark:text-white">
+      <div className="border-t-4 border-primary pt-8 mb-12">
+        <h2 className="text-3xl font-black font-serif mb-8 uppercase tracking-tighter text-foreground">
           Latest Headlines
         </h2>
         

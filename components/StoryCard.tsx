@@ -34,8 +34,8 @@ export default function StoryCard({ article, priority = false }: StoryCardProps)
 
   return (
     <Link href={`/article/${article.id}`} className="group cursor-pointer flex flex-col h-full">
-      <article className="flex flex-col h-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-none transition-all duration-300 hover:shadow-md">
-        <div className="relative w-full aspect-video mb-6 overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <article className="flex flex-col h-full bg-card text-card-foreground border border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-2xl overflow-hidden">
+        <div className="relative w-full aspect-video overflow-hidden bg-muted">
           <Image
             src={imgSrc}
             alt={article.title}
@@ -91,16 +91,16 @@ export default function StoryCard({ article, priority = false }: StoryCardProps)
           </div>
         </div>
         
-        <div className="flex-1 flex flex-col p-4 pt-0">
-          <h2 className="text-2xl font-bold font-serif leading-tight mb-3 group-hover:text-accent transition-colors text-black dark:text-gray-100">
+        <div className="flex-1 flex flex-col p-6">
+          <h2 className="text-2xl font-bold font-serif leading-tight mb-3 group-hover:text-accent transition-colors text-card-foreground">
             {article.title}
           </h2>
           
-          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 font-serif">
+          <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3 font-serif">
             {article.summary}
           </p>
           
-          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-gray-400">
+          <div className="mt-auto pt-4 border-t border-border flex items-center justify-between text-xs font-bold uppercase tracking-wider text-muted-foreground">
             {article.author && <span>{article.author}</span>}
             <span>{formatDate(article.timestamp)}</span>
           </div>

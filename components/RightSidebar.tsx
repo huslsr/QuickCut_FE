@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { subscriptionService } from '@/app/api/services/subscriptionService';
 import FeaturedVideos from './FeaturedVideos';
+import PollWidget from './PollWidget';
+import TriviaWidget from './TriviaWidget';
+import OnThisDayWidget from './OnThisDayWidget';
 import { NewsArticle } from '@/types/news';
 
 interface RightSidebarProps {
@@ -53,23 +56,23 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
       
       {/* Trending Section */}
       <div>
-        <div className="flex items-center justify-between mb-6 border-b-2 border-black dark:border-white pb-2">
+        <div className="flex items-center justify-between mb-6 border-b-2 border-primary pb-2">
           <Link href="/trending" className="group">
-             <h3 className="text-lg font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-2 underline-offset-4 transition-all">Trending</h3>
+             <h3 className="text-lg font-black uppercase tracking-widest text-accent hover:text-blue-800 dark:hover:text-blue-300 underline decoration-2 underline-offset-4 transition-all">Trending</h3>
           </Link>
         </div>
         <ul className="space-y-6">
           {filteredTrending.map((article, index) => (
             <li key={article.id} className="group cursor-pointer">
               <Link href={`/article/${article.id}`} className="flex items-start space-x-4">
-                <span className="text-4xl font-black text-gray-200 dark:text-gray-600 group-hover:text-accent transition-colors leading-none">
+                <span className="text-4xl font-black text-muted group-hover:text-accent transition-colors leading-none">
                   {index + 1}
                 </span>
                 <div>
                   <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1 block">
                     {CATEGORY_MAP[article.category] || article.category}
                   </span>
-                  <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4 line-clamp-2 text-black dark:text-white">
+                  <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4 line-clamp-2 text-foreground">
                     {article.title}
                   </h4>
                 </div>
@@ -80,22 +83,21 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
       </div>
 
       {/* Ad Placeholder Removed for Polish */}
-      {/* 
-      <div className="w-full bg-gray-100 dark:bg-neutral-900 flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-gray-800 text-center">
-         <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Advertisement</span>
-         <div className="w-full h-64 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-            <span className="font-serif text-gray-500 italic">Ad Space</span>
-         </div>
-      </div>
-      */}
+      <PollWidget />
+
+      {/* Trivia Widget */}
+      <TriviaWidget />
+
+      {/* On This Day Widget */}
+      <OnThisDayWidget />
 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />
 
       {/* Newsletter Box */}
-      <div className="bg-black text-white p-8 text-center">
+      <div className="bg-primary text-primary-foreground p-8 text-center rounded-2xl shadow-lg">
         <h3 className="text-2xl font-black font-serif mb-4">The Daily Brief</h3>
-        <p className="text-gray-400 text-sm mb-6 font-serif">
+        <p className="text-primary-foreground/80 text-sm mb-6 font-serif">
           Essential news, expert analysis, and exclusive content delivered straight to your inbox.
         </p>
         
@@ -112,7 +114,7 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
                 <button 
                 type="submit"
                 disabled={loading}
-                className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-accent hover:text-white transition-colors disabled:opacity-50"
+                className="w-full bg-accent text-accent-foreground font-bold uppercase tracking-widest py-3 hover:bg-white hover:text-black transition-colors disabled:opacity-50"
                 >
                 {loading ? 'Subscribing...' : 'Subscribe Now'}
                 </button>
