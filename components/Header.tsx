@@ -8,6 +8,7 @@ import { useCategories } from '@/app/context/CategoryContext';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import dynamic from 'next/dynamic';
+import WeatherWidget from './WeatherWidget';
 
 const StockTicker = dynamic(() => import('./StockTicker'), { 
   ssr: false,
@@ -72,6 +73,10 @@ export default function Header() {
                 <span className="text-[10px] tracking-wider text-muted-foreground">
                   {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                 </span>
+            </div>
+            <div className="hidden lg:block border-l border-border h-8 mx-4"></div>
+            <div className="hidden lg:block">
+                <WeatherWidget />
             </div>
           </div>
 

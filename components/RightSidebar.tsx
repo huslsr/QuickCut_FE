@@ -55,27 +55,28 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
     <aside className="w-full lg:w-[350px] flex-shrink-0 space-y-12 border-l border-gray-100 dark:border-gray-800 lg:pl-12">
       
       {/* Trending Section */}
-      <div>
-        <div className="flex items-center justify-between mb-6 border-b-2 border-primary pb-2">
-          <Link href="/trending" className="group">
-             <h3 className="text-lg font-black uppercase tracking-widest text-accent hover:text-blue-800 dark:hover:text-blue-300 underline decoration-2 underline-offset-4 transition-all">Trending</h3>
+      {/* Trending Section */}
+      {/* Trending Section */}
+      <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-950/20 dark:to-neutral-900 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all">
+        <div className="flex items-center justify-between mb-8 border-b-2 border-indigo-200 dark:border-indigo-800 pb-2">
+          <Link href="/trending" className="group flex items-center space-x-2">
+             <span className="w-3 h-3 rounded-full bg-indigo-600 animate-pulse"></span>
+             <h3 className="text-sm font-black uppercase tracking-widest text-indigo-900 dark:text-indigo-100 group-hover:text-indigo-700 transition-all">TRENDING NOW</h3>
           </Link>
         </div>
-        <ul className="space-y-6">
+        <ul className="space-y-8">
           {filteredTrending.map((article, index) => (
-            <li key={article.id} className="group cursor-pointer">
-              <Link href={`/article/${article.id}`} className="flex items-start space-x-4">
-                <span className="text-4xl font-black text-muted group-hover:text-accent transition-colors leading-none">
-                  {index + 1}
+            <li key={article.id} className="group cursor-pointer flex gap-4 items-start">
+              <span className="text-4xl font-black text-indigo-500/80 leading-none select-none font-serif group-hover:scale-110 group-hover:text-indigo-600 transition-all duration-300 w-8 text-center shrink-0">
+                {index + 1}
+              </span>
+              <Link href={`/article/${article.id}`} className="block">
+                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-1 block">
+                  {CATEGORY_MAP[article.category] || article.category}
                 </span>
-                <div>
-                  <span className="text-xs font-bold text-accent uppercase tracking-wider mb-1 block">
-                    {CATEGORY_MAP[article.category] || article.category}
-                  </span>
-                  <h4 className="text-base font-bold font-serif leading-snug group-hover:underline decoration-2 underline-offset-4 line-clamp-2 text-foreground">
-                    {article.title}
-                  </h4>
-                </div>
+                <h4 className="text-base font-bold font-serif leading-snug group-hover:text-indigo-700 transition-colors text-foreground line-clamp-2">
+                  {article.title}
+                </h4>
               </Link>
             </li>
           ))}
@@ -95,9 +96,11 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
       <FeaturedVideos videos={featuredVideos} />
 
       {/* Newsletter Box */}
-      <div className="bg-primary text-primary-foreground p-8 text-center rounded-2xl shadow-lg">
-        <h3 className="text-2xl font-black font-serif mb-4">The Daily Brief</h3>
-        <p className="text-primary-foreground/80 text-sm mb-6 font-serif">
+      <div className="bg-gradient-to-br from-primary to-slate-800 text-primary-foreground p-8 text-center rounded-2xl shadow-xl ring-1 ring-white/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <h3 className="text-2xl font-black font-serif mb-4 relative z-10">The Daily Brief</h3>
+        <p className="text-primary-foreground/80 text-sm mb-6 font-serif relative z-10">
           Essential news, expert analysis, and exclusive content delivered straight to your inbox.
         </p>
         

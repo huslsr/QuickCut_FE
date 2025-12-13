@@ -78,6 +78,11 @@
     touch-action: pan-y;
   }
 
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
   body {
     top: 0px !important;
     /* Force body to top to override Google Translate shift */

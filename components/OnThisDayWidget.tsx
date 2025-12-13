@@ -61,32 +61,30 @@ export default function OnThisDayWidget() {
   if (!event) return null;
 
   return (
-    <div className="group relative bg-card text-card-foreground border border-border p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden">
-
-
+    <div className="group relative bg-gradient-to-br from-blue-50 to-white dark:from-slate-900 dark:to-slate-950 text-card-foreground border border-blue-100 dark:border-blue-900/30 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
       <div className="relative z-10">
-        <div className="flex items-center space-x-2 mb-4">
-             <span className="flex h-2 w-2 rounded-full bg-accent"></span>
-             <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">On This Day</h3>
+        <div className="flex items-center space-x-3 mb-6">
+             <span className="flex h-3 w-3 rounded-full bg-blue-600"></span>
+             <h3 className="text-sm font-black font-serif uppercase tracking-widest text-blue-900 dark:text-blue-100">On This Day</h3>
         </div>
         
-        <div className="mb-2">
-            <span className="text-3xl font-black font-serif text-accent">{event.year}</span>
+        <div className="mb-4">
+            <span className="text-4xl font-black font-serif text-blue-600 tracking-tight">{event.year}</span>
         </div>
 
-        <p className="text-sm font-medium leading-relaxed font-serif text-foreground/90">
+        <p className="text-lg font-medium leading-relaxed font-serif text-slate-700 dark:text-slate-300 mb-6 border-l-4 border-blue-600 pl-4">
             {event.text}
         </p>
 
         {event.pages && event.pages[0] && event.pages[0].thumbnail && (
-            <div className="mt-4 pt-4 border-t border-border">
-                <div className="flex items-center space-x-3">
+            <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-900/30">
+                <div className="flex items-center space-x-4">
                     <img 
                         src={event.pages[0].thumbnail.source} 
                         alt="Historical event" 
-                        className="w-10 h-10 rounded-full object-cover border-2 border-background shadow-sm"
+                        className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <span className="text-xs text-muted-foreground italic">
+                    <span className="text-sm font-bold font-serif text-slate-500 dark:text-slate-400 italic">
                         Historical Archive
                     </span>
                 </div>

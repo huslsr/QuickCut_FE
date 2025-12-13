@@ -38,13 +38,13 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             </span>
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-muted-foreground transition-colors text-foreground">
+          <h1 className="text-4xl md:text-6xl font-black font-serif leading-tight mb-8 group-hover:text-accent transition-all duration-300 text-foreground bg-clip-text bg-gradient-to-r from-primary to-slate-600 dark:from-white dark:to-gray-400">
             {article.title}
           </h1>
         </div>
 
         {/* Image */}
-        <div className="relative h-[600px] w-full overflow-hidden rounded-3xl shadow-2xl">
+        <div className="relative h-[600px] w-full overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-black/5 dark:ring-white/10 group-hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500">
           <Image
             src={imgSrc}
             alt={article.title}
