@@ -7,6 +7,8 @@ import FeaturedVideos from './FeaturedVideos';
 import PollWidget from './PollWidget';
 import TriviaWidget from './TriviaWidget';
 import OnThisDayWidget from './OnThisDayWidget';
+import WordOfTheDayWidget from './WordOfTheDayWidget';
+import QuoteWidget from './QuoteWidget';
 import { NewsArticle } from '@/types/news';
 
 interface RightSidebarProps {
@@ -91,6 +93,12 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
 
       {/* On This Day Widget */}
       <OnThisDayWidget />
+
+      {/* Word Of The Day Widget */}
+      <WordOfTheDayWidget />
+
+      {/* Quote Widget */}
+      <QuoteWidget />
 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />
