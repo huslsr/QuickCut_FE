@@ -92,48 +92,51 @@ export default function PollWidget() {
   if (loading || !poll) return null;
 
   return (
-    <div className="bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl shadow-sm">
-      <div className="flex items-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-          <h3 className="text-xs font-black uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+    <div className="bg-gradient-to-br from-red-50 to-white dark:from-red-950/20 dark:to-neutral-900 border border-red-100 dark:border-red-900/30 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all">
+      <div className="flex items-center space-x-3 mb-6">
+          <div className="relative flex items-center justify-center">
+             <span className="w-2.5 h-2.5 rounded-full bg-red-500 relative z-10"></span>
+             <span className="w-2.5 h-2.5 rounded-full bg-red-500 absolute animate-ping opacity-75"></span>
+          </div>
+          <h3 className="text-sm font-black font-serif uppercase tracking-widest text-red-900 dark:text-red-100">
             Daily Poll
           </h3>
       </div>
       
-      <h4 className="text-lg font-bold font-serif mb-6 text-black dark:text-white leading-tight">
+      <h4 className="text-xl font-black font-serif mb-8 text-foreground leading-tight">
         {poll.question}
       </h4>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {poll.options.map((option) => {
           const isSelected = votedOption === option.id;
           const percentage = Math.round((option.votes / poll.totalVotes) * 100);
 
           return (
-            <div key={option.id} className="relative">
+            <div key={option.id} className="relative group">
               {!votedOption ? (
                 <button
                   onClick={() => handleVote(option.id)}
-                  className="w-full text-left px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-black dark:hover:border-white hover:bg-white dark:hover:bg-black transition-all group"
+                  className="w-full text-left px-6 py-4 rounded-xl bg-white/60 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 border-2 border-transparent hover:border-red-200 dark:hover:border-red-900/50 transition-all duration-300"
                 >
-                  <span className="font-medium text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-white">
+                  <span className="font-bold text-base text-foreground group-hover:translate-x-1 transition-transform inline-block">
                     {option.text}
                   </span>
                 </button>
               ) : (
-                <div className={`relative w-full overflow-hidden rounded-lg h-10 bg-neutral-100 dark:bg-neutral-800 border ${isSelected ? 'border-black dark:border-white' : 'border-transparent'}`}>
+                <div className={`relative w-full overflow-hidden rounded-xl h-14 bg-white/40 dark:bg-black/20 border-2 ${isSelected ? 'border-red-500' : 'border-transparent'}`}>
                   {/* Progress Bar Background */}
                   <div 
-                    className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out ${isSelected ? 'bg-neutral-200 dark:bg-white/20' : 'bg-neutral-200/50 dark:bg-white/10'}`}
+                    className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out ${isSelected ? 'bg-red-500/10' : 'bg-slate-200/50 dark:bg-white/5'}`}
                     style={{ width: `${percentage}%` }}
                   />
                   
                   {/* Text Content */}
-                  <div className="absolute inset-0 flex items-center justify-between px-4">
-                    <span className={`text-sm font-bold ${isSelected ? 'text-black dark:text-white' : 'text-neutral-600 dark:text-neutral-400'}`}>
-                      {option.text} {isSelected && <span className="ml-1 text-xs">✓</span>}
+                  <div className="absolute inset-0 flex items-center justify-between px-6">
+                    <span className={`text-base font-bold flex items-center ${isSelected ? 'text-red-600' : 'text-foreground'}`}>
+                      {option.text} {isSelected && <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                     </span>
-                    <span className="text-sm font-black font-mono">
+                    <span className="text-lg font-black font-sans text-foreground">
                       {percentage}%
                     </span>
                   </div>
@@ -144,9 +147,13 @@ export default function PollWidget() {
         })}
       </div>
 
-      <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
-         <p className="text-xs text-neutral-400 font-serif italic">
-            {votedOption ? `You and ${poll.totalVotes - 1} others voted today.` : 'Join the discussion. Your voice matters.'}
+      <div className="mt-8 pt-6 border-t border-border text-center">
+         <p className="text-sm text-muted-foreground font-serif italic">
+            {votedOption ? (
+                <span>You and <span className="font-bold text-foreground">{poll.totalVotes - 1} others</span> voted today.</span>
+            ) : (
+                'Join the discussion. Your voice matters.'
+            )}
          </p>
       </div>
     </div>

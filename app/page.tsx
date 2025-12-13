@@ -183,10 +183,10 @@ export default function Home() {
                                         <button
                                             onClick={() => setPage(p => Math.max(0, p - 1))}
                                             disabled={page === 0}
-                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors text-sm sm:text-base ${
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-all duration-300 rounded-lg text-sm sm:text-base ${
                                                 page === 0 
                                                 ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
-                                                : 'text-primary hover:bg-primary hover:text-primary-foreground'
+                                                : 'text-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-1 hover:shadow-lg shadow-sm'
                                             }`}
                                         >
                                             Previous
@@ -202,10 +202,10 @@ export default function Home() {
                                          <button
                                             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                             disabled={page >= totalPages - 1}
-                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors text-sm sm:text-base sm:hidden ${
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-all duration-300 rounded-lg text-sm sm:text-base sm:hidden ${
                                                 page >= totalPages - 1 
                                                 ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
-                                                : 'text-primary hover:bg-primary hover:text-primary-foreground'
+                                                : 'text-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-1 hover:shadow-lg shadow-sm'
                                             }`}
                                         >
                                             Next
@@ -235,10 +235,10 @@ export default function Home() {
                                     <button
                                         onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                         disabled={page >= totalPages - 1}
-                                        className={`hidden sm:block px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors ${
+                                        className={`hidden sm:block px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-all duration-300 rounded-lg ${
                                             page >= totalPages - 1 
                                             ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
-                                            : 'text-primary hover:bg-primary hover:text-primary-foreground'
+                                            : 'text-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-1 hover:shadow-lg shadow-sm'
                                         }`}
                                     >
                                         Next
