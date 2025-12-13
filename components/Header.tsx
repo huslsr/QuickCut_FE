@@ -9,7 +9,10 @@ import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import dynamic from 'next/dynamic';
 
-const StockTicker = dynamic(() => import('./StockTicker'), { ssr: false });
+const StockTicker = dynamic(() => import('./StockTicker'), { 
+  ssr: false,
+  loading: () => <div className="h-10 w-full bg-black border-b border-gray-800" />
+});
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
