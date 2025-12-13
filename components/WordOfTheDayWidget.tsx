@@ -34,34 +34,34 @@ export default function WordOfTheDayWidget() {
   if (!data) return null;
 
   return (
-    <div className="bg-card text-card-foreground border border-border p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
+    <div className="bg-gradient-to-br from-amber-50 to-white dark:from-neutral-900 dark:to-neutral-950 border border-amber-100 dark:border-neutral-800 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
         {/* Decorative background letter */}
-        <div className="absolute -right-4 -bottom-8 text-[10rem] font-serif font-black text-muted/5 select-none pointer-events-none group-hover:text-accent/5 transition-colors duration-500">
+        <div className="absolute -right-4 -bottom-8 text-[12rem] font-serif font-black text-amber-900/5 dark:text-white/5 select-none pointer-events-none group-hover:text-amber-900/10 dark:group-hover:text-white/10 transition-colors duration-500">
             {data.word.charAt(0)}
         </div>
 
-        <div className="flex items-center space-x-2 mb-4 relative z-10">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Word of the Day</h3>
+        <div className="flex items-center space-x-3 mb-6 relative z-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <h3 className="text-sm font-black uppercase tracking-widest text-amber-900 dark:text-amber-100">Word of the Day</h3>
         </div>
 
         <div className="relative z-10">
             <div className="flex items-baseline flex-wrap gap-x-3 mb-2">
-                <h4 className="text-3xl font-black font-serif text-foreground">{data.word}</h4>
-                <span className="text-sm font-mono text-muted-foreground">{data.phonetics}</span>
+                <h4 className="text-4xl font-black font-serif text-foreground leading-none">{data.word}</h4>
+                <span className="text-sm font-mono text-amber-600/80 dark:text-amber-400">{data.phonetics}</span>
             </div>
             
-            <div className="mb-4">
-                <span className="inline-block px-2 py-0.5 rounded-md bg-muted text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            <div className="mb-6">
+                <span className="inline-block px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-900/30 text-[10px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-200">
                     {data.type}
                 </span>
             </div>
 
-            <p className="text-sm font-serif leading-relaxed text-foreground/90 mb-4 border-l-2 border-accent pl-4">
+            <p className="text-lg font-serif leading-relaxed text-foreground/90 mb-6 border-l-4 border-amber-400 pl-5">
                 {data.definition}
             </p>
 
-            <div className="bg-muted/30 p-4 rounded-xl italic text-sm text-muted-foreground font-serif">
+            <div className="bg-white/60 dark:bg-white/5 p-5 rounded-2xl italic text-base text-muted-foreground font-serif border border-amber-100/50 dark:border-white/5">
                 "{data.example}"
             </div>
         </div>

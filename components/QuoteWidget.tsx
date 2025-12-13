@@ -34,24 +34,24 @@ export default function QuoteWidget() {
   if (!quote) return null;
 
   return (
-    <div className="bg-gradient-to-br from-sky-50 to-white dark:from-sky-950/20 dark:to-neutral-900 border border-sky-100 dark:border-sky-900/30 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
+    <div className="bg-gradient-to-br from-teal-50 to-white dark:from-neutral-900 dark:to-neutral-950 border border-teal-100 dark:border-neutral-800 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
       {/* Background Icon */}
-      <div className="absolute top-4 right-6 text-6xl font-serif text-sky-900/5 dark:text-white/5 font-black pointer-events-none select-none">
+      <div className="absolute top-4 right-6 text-8xl font-serif text-teal-900/5 dark:text-white/5 font-black pointer-events-none select-none group-hover:scale-110 transition-transform duration-700">
         ”
       </div>
 
-      <div className="flex items-center space-x-2 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
-          <h3 className="text-xs font-bold uppercase tracking-widest text-sky-900 dark:text-sky-100">Daily Inspiration</h3>
+      <div className="flex items-center space-x-3 mb-8 relative z-10">
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+          <h3 className="text-sm font-black uppercase tracking-widest text-teal-900 dark:text-teal-100">Daily Inspiration</h3>
       </div>
 
       <blockquote className="relative z-10">
-        <p className="text-xl md:text-2xl font-serif leading-relaxed text-foreground mb-6">
+        <p className="text-2xl md:text-3xl font-black font-serif leading-tight text-foreground mb-8">
           “{quote.text}”
         </p>
         <footer className="flex items-center space-x-3">
-             <div className="h-px w-8 bg-sky-500/50"></div>
-             <cite className="text-sm font-bold tracking-wide uppercase not-italic text-sky-600 dark:text-sky-400">
+             <div className="h-0.5 w-12 bg-teal-500/50 rounded-full"></div>
+             <cite className="text-sm font-bold tracking-wide uppercase not-italic text-teal-700 dark:text-teal-400">
                 {quote.author}
              </cite>
         </footer>

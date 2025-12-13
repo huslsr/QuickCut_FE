@@ -77,34 +77,39 @@ export default function TriviaWidget() {
   if (!question) return null;
 
   return (
-    <div className="bg-gradient-to-br from-indigo-900 to-blue-900 text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
-      {/* Decorative Circles */}
-      <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-10 -mt-10 blur-xl"></div>
-      <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/5 rounded-full -ml-8 -mb-8 blur-lg"></div>
+    <div className="bg-gradient-to-br from-fuchsia-50 to-white dark:from-neutral-900 dark:to-neutral-950 border border-fuchsia-100 dark:border-neutral-800 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative overflow-hidden group text-foreground">
+      {/* Decorative Circles - Light/Dark adaptive */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 dark:bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-500/5 dark:bg-white/5 rounded-full -ml-8 -mb-8 blur-xl pointer-events-none"></div>
 
       <div className="relative z-10">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-blue-200 mb-4 flex items-center">
-            <span className="mr-2">🧠</span> Daily Trivia
-        </h3>
+        <div className="flex items-center space-x-3 mb-6">
+            <span className="text-xl">🧠</span>
+            <h3 className="text-sm font-black uppercase tracking-widest text-fuchsia-900 dark:text-fuchsia-100">Daily Trivia</h3>
+        </div>
         
-        <h4 className="text-lg font-bold font-serif leading-tight mb-6">
+        <h4 className="text-xl font-black font-serif leading-tight mb-8 text-foreground">
             {question.question}
         </h4>
 
         <div className="space-y-3">
             {question.options.map((option, idx) => {
-                let btnClass = "w-full text-left px-4 py-3 rounded-lg border text-sm font-medium transition-all ";
+                let btnClass = "w-full text-left px-5 py-3.5 rounded-xl border text-base font-bold transition-all relative overflow-hidden ";
                 
                 if (hasPlayed) {
                      if (idx === question.correctIndex) {
-                         btnClass += "bg-green-500 border-green-500 text-white shadow-md transform scale-102"; // Correct
+                         // Correct styling
+                         btnClass += "bg-green-500 border-green-500 text-white shadow-md scale-[1.02] ring-2 ring-green-200 dark:ring-green-900"; 
                      } else if (idx === selectedOption) {
-                         btnClass += "bg-red-500/80 border-red-500/80 text-white opacity-90"; // Wrong selected
+                         // Wrong styling
+                         btnClass += "bg-red-100 border-red-200 text-red-700 opacity-60 dark:bg-red-900/30 dark:border-red-800 dark:text-red-300"; 
                      } else {
-                         btnClass += "bg-white/10 border-white/10 text-gray-300 opacity-50"; // Others
+                         // Others styling
+                         btnClass += "bg-white/40 border-black/5 text-muted-foreground opacity-50 dark:bg-white/5 dark:border-white/5"; 
                      }
                 } else {
-                     btnClass += "bg-white/10 border-white/20 hover:bg-white/20 hover:border-white text-white hover:shadow-lg";
+                     // Default state
+                     btnClass += "bg-white/60 hover:bg-white border-fuchsia-200/50 hover:border-fuchsia-300 text-foreground hover:shadow-sm dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 dark:text-gray-200";
                 }
 
                 return (
@@ -114,18 +119,20 @@ export default function TriviaWidget() {
                         disabled={hasPlayed}
                         className={btnClass}
                     >
-                        {option}
-                        {hasPlayed && idx === question.correctIndex && <span className="float-right">✅</span>}
-                        {hasPlayed && idx === selectedOption && idx !== question.correctIndex && <span className="float-right">❌</span>}
+                        <span className="relative z-10 flex justify-between items-center w-full">
+                            {option}
+                            {hasPlayed && idx === question.correctIndex && <span>✅</span>}
+                            {hasPlayed && idx === selectedOption && idx !== question.correctIndex && <span>❌</span>}
+                        </span>
                     </button>
                 );
             })}
         </div>
 
         {hasPlayed && (
-            <div className="mt-6 pt-4 border-t border-white/10 animate-fade-in-up">
-                <p className="text-sm font-serif italic text-blue-100">
-                    {isCorrect ? "🎉 Correct! " : "😅 Oops! "} 
+            <div className="mt-8 pt-6 border-t border-fuchsia-100 dark:border-white/10 animate-fade-in-up">
+                <p className="text-base font-serif italic text-fuchsia-800 dark:text-fuchsia-200 leading-relaxed">
+                    <span className="font-bold border-b border-fuchsia-300 pb-0.5 mr-2 not-italic">Did you know?</span>
                     {question.fact}
                 </p>
             </div>
