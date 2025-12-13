@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { formatDate } from '@/app/utils/dateFormatter';
 import Image from 'next/image';
 import Header from '@/components/Header';
@@ -24,6 +25,16 @@ interface ArticleClientProps {
 export default function ArticleClient({ article, categoryName }: ArticleClientProps) {
   // Removed internal loading state as data is passed from Server Component
   const { categoryMap } = useCategories();
+  
+  // Local state for image source to handle fallbacks
+  const [imgSrc, setImgSrc] = useState(article?.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070');
+  
+  // Update state when article changes
+  useEffect(() => {
+     if(article?.imageUrl) {
+         setImgSrc(article.imageUrl);
+     }
+  }, [article]);
 
   if (!article) {
     return null;
@@ -65,11 +76,12 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
           {/* Featured Image */}
           <div className="relative w-full h-[50vh] min-h-[400px] mb-12 overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
             <Image
-              src={article.imageUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070'}
+              src={imgSrc}
               alt={article.title}
               fill
               className="object-contain"
               priority
+              onError={() => setImgSrc('https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070')}
             />
           </div>
 
