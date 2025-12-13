@@ -10,6 +10,7 @@ import BookmarkButton from '@/components/BookmarkButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedArticles from '@/components/RelatedArticles';
 import ShareButtons from '@/components/ShareButtons';
+import AudioPlayer from '@/components/AudioPlayer';
 
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -40,7 +41,6 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
-
       <Header />
       
       <main className="flex-1 w-full">
@@ -62,6 +62,8 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
               </span>
             </div>
             <div className="flex items-center space-x-2">
+                <AudioPlayer text={`${article.title}. ${article.summary}. ${article.content}`} />
+                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
                 <ShareButtons title={article.title} url={`https://quickcut.info/article/${article.id}`} />
                 <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
                 <BookmarkButton articleId={article.id} />

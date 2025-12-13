@@ -38,13 +38,13 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             </span>
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors text-black dark:text-white">
+          <h1 className="text-3xl md:text-5xl font-black font-serif leading-tight mb-6 group-hover:text-muted-foreground transition-colors text-foreground">
             {article.title}
           </h1>
         </div>
 
         {/* Image */}
-        <div className="relative h-[600px] w-full overflow-hidden">
+        <div className="relative h-[600px] w-full overflow-hidden rounded-3xl shadow-2xl">
           <Image
             src={imgSrc}
             alt={article.title}
@@ -67,16 +67,16 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
 
         {/* Metadata/Summary (Below Image) */}
         <div className="w-full text-center max-w-3xl mx-auto">
-           <p className="text-xl text-gray-600 dark:text-gray-300 mb-6 font-serif leading-relaxed">
+           <p className="text-xl text-muted-foreground mb-6 font-serif leading-relaxed">
             {categoryName}
           </p>
           
           <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
-            <span className="text-black dark:text-white border-b-2 border-black dark:border-white pb-1">Read Full Story</span>
+            <span className="text-foreground border-b-2 border-primary pb-1 group-hover:border-accent group-hover:text-accent transition-colors">Read Full Story</span>
             {article.author && (
                 <>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-gray-500">{article.author}</span>
+                    <span className="text-muted-foreground">•</span>
+                    <span className="text-muted-foreground">{article.author}</span>
                 </>
             )}
           </div>

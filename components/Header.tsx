@@ -7,6 +7,12 @@ import { useAuth } from '@/app/context/AuthProvider';
 import { useCategories } from '@/app/context/CategoryContext';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
+import dynamic from 'next/dynamic';
+
+const StockTicker = dynamic(() => import('./StockTicker'), { 
+  ssr: false,
+  loading: () => <div className="h-10 w-full bg-black border-b border-gray-800" />
+});
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,15 +48,17 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-background border-b-4 border-black dark:border-white transition-colors">
+    <>
+    <StockTicker />
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Left: Date & Menu */}
-          <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-500">
+          <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-muted-foreground">
             <button 
               onClick={toggleMenu}
-              className="text-black dark:text-white hover:text-accent active:scale-95 transition-all focus:outline-none"
+              className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,10 +66,10 @@ export default function Header() {
               </svg>
             </button>
             <div className="flex flex-col">
-                 <span className="uppercase tracking-widest text-xs font-bold text-black dark:text-white">
+                 <span className="uppercase tracking-widest text-xs font-bold text-foreground">
                   {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
                 </span>
-                <span className="text-[10px] tracking-wider text-gray-400">
+                <span className="text-[10px] tracking-wider text-muted-foreground">
                   {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                 </span>
             </div>
@@ -71,7 +79,7 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             <button 
               onClick={toggleMenu}
-              className="text-black dark:text-white hover:text-accent active:scale-95 transition-all focus:outline-none"
+              className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none"
             >
                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -82,10 +90,10 @@ export default function Header() {
           {/* Center: Logo */}
           <div className="flex-1 flex justify-center">
             <Link href="/" className="text-center cursor-pointer group block">
-              <h1 className="text-4xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-black dark:text-white">
+              <h1 className="text-4xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
                 QUICKCUT
               </h1>
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground group-hover:text-foreground transition-colors">
                 Global News Source
               </span>
             </Link>
@@ -101,15 +109,15 @@ export default function Header() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search..."
-                        className="border-b-2 border-black dark:border-white bg-transparent focus:outline-none px-2 py-1 text-sm font-serif w-32 sm:w-48 transition-all dark:text-white dark:placeholder-gray-400"
+                        className="border-b-2 border-primary bg-transparent focus:outline-none px-2 py-1 text-sm font-serif w-32 sm:w-48 transition-all text-foreground placeholder-muted-foreground"
                         autoFocus
                     />
-                    <button type="submit" className="ml-2 text-black dark:text-white hover:text-accent">
+                    <button type="submit" className="ml-2 text-foreground hover:text-accent">
                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
-                     <button type="button" onClick={toggleSearch} className="ml-2 text-gray-400 hover:text-black dark:hover:text-white">
+                     <button type="button" onClick={toggleSearch} className="ml-2 text-muted-foreground hover:text-foreground">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -118,7 +126,7 @@ export default function Header() {
             ) : (
                 <button 
                     onClick={toggleSearch}
-                    className="text-black dark:text-white hover:text-accent active:scale-95 transition-all"
+                    className="text-foreground hover:text-accent active:scale-95 transition-all"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -128,7 +136,7 @@ export default function Header() {
             
             {user ? (
                 <div className="hidden sm:flex items-center space-x-4">
-                    <span className="text-sm font-bold font-serif text-gray-700 dark:text-gray-300">Hi, {user.username}</span>
+                    <span className="text-sm font-bold font-serif text-muted-foreground">Hi, {user.username}</span>
                     <button 
                         onClick={logout}
                         className="text-sm font-bold uppercase tracking-wider text-red-600 hover:text-red-800 transition-colors"
@@ -137,7 +145,7 @@ export default function Header() {
                     </button>
                 </div>
             ) : (
-                 <Link href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`} className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-black dark:text-white">
+                 <Link href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`} className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-foreground">
                     Login
                  </Link>
             )}
@@ -152,7 +160,7 @@ export default function Header() {
                     footer.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-black dark:border-white px-5 py-2 text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black active:scale-95 transition-all"
+              className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-primary px-5 py-2 text-primary hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all"
             >
               Subscribe
             </button>
@@ -171,17 +179,17 @@ export default function Header() {
 
       {/* Sidebar Drawer */}
       <div 
-        className={`fixed top-0 left-0 h-full w-[300px] bg-white dark:bg-neutral-900 z-50 transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-black dark:border-neutral-800 ${
+        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-50 transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="p-6 h-full flex flex-col overflow-y-auto">
           {/* Close Button */}
           <div className="flex justify-between items-center mb-12">
-             <h2 className="text-2xl font-black font-serif tracking-tight text-black dark:text-white">MENU</h2>
+             <h2 className="text-2xl font-black font-serif tracking-tight text-foreground">MENU</h2>
              <button 
               onClick={toggleMenu}
-              className="text-black dark:text-white hover:text-accent transition-colors"
+              className="text-foreground hover:text-accent transition-colors"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -193,28 +201,28 @@ export default function Header() {
           <nav className="flex-1 space-y-6">
             <Link 
               href="/" 
-              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-foreground"
               onClick={toggleMenu}
             >
               All Stories
             </Link>
             <Link 
               href="/latest" 
-              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-foreground"
               onClick={toggleMenu}
             >
               Latest News
             </Link>
             
             {/* Categories */}
-            <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Categories</h3>
+            <div className="pt-4 border-t border-border">
+               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Categories</h3>
                <div className="space-y-3">
                    {categories.map(cat => (
                         <Link 
                             key={cat.id}
                             href={`/category/${cat.id}`}
-                            className="block text-lg font-medium hover:text-accent transition-colors text-gray-600 dark:text-gray-300"
+                            className="block text-lg font-medium hover:text-accent transition-colors text-muted-foreground hover:text-foreground"
                             onClick={toggleMenu}
                         >
                             {cat.name}
@@ -225,12 +233,12 @@ export default function Header() {
 
             {user ? (
                <>
-                 <div className="block text-lg font-bold font-serif text-gray-500 mb-2">
+                 <div className="block text-lg font-bold font-serif text-muted-foreground mb-2">
                     {/* Hi, {user.username} */}
                  </div>
                  <Link 
                    href="/bookmarks"
-                   className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white mb-4"
+                   className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground mb-4"
                    onClick={toggleMenu}
                  >
                    My Bookmarks
@@ -248,7 +256,7 @@ export default function Header() {
             ) : (
                 <Link 
                   href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`}
-                  className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-black dark:text-white"
+                  className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground"
                   onClick={toggleMenu}
                 >
                   Login
@@ -266,8 +274,8 @@ export default function Header() {
               Subscribe
             </button>
              {/* Language Selector */}
-             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                <span className="block text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">
+             <div className="pt-4 border-t border-border">
+                <span className="block text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">
                   Language
                 </span>
                 <LanguageSwitcher />
@@ -275,12 +283,13 @@ export default function Header() {
            </nav>
 
            {/* Sidebar Footer */}
-           <div className="mt-auto pt-8 border-t border-gray-100 dark:border-gray-700 text-sm text-gray-400">
+           <div className="mt-auto pt-8 border-t border-border text-sm text-muted-foreground">
               <p>&copy; {new Date().getFullYear()} QuickCut.</p>
               <p className="mt-2">All rights reserved.</p>
            </div>
          </div>
        </div>
      </header>
-   );
+    </>
+  );
  }

@@ -3,8 +3,16 @@
 import Header from '@/components/Header';
 import SubNav from '@/components/SubNav';
 import NewsFeed from '@/components/NewsFeed';
-import RightSidebar from '@/components/RightSidebar';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const RightSidebar = dynamic(() => import('@/components/RightSidebar'), {
+  loading: () => (
+    <aside className="hidden lg:block w-[350px] flex-shrink-0 border-l border-gray-100 dark:border-gray-800 lg:pl-12 space-y-12">
+      <div className="h-[600px] w-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-xl" />
+    </aside>
+  )
+});
 
 import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';
@@ -138,7 +146,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
+    <div className="min-h-screen flex flex-col bg-background transition-colors">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -175,10 +183,10 @@ export default function Home() {
                                         <button
                                             onClick={() => setPage(p => Math.max(0, p - 1))}
                                             disabled={page === 0}
-                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors text-sm sm:text-base ${
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors text-sm sm:text-base ${
                                                 page === 0 
-                                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                                ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
+                                                : 'text-primary hover:bg-primary hover:text-primary-foreground'
                                             }`}
                                         >
                                             Previous
@@ -194,10 +202,10 @@ export default function Home() {
                                          <button
                                             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                             disabled={page >= totalPages - 1}
-                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors text-sm sm:text-base sm:hidden ${
+                                            className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors text-sm sm:text-base sm:hidden ${
                                                 page >= totalPages - 1 
-                                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                                ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
+                                                : 'text-primary hover:bg-primary hover:text-primary-foreground'
                                             }`}
                                         >
                                             Next
@@ -227,10 +235,10 @@ export default function Home() {
                                     <button
                                         onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                         disabled={page >= totalPages - 1}
-                                        className={`hidden sm:block px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
+                                        className={`hidden sm:block px-6 py-3 border-2 border-primary font-bold uppercase tracking-widest transition-colors ${
                                             page >= totalPages - 1 
-                                            ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-600 dark:border-gray-700' 
-                                            : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                                            ? 'cursor-not-allowed bg-muted text-muted-foreground border-border' 
+                                            : 'text-primary hover:bg-primary hover:text-primary-foreground'
                                         }`}
                                     >
                                         Next

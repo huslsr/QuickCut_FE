@@ -5,6 +5,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import BackToTop from '@/components/BackToTop';
+import ScrollToTop from '@/components/ScrollToTop';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -92,11 +93,12 @@ export default function RootLayout({
         <div id="google_translate_element" className="fixed bottom-0 right-0 opacity-0 pointer-events-none" />
         <ThemeProvider>
           <AuthProvider>
-            <CategoryProvider>
-              {children}
-            </CategoryProvider>
-            <BackToTop />
-          </AuthProvider>
+          <CategoryProvider>
+            {children}
+            <ScrollToTop />
+            <Analytics />
+          </CategoryProvider>
+        </AuthProvider>
         </ThemeProvider>
         <SpeedInsights />
         <Script
