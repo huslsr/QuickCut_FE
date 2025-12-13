@@ -78,23 +78,23 @@ export default function WeatherWidget() {
   return (
     <div 
         onClick={handleLocate}
-        className="flex items-center space-x-3 text-xs font-bold font-mono tracking-wider text-muted-foreground hover:text-foreground cursor-pointer transition-colors group bg-muted/30 px-3 py-1.5 rounded-full border border-transparent hover:border-border/50 hover:bg-muted/50 hover:shadow-sm"
+        className="flex items-center space-x-4 text-xs font-bold font-mono tracking-wider text-foreground cursor-pointer transition-all group bg-background px-4 py-2 rounded-lg border border-border/60 shadow-sm hover:shadow-md hover:border-accent/30"
         title={isLocal ? "Updating location..." : "Click to show your local weather"}
     >
         {/* City Label */}
-        <span className="text-[10px] uppercase text-accent font-black text-center whitespace-nowrap min-w-[60px]">{isLocal ? 'Local' : MAJOR_CITIES[currentIndex].name}</span>
+        <span className="text-[10px] uppercase text-accent font-black text-center whitespace-nowrap min-w-[60px] tracking-widest">{isLocal ? 'Local' : MAJOR_CITIES[currentIndex].name}</span>
 
         {/* Separator */}
-        <div className="h-3 w-px bg-border group-hover:bg-foreground/20 transition-colors"></div>
+        <div className="h-4 w-px bg-border group-hover:bg-accent/20 transition-colors"></div>
 
         {/* Weather Data */}
-        <div className="flex items-center space-x-1.5 min-w-[60px] justify-end">
+        <div className="flex items-center space-x-2 min-w-[60px] justify-end">
             {loading ? (
                 <div className="h-4 w-4 rounded-full border-2 border-accent/50 border-t-transparent animate-spin"></div>
             ) : (
                 <>
-                    <span className="text-sm scale-110">{weather ? getWeatherIcon(weather.code) : '•'}</span>
-                    <span className="font-serif text-sm">{weather?.temp}°</span>
+                    <span className="text-base scale-110">{weather ? getWeatherIcon(weather.code) : '•'}</span>
+                    <span className="font-serif text-sm font-bold">{weather?.temp}°</span>
                 </>
             )}
         </div>
