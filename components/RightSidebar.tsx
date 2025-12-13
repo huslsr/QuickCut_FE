@@ -9,6 +9,7 @@ import TriviaWidget from './TriviaWidget';
 import OnThisDayWidget from './OnThisDayWidget';
 import WordOfTheDayWidget from './WordOfTheDayWidget';
 import QuoteWidget from './QuoteWidget';
+import LifeHackWidget from './LifeHackWidget';
 import { NewsArticle } from '@/types/news';
 import { useCategories } from '@/app/context/CategoryContext';
 
@@ -88,6 +89,9 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
 
       {/* Quote Widget */}
       <QuoteWidget />
+
+      {/* Life Hack Widget */}
+      <LifeHackWidget />
 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />
