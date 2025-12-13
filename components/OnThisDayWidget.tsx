@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 type HistoryEvent = {
   text: string;
@@ -79,10 +80,12 @@ export default function OnThisDayWidget() {
         {event.pages && event.pages[0] && event.pages[0].thumbnail && (
             <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-900/30">
                 <div className="flex items-center space-x-4">
-                    <img 
+                    <Image 
                         src={event.pages[0].thumbnail.source} 
                         alt="Historical event" 
-                        className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500"
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500"
                     />
                     <span className="text-sm font-bold font-serif text-slate-500 dark:text-slate-400 italic">
                         Historical Archive
