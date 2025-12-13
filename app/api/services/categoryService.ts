@@ -4,6 +4,7 @@ export interface Category {
     id: string;
     name: string;
     description?: string;
+    orderIndex?: number;
 }
 
 export const categoryService = {
