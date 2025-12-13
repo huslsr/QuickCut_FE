@@ -86,7 +86,7 @@ export default function Header() {
                 QUICKCUT
               </h1>
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
-                Global Perspective
+                Global News Source
               </span>
             </Link>
           </div>
