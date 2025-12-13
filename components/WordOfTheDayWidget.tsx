@@ -62,7 +62,7 @@ export default function WordOfTheDayWidget() {
             </p>
 
             <div className="bg-white/60 dark:bg-white/5 p-5 rounded-2xl italic text-base text-muted-foreground font-serif border border-amber-100/50 dark:border-white/5">
-                "{data.example}"
+                &quot;{data.example}&quot;
             </div>
         </div>
     </div>
