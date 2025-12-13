@@ -73,6 +73,12 @@ export const metadata: Metadata = {
     shortcut: 'https://i.ibb.co/3W1DqK3/image.png',
     apple: 'https://i.ibb.co/3W1DqK3/image.png',
   },
+  alternates: {
+    canonical: 'https://quickcut.info',
+  },
+  verification: {
+    google: 'google-site-verification=YOUR_VERIFICATION_CODE', // User should update this in Search Console
+  },
 };
 
 export default function RootLayout({
