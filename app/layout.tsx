@@ -101,7 +101,7 @@ export default function RootLayout({
         <SpeedInsights />
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script id="google-translate-init" strategy="afterInteractive">
           {`

@@ -51,6 +51,7 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             fill
             className="object-cover transition-all duration-700 ease-out"
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
             onError={() => setImgSrc(getFallbackImage(categoryName))}
           />
           {article.videoUrl && (
