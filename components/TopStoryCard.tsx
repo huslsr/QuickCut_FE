@@ -1,28 +1,19 @@
+'use client';
+
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { getFallbackImage } from '@/app/config/fallbacks';
+import { useCategories } from '@/app/context/CategoryContext';
 
 interface TopStoryCardProps {
   article: NewsArticle;
 }
 
-const CATEGORY_MAP: Record<string, string> = {
-  '1': 'Cricket',
-  '2': 'Football',
-  '3': 'Movies',
-  '4': 'Politics',
-  '5': 'Tech',
-  '6': 'Business',
-  '7': 'World',
-  '8': 'General',
-  '9': 'Health',
-  '10': 'Stocks',
-};
-
 export default function TopStoryCard({ article }: TopStoryCardProps) {
-  const categoryName = CATEGORY_MAP[article.category] || article.category;
+  const { categoryMap } = useCategories();
+  const categoryName = categoryMap[article.category] || article.category;
   const [imgSrc, setImgSrc] = useState(article.imageUrl);
 
   return (

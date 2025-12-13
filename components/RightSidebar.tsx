@@ -9,29 +9,19 @@ import TriviaWidget from './TriviaWidget';
 import OnThisDayWidget from './OnThisDayWidget';
 import WordOfTheDayWidget from './WordOfTheDayWidget';
 import QuoteWidget from './QuoteWidget';
+import LifeHackWidget from './LifeHackWidget';
 import { NewsArticle } from '@/types/news';
+import { useCategories } from '@/app/context/CategoryContext';
 
 interface RightSidebarProps {
   featuredVideos: NewsArticle[];
   trendingArticles?: NewsArticle[];
 }
 
-const CATEGORY_MAP: Record<string, string> = {
-  '1': 'Cricket',
-  '2': 'Football',
-  '3': 'Movies',
-  '4': 'Politics',
-  '5': 'Tech',
-  '6': 'Business',
-  '7': 'World',
-  '8': 'General',
-  '9': 'Health',
-  '10': 'Stocks',
-};
-
 export default function RightSidebar({ featuredVideos, trendingArticles = [] }: RightSidebarProps) {
   // Use passed trending articles, or fallback to first 5 featured videos if not provided (as a temporary measure if data is missing)
   const filteredTrending = trendingArticles.length > 0 ? trendingArticles.slice(0, 5) : [];
+  const { categoryMap } = useCategories();
   
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -69,12 +59,12 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
         <ul className="space-y-8">
           {filteredTrending.map((article, index) => (
             <li key={article.id} className="group cursor-pointer flex gap-4 items-start">
-              <span className="text-4xl font-black text-indigo-500/80 leading-none select-none font-serif group-hover:scale-110 group-hover:text-indigo-600 transition-all duration-300 w-8 text-center shrink-0">
+              <span className="text-4xl font-black text-indigo-600 leading-none select-none font-serif group-hover:scale-110 group-hover:text-indigo-700 transition-all duration-300 w-8 text-center shrink-0">
                 {index + 1}
               </span>
               <Link href={`/article/${article.id}`} className="block">
                 <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-1 block">
-                  {CATEGORY_MAP[article.category] || article.category}
+                  {categoryMap[article.category] || article.category}
                 </span>
                 <h4 className="text-base font-bold font-serif leading-snug group-hover:text-indigo-700 transition-colors text-foreground line-clamp-2">
                   {article.title}
@@ -99,6 +89,9 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
 
       {/* Quote Widget */}
       <QuoteWidget />
+
+      {/* Life Hack Widget */}
+      <LifeHackWidget />
 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />
