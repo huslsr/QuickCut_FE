@@ -8,15 +8,6 @@ export default function SubNav() {
   const pathname = usePathname();
   const { categories } = useCategories();
 
-  // Custom Sort Order: General (8) -> Health (9) -> World (7) -> Politics (4) -> Business (6) -> Stocks (10) -> Tech (5) -> Movies (3) -> Cricket (1) -> Sports (2)
-  const sortOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
-
-  const sortedCategories = [...categories].sort((a, b) => {
-    const indexA = sortOrder.indexOf(a.id);
-    const indexB = sortOrder.indexOf(b.id);
-    return indexA - indexB;
-  });
-
   return (
     <nav className="bg-gray-50 dark:bg-black/40 backdrop-blur-md border-b border-gray-200 dark:border-white/10 sticky top-20 z-40 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +24,7 @@ export default function SubNav() {
             >
               All Stories
             </Link>
-            {sortedCategories.map((category) => {
+            {categories.map((category) => {
               const isActive = pathname === `/category/${category.id}`;
               return (
                 <Link

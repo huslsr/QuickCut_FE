@@ -21,11 +21,17 @@ export function CategoryProvider({ children }: { children: React.ReactNode }) {
       try {
         const data = await categoryService.getAllCategories();
         
-        // Custom Sort Order: General (8) -> Health (9) -> World (7) -> Politics (4) -> Business (6) -> Stocks (10) -> Tech (5) -> Movies (3) -> Cricket (1) -> Sports (2)
-        const sortOrder = ['8', '9', '7', '4', '6', '10', '5', '3', '1', '2'];
+        // Custom Sort Order: Cricket (1) -> Business (6) -> Tech (5) -> World (7) -> Politics (4) -> Movies (3) -> Football (2) -> General (8)
+        const sortOrder = ['1', '6', '5', '7', '4', '3', '2', '8', '9', '10'];
         const sortedData = data.sort((a, b) => {
+             // Handle items not in sort list (push to end)
              const indexA = sortOrder.indexOf(a.id);
              const indexB = sortOrder.indexOf(b.id);
+             
+             if (indexA === -1 && indexB === -1) return 0;
+             if (indexA === -1) return 1;
+             if (indexB === -1) return -1;
+             
              return indexA - indexB;
         });
 
