@@ -3,8 +3,16 @@
 import Header from '@/components/Header';
 import SubNav from '@/components/SubNav';
 import NewsFeed from '@/components/NewsFeed';
-import RightSidebar from '@/components/RightSidebar';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const RightSidebar = dynamic(() => import('@/components/RightSidebar'), {
+  loading: () => (
+    <aside className="hidden lg:block w-[350px] flex-shrink-0 border-l border-gray-100 dark:border-gray-800 lg:pl-12 space-y-12">
+      <div className="h-[600px] w-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-xl" />
+    </aside>
+  )
+});
 
 import { articleService, Article } from './api/services/articleService';
 import { NewsArticle } from '@/types/news';

@@ -11,6 +11,7 @@ import { getFallbackImage } from '@/app/config/fallbacks';
 
 interface StoryCardProps {
   article: NewsArticle;
+  priority?: boolean;
 }
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -26,7 +27,7 @@ const CATEGORY_MAP: Record<string, string> = {
   '10': 'Stocks',
 };
 
-export default function StoryCard({ article }: StoryCardProps) {
+export default function StoryCard({ article, priority = false }: StoryCardProps) {
   const { user } = useAuth();
   const categoryName = CATEGORY_MAP[article.category] || article.category;
   const [imgSrc, setImgSrc] = useState(article.imageUrl);
@@ -39,6 +40,7 @@ export default function StoryCard({ article }: StoryCardProps) {
             src={imgSrc}
             alt={article.title}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             onError={() => {
