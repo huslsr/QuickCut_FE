@@ -5,6 +5,7 @@ export interface Category {
     name: string;
     description?: string;
     orderIndex?: number;
+    color?: string;
 }
 
 export const categoryService = {

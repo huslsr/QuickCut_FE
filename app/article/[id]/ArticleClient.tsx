@@ -13,18 +13,8 @@ import ShareButtons from '@/components/ShareButtons';
 import AudioPlayer from '@/components/AudioPlayer';
 
 
-const CATEGORY_MAP: Record<string, string> = {
-  '1': 'Cricket',
-  '2': 'Football',
-  '3': 'Movies',
-  '4': 'Politics',
-  '5': 'Tech',
-  '6': 'Business',
-  '7': 'World',
-  '8': 'General',
-  '9': 'Health',
-  '10': 'Stocks',
-};
+import { useCategories } from '@/app/context/CategoryContext';
+
 
 interface ArticleClientProps {
   article: Article;
@@ -33,6 +23,7 @@ interface ArticleClientProps {
 
 export default function ArticleClient({ article, categoryName }: ArticleClientProps) {
   // Removed internal loading state as data is passed from Server Component
+  const { categoryMap } = useCategories();
 
   if (!article) {
     return null;
@@ -55,7 +46,7 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
           <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800">
             <div className="flex items-center space-x-4">
               <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
-                {CATEGORY_MAP[article.categoryId] || categoryName || 'General'}
+                {categoryMap[article.categoryId] || categoryName || 'General'}
               </span>
               <span className="text-gray-500 dark:text-gray-400 text-sm font-serif">
                 {formatDate(article.publishedAt)}
