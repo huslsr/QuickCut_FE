@@ -54,16 +54,16 @@ export default function ArticleClient({ article, categoryName }: ArticleClientPr
           </h1>
 
           {/* Metadata & Actions */}
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800 gap-4">
+            <div className="flex items-center space-x-4 flex-wrap">
               <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
                 {categoryMap[article.categoryId] || categoryName || 'General'}
               </span>
-              <span className="text-gray-500 dark:text-gray-400 text-sm font-serif">
+              <span className="text-gray-500 dark:text-gray-400 text-sm font-serif whitespace-nowrap">
                 {formatDate(article.publishedAt)}
               </span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 flex-wrap">
                 <AudioPlayer text={`${article.title}. ${article.summary}. ${article.content}`} />
                 <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
                 <ShareButtons title={article.title} url={`https://quickcut.info/article/${article.id}`} />
