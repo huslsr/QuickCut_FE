@@ -53,10 +53,10 @@ export default function Header() {
     <StockTicker />
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+          <div className="relative flex items-center justify-between h-20">
           
           {/* Left: Date & Menu */}
-          <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-muted-foreground">
+          <div className="flex items-center space-x-6 text-sm font-medium text-muted-foreground flex-1">
             <button 
               onClick={toggleMenu}
               className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none"
@@ -74,9 +74,16 @@ export default function Header() {
                   {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                 </span>
             </div>
-            <div className="hidden lg:block border-l border-border h-8 mx-4"></div>
-            <div className="hidden lg:block">
-                <WeatherWidget />
+            <div className="hidden lg:block border-l border-border h-8 mx-2"></div>
+            <div className="flex items-center ml-24">
+              <Link href="/" className="cursor-pointer group flex flex-col items-start">
+                <h1 className="text-2xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
+                  QUICKCUT
+                </h1>
+                <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">
+                  Global News Source
+                </span>
+              </Link>
             </div>
           </div>
 
@@ -93,20 +100,15 @@ export default function Header() {
           </div>
 
           {/* Center: Logo */}
-          <div className="flex-1 flex justify-center">
-            <Link href="/" className="text-center cursor-pointer group block">
-              <h1 className="text-4xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
-                QUICKCUT
-              </h1>
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground group-hover:text-foreground transition-colors">
-                Global News Source
-              </span>
-            </Link>
-          </div>
+          <div className="hidden"></div>
 
           {/* Right: Actions */}
            <div className="flex items-center space-x-6">
             
+            <div className="hidden lg:block">
+                <WeatherWidget />
+            </div>
+             
             {isSearchOpen ? (
                 <form onSubmit={handleSearch} className="flex items-center">
                     <input
