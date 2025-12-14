@@ -69,11 +69,7 @@ export const metadata: Metadata = {
     },
   },
   // Removed viewport from metadata as it is exported separately
-  icons: {
-    icon: 'https://i.ibb.co/3W1DqK3/image.png',
-    shortcut: 'https://i.ibb.co/3W1DqK3/image.png',
-    apple: 'https://i.ibb.co/3W1DqK3/image.png',
-  },
+
   alternates: {
     canonical: 'https://quickcut.info',
   },

@@ -50,10 +50,17 @@ export default function CategoryPage() {
       setLoading(false);
     };
 
-    if (id) {
-      fetchData();
-    }
-  }, [id, page]);
+      if (id) {
+        fetchData();
+      }
+    }, [id, page]);
+  
+    // Update Page Title for UX/SEO
+    useEffect(() => {
+      if (category?.name) {
+          document.title = `${category.name} News | QuickCut`;
+      }
+    }, [category]);
 
   const mapToNewsArticle = (article: Article): NewsArticle => ({
     id: article.id.toString(),

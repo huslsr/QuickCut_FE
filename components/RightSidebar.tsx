@@ -96,40 +96,7 @@ export default function RightSidebar({ featuredVideos, trendingArticles = [] }: 
       {/* Featured Videos */}
       <FeaturedVideos videos={featuredVideos} />
 
-      {/* Newsletter Box */}
-      <div className="bg-gradient-to-br from-primary to-slate-800 text-primary-foreground p-8 text-center rounded-2xl shadow-xl ring-1 ring-white/10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <h3 className="text-2xl font-black font-serif mb-4 relative z-10">The Daily Brief</h3>
-        <p className="text-primary-foreground/80 text-sm mb-6 font-serif relative z-10">
-          Essential news, expert analysis, and exclusive content delivered straight to your inbox.
-        </p>
-        
-        {!showSuccess ? (
-             <form onSubmit={handleSubscribe} className="flex flex-col space-y-3">
-                <input 
-                    type="email" 
-                    placeholder="Your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full px-4 py-3 text-black text-sm font-bold placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-                <button 
-                type="submit"
-                disabled={loading}
-                className="w-full bg-accent text-accent-foreground font-bold uppercase tracking-widest py-3 hover:bg-white hover:text-black transition-colors disabled:opacity-50"
-                >
-                {loading ? 'Subscribing...' : 'Subscribe Now'}
-                </button>
-             </form>
-        ) : (
-            <div className="bg-green-900/50 p-4 border border-green-500 rounded">
-                <p className="text-green-400 font-bold mb-2">Thanks for subscribing!</p>
-                <p className="text-xs text-green-300">You&apos;re on the list.</p>
-            </div>
-        )}
-      </div>
+
     </aside>
   );
 }
