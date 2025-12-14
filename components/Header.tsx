@@ -53,7 +53,7 @@ export default function Header() {
     <StockTicker />
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between h-20">
+          <div className="relative flex items-center justify-between h-20 md:h-28">
           
           {/* Left: Date & Menu */}
           <div className="flex items-center space-x-6 text-sm font-medium text-muted-foreground flex-1">
@@ -62,25 +62,25 @@ export default function Header() {
               className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none"
               aria-label="Toggle menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
             <div className="flex flex-col">
-                 <span className="uppercase tracking-widest text-xs font-bold text-foreground">
+                 <span className="uppercase tracking-widest text-xs md:text-sm font-bold text-foreground">
                   {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
                 </span>
-                <span className="text-[10px] tracking-wider text-muted-foreground">
+                <span className="text-[10px] md:text-xs tracking-wider text-muted-foreground">
                   {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                 </span>
             </div>
-            <div className="hidden lg:block border-l border-border h-8 mx-2"></div>
-            <div className="flex items-center ml-24">
+            <div className="hidden lg:block border-l border-border h-8 md:h-12 mx-2"></div>
+            <div className="flex items-center ml-12 md:ml-16">
               <Link href="/" className="cursor-pointer group flex flex-col items-start">
-                <h1 className="text-2xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
+                <h1 className="text-3xl md:text-5xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
                   QUICKCUT
                 </h1>
-                <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">
+                <span className="text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">
                   Global News Source
                 </span>
               </Link>
