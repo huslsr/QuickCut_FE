@@ -172,11 +172,12 @@ export default function Header() {
           </div>
         </div>
       </div>
+    </header>
 
       {/* Sidebar Overlay */}
       {isMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-black/50 z-[90] transition-opacity duration-300"
           onClick={toggleMenu}
           aria-hidden="true"
         />
@@ -184,7 +185,7 @@ export default function Header() {
 
       {/* Sidebar Drawer */}
       <div 
-        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-50 transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${
+        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -223,16 +224,20 @@ export default function Header() {
             <div className="pt-4 border-t border-border">
                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Categories</h3>
                <div className="space-y-3">
-                   {categories.map(cat => (
-                        <Link 
-                            key={cat.id}
-                            href={`/category/${cat.id}`}
-                            className="block text-lg font-medium hover:text-accent transition-colors text-muted-foreground hover:text-foreground"
-                            onClick={toggleMenu}
-                        >
-                            {cat.name}
-                        </Link>
-                   ))}
+                   {categories.length > 0 ? (
+                       categories.map(cat => (
+                            <Link 
+                                key={cat.id}
+                                href={`/category/${cat.id}`}
+                                className="block text-lg font-medium hover:text-accent transition-colors text-muted-foreground hover:text-foreground"
+                                onClick={toggleMenu}
+                            >
+                                {cat.name}
+                            </Link>
+                       ))
+                   ) : (
+                       <p className="text-sm text-muted-foreground italic">Loading categories...</p>
+                   )}
                </div>
             </div>
 
@@ -294,7 +299,6 @@ export default function Header() {
            </div>
          </div>
        </div>
-     </header>
     </>
   );
  }

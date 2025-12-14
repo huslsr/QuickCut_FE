@@ -18,7 +18,10 @@ export default function RelatedArticles({ currentArticleId, categoryId }: { curr
             observer.disconnect();
         }
       },
-      { threshold: 0.1 } // Start when 10% visible
+      { 
+        threshold: 0.1,
+        rootMargin: '6000px' // Start fetching 600px BEFORE it enters viewport
+      }
     );
     
     const element = document.getElementById('related-articles-section');
