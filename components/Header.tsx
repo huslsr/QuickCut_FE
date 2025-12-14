@@ -61,31 +61,31 @@ export default function Header() {
           <div className="relative flex items-center justify-between h-20 md:h-28">
 
             {/* Left: Date & Menu */}
-            <div className="flex items-center space-x-6 text-sm font-medium text-muted-foreground flex-1">
+            <div className="flex items-center space-x-2 md:space-x-6 text-sm font-medium text-muted-foreground flex-1 overflow-hidden">
               <button
                 onClick={toggleMenu}
-                className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none"
+                className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none flex-shrink-0"
                 aria-label="Toggle menu"
               >
                 <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-shrink-0">
                 <span className="uppercase tracking-widest text-xs md:text-sm font-bold text-foreground">
-                  {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
+                  {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : ''}
                 </span>
                 <span className="text-[10px] md:text-xs tracking-wider text-muted-foreground">
                   {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                 </span>
               </div>
               <div className="hidden lg:block border-l border-border h-8 md:h-12 mx-2"></div>
-              <div className="flex items-center ml-12 md:ml-16">
-                <Link href="/" className="cursor-pointer group flex flex-col items-start">
-                  <h1 className="text-3xl md:text-5xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground">
+              <div className="flex items-center ml-2 md:ml-12 lg:ml-16 overflow-hidden">
+                <Link href="/" className="cursor-pointer group flex flex-col items-start truncate">
+                  <h1 className="text-xl md:text-5xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground truncate">
                     QUICKCUT
                   </h1>
-                  <span className="text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span className="hidden sm:inline text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">
                     Global News Source
                   </span>
                 </Link>
@@ -99,7 +99,7 @@ export default function Header() {
             <div className="hidden"></div>
 
             {/* Right: Actions */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2 md:space-x-6 flex-shrink-0">
 
               <div className="hidden lg:block">
                 <WeatherWidget />
