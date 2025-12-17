@@ -23,6 +23,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   const pathname = usePathname();
@@ -235,14 +236,25 @@ export default function Header() {
 
             {/* Categories */}
             <div className="pt-4 border-t border-border">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Categories</h3>
-              <div className="space-y-3">
+              <button 
+                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                className="flex items-center justify-between w-full group mb-4"
+              >
+                <h3 className="text-xl font-bold font-serif text-foreground transition-colors">
+                  Categories
+                </h3>
+                <span className="text-foreground transition-colors text-xl font-bold">
+                  {isCategoriesOpen ? '−' : '+'}
+                </span>
+              </button>
+              
+              <div className={`space-y-3 overflow-hidden transition-all duration-300 ease-in-out ${isCategoriesOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                 {categories.length > 0 ? (
                   categories.map(cat => (
                     <Link
                       key={cat.id}
                       href={`/category/${cat.id}`}
-                      className="block text-lg font-medium hover:text-accent transition-colors text-muted-foreground hover:text-foreground"
+                      className="block text-lg font-medium hover:text-accent transition-colors text-muted-foreground hover:text-foreground pl-2 border-l-2 border-transparent hover:border-accent"
                       onClick={toggleMenu}
                     >
                       {cat.name}
@@ -292,13 +304,13 @@ export default function Header() {
                 const footer = document.getElementById('footer-subscribe');
                 if (footer) footer.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-accent text-left w-full"
+              className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground text-left w-full"
             >
               Subscribe
             </button>
             {/* Language Selector */}
             <div className="pt-4 border-t border-border">
-              <span className="block text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">
+              <span className="block text-sm font-bold uppercase tracking-widest text-foreground mb-4">
                 Language
               </span>
               <LanguageSwitcher />
