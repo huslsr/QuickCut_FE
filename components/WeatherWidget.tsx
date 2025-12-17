@@ -42,7 +42,7 @@ export default function WeatherWidget() {
 
     const interval = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % MAJOR_CITIES.length);
-    }, 5000); // Change every 5 seconds
+    }, 10000); // Change every 10 seconds
 
     return () => clearInterval(interval);
   }, [currentIndex, isLocal, fetchWeather]);
@@ -91,11 +91,13 @@ export default function WeatherWidget() {
         <div className="flex items-center space-x-2 min-w-[60px] justify-end">
             {loading ? (
                 <div className="h-4 w-4 rounded-full border-2 border-accent/50 border-t-transparent animate-spin"></div>
-            ) : (
+            ) : weather ? (
                 <>
-                    <span className="text-base scale-110">{weather ? getWeatherIcon(weather.code) : '•'}</span>
-                    <span className="font-serif text-sm font-bold">{weather?.temp}°</span>
+                    <span className="text-base scale-110">{getWeatherIcon(weather.code)}</span>
+                    <span className="font-serif text-sm font-bold">{weather.temp}°</span>
                 </>
+            ) : (
+                <span className="text-muted-foreground text-[10px]">--</span>
             )}
         </div>
     </div>

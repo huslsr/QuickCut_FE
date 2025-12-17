@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import SubNav from '@/components/SubNav';
 import NewsFeed from '@/components/NewsFeed';
 import Footer from '@/components/Footer';
+import SkeletonStoryCard from '@/components/SkeletonStoryCard';
 import dynamic from 'next/dynamic';
 
 const RightSidebar = dynamic(() => import('@/components/RightSidebar'), {
@@ -160,8 +161,18 @@ export default function Home() {
                 {/* LEFT COLUMN: Main Feed */}
                 <div className="flex-1">
                     {loadingArticles ? (
-                        <div className="min-h-[400px] flex items-center justify-center border-t-4 border-gray-100 dark:border-gray-800">
-                             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black dark:border-white"></div>
+                        <div className="flex-1 animate-pulse">
+                            {/* Top Story Skeleton */}
+                            <div className="w-full aspect-[2/1] bg-muted rounded-2xl mb-12" />
+                            
+                            <div className="border-t-4 border-primary pt-8 mb-12">
+                                <div className="h-8 w-64 bg-muted mb-8 rounded" />
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                                    {Array.from({ length: 6 }).map((_, i) => (
+                                        <SkeletonStoryCard key={i} />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     ) : (
                         <>
