@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SubNav from '@/components/SubNav';
 import StoryCard from '@/components/StoryCard';
+import SkeletonStoryCard from '@/components/SkeletonStoryCard';
 import { articleService, Article } from '@/app/api/services/articleService';
 import { categoryService, Category } from '@/app/api/services/categoryService';
 import { NewsArticle } from '@/types/news';
@@ -74,17 +75,29 @@ export default function CategoryPage() {
   });
 
   if (loading) {
-     return (
-       <div className="min-h-screen flex flex-col bg-white">
-         <Header />
-         <SubNav />
-         <main className="flex-1 flex items-center justify-center">
-           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
-         </main>
-         <Footer />
-       </div>
-     );
-   }
+      return (
+        <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
+          <Header />
+          <SubNav />
+          <main className="flex-1 w-full">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <div className="mb-12 border-b-4 border-black dark:border-white pb-4">
+                 <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
+                  {category?.name || 'Loading...'}
+                </h1>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                 {Array.from({ length: 6 }).map((_, i) => (
+                    <SkeletonStoryCard key={i} />
+                 ))}
+              </div>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
