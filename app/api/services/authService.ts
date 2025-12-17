@@ -18,6 +18,11 @@ export const authService = {
         return response.data;
     },
 
+    googleLogin: async (idToken: string) => {
+        const response = await client.post('/auth/google', { idToken });
+        return response.data;
+    },
+
     logout: () => {
         // Client side cleanup
         localStorage.removeItem('user');
