@@ -1,6 +1,8 @@
 import { AuthProvider } from '@/app/context/AuthProvider';
+import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import { CategoryProvider } from '@/app/context/CategoryContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
+import { ToastProvider } from '@/app/context/ToastContext';
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
@@ -10,12 +12,12 @@ import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
 });
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
@@ -88,13 +90,17 @@ export default function RootLayout({
       <body className={`${playfair.variable} ${inter.variable} font-sans antialiased bg-background text-foreground overflow-x-hidden`}>
         <div id="google_translate_element" className="fixed bottom-0 right-0 opacity-0 pointer-events-none" />
         <ThemeProvider>
-          <AuthProvider>
-          <CategoryProvider>
-            {children}
-            <ScrollToTop />
-            <Analytics />
-          </CategoryProvider>
-        </AuthProvider>
+          <SessionProviderWrapper>
+            <ToastProvider>
+              <AuthProvider>
+                <CategoryProvider>
+                  {children}
+                  <ScrollToTop />
+                  <Analytics />
+                </CategoryProvider>
+              </AuthProvider>
+            </ToastProvider>
+          </SessionProviderWrapper>
         </ThemeProvider>
         <SpeedInsights />
         <Script

@@ -139,7 +139,7 @@ export default function Header() {
 
               {user ? (
                 <div className="hidden sm:flex items-center space-x-4">
-                  <span className="text-sm font-bold font-serif text-muted-foreground">Hi, {user.username}</span>
+                  <span className="text-sm font-bold font-serif text-muted-foreground">Hi, {user.name || user.username}</span>
                   <button
                     onClick={logout}
                     className="text-sm font-bold uppercase tracking-wider text-red-600 hover:text-red-800 transition-colors"
