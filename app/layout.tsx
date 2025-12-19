@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { AuthProvider } from "@/app/context/AuthProvider";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import { CategoryProvider } from "@/app/context/CategoryContext";
@@ -141,7 +142,8 @@ export default function RootLayout({
         <Script id="env-injector" strategy="beforeInteractive">
           {`
             window.__ENV__ = {
-              NEXT_PUBLIC_API_URL: "${process.env.NEXT_PUBLIC_API_URL || ""}"
+            window.__ENV__ = {
+              NEXT_PUBLIC_API_URL: "${process.env["NEXT_PUBLIC_API_URL"] || ""}"
             };
           `}
         </Script>
