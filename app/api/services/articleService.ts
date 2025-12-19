@@ -11,7 +11,8 @@ export interface Article {
     videoUrl?: string;
     categoryId: string;
     isPrivate?: boolean;
-    visibility?: string;
+    visibility?: 'public' | 'draft' | 'archived';
+    externalId?: string;
 }
 
 export const articleService = {
