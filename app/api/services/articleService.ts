@@ -10,6 +10,8 @@ export interface Article {
     imageUrl: string;
     videoUrl?: string;
     categoryId: string;
+    isPrivate?: boolean;
+    visibility?: string;
 }
 
 export const articleService = {
