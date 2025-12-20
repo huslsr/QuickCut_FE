@@ -87,8 +87,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://quickcut.info",
   },
-  verification: {
-    google: "google-site-verification=YOUR_VERIFICATION_CODE", // User should update this in Search Console
   },
 };
 
