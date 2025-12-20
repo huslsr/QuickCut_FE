@@ -19,7 +19,7 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
   return (
     <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
       <article className="flex flex-col gap-8">
-        
+
         {/* Header: Label & Title */}
         <div className="w-full text-center max-w-5xl mx-auto">
           <div className="flex items-center justify-center space-x-3 mb-6">
@@ -28,19 +28,19 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
               Top Story
             </span>
           </div>
-          
+
           <h1 className="text-4xl md:text-6xl font-black font-serif leading-tight mb-8 group-hover:text-accent transition-all duration-300 text-foreground bg-clip-text bg-gradient-to-r from-primary to-slate-600 dark:from-white dark:to-gray-400">
             {article.title}
           </h1>
         </div>
 
         {/* Image */}
-        <div className="relative h-[600px] w-full overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-black/5 dark:ring-white/10 group-hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500">
+        <div className="relative h-[400px] md:h-[600px] w-full overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-black/5 dark:ring-white/10 bg-gray-100 dark:bg-gray-800 group-hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500">
           <Image
             src={imgSrc}
             alt={article.title}
             fill
-            className="object-cover transition-all duration-700 ease-out"
+            className="object-contain transition-all duration-700 ease-out"
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1200px"
             onError={() => setImgSrc(getFallbackImage(categoryName))}
@@ -58,17 +58,17 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
 
         {/* Metadata/Summary (Below Image) */}
         <div className="w-full text-center max-w-3xl mx-auto">
-           <p className="text-xl text-muted-foreground mb-6 font-serif leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-6 font-serif leading-relaxed">
             {categoryName}
           </p>
-          
+
           <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
             <span className="text-foreground border-b-2 border-primary pb-1 group-hover:border-accent group-hover:text-accent transition-colors">Read Full Story</span>
             {article.author && (
-                <>
-                    <span className="text-muted-foreground">•</span>
-                    <span className="text-muted-foreground">{article.author}</span>
-                </>
+              <>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-muted-foreground">{article.author}</span>
+              </>
             )}
           </div>
         </div>
