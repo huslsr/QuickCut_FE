@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  output: "standalone",
   images: {
     remotePatterns: [
       {
@@ -22,7 +23,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "files.catbox.moe",
-      }
+      },
     ],
   },
 };

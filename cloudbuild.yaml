@@ -1,0 +1,25 @@
+steps:
+  # 1. Build the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/quickcut-frontend", "."]
+
+  # 2. Push the image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/quickcut-frontend"]
+
+  # 3. Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "quickcut-frontend"
+      - "--image"
+      - "gcr.io/$PROJECT_ID/quickcut-frontend"
+      - "--region"
+      - "us-central1"
+      - "--update-env-vars"
+      - "API_URL=$_API_URL"
+
+images:
+  - "gcr.io/$PROJECT_ID/quickcut-frontend"
