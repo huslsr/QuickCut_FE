@@ -139,14 +139,7 @@ export default function RootLayout({
             }
           `}
         </Script>
-        <Script id="env-injector" strategy="beforeInteractive">
-          {`
-            window.__ENV__ = {
-            window.__ENV__ = {
-              NEXT_PUBLIC_API_URL: "${process.env["NEXT_PUBLIC_API_URL"] || ""}"
-            };
-          `}
-        </Script>
+
         <Analytics />
       </body>
     </html>
