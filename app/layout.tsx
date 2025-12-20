@@ -87,7 +87,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://quickcut.info",
   },
-  },
 };
 
 export default function RootLayout({
