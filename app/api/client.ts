@@ -7,9 +7,9 @@ const apiClient = axios.create({
    */
   // @ts-ignore
   baseURL: typeof window === 'undefined' 
-    ? (process.env.NEXT_PUBLIC_API_URL?.endsWith('/api/v1') 
-        ? process.env.NEXT_PUBLIC_API_URL 
-        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1`)
+    ? ((process.env.NEXT_PUBLIC_API_URL || process.env.API_URL)?.endsWith('/api/v1') 
+        ? (process.env.NEXT_PUBLIC_API_URL || process.env.API_URL) 
+        : `${process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'http://localhost:8080'}/api/v1`)
     : '/api/v1', // Client side: Use proxy
   headers: {
     'Content-Type': 'application/json',
