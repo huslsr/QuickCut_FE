@@ -140,8 +140,31 @@ export default function StoryCard({
           </p>
 
           <div className="mt-auto pt-4 border-t border-border flex items-center justify-between text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            {article.author && <span>{article.author}</span>}
-            <span>{formatDate(article.timestamp)}</span>
+            <div className="flex items-center gap-2 truncate pr-2">
+              {article.author && (
+                <span className="truncate max-w-[100px]">{article.author}</span>
+              )}
+              {article.sourceUrl && (
+                <>
+                  {article.author && <span>•</span>}
+                  <span
+                    className="hover:text-accent cursor-pointer transition-colors shrink-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(
+                        article.sourceUrl,
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
+                    }}
+                  >
+                    Source
+                  </span>
+                </>
+              )}
+            </div>
+            <span className="shrink-0">{formatDate(article.timestamp)}</span>
           </div>
         </div>
       </article>

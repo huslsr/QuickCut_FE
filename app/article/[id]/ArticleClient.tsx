@@ -65,6 +65,16 @@ export default function ArticleClient({
               <span className="text-gray-500 dark:text-gray-400 text-sm font-serif whitespace-nowrap">
                 {formatDate(article.publishedAt)}
               </span>
+              {article.url && (
+                <a
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+                >
+                  Source
+                </a>
+              )}
             </div>
             <div className="flex items-center space-x-2 flex-wrap">
               <AudioPlayer

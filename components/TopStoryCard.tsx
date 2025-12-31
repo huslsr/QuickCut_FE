@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { NewsArticle } from '@/types/news';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
-import { getFallbackImage } from '@/app/config/fallbacks';
-import { useCategories } from '@/app/context/CategoryContext';
+import { NewsArticle } from "@/types/news";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { getFallbackImage } from "@/app/config/fallbacks";
+import { useCategories } from "@/app/context/CategoryContext";
 
 interface TopStoryCardProps {
   article: NewsArticle;
@@ -17,9 +17,11 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
   const [imgSrc, setImgSrc] = useState(article.imageUrl);
 
   return (
-    <Link href={`/article/${article.id}`} className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12">
+    <Link
+      href={`/article/${article.id}`}
+      className="block mb-16 group cursor-pointer border-b border-gray-200 pb-12"
+    >
       <article className="flex flex-col gap-8">
-
         {/* Header: Label & Title */}
         <div className="w-full text-center max-w-5xl mx-auto">
           <div className="flex items-center justify-center space-x-3 mb-6">
@@ -48,7 +50,11 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
           {article.videoUrl && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-20 h-20 bg-white/90 flex items-center justify-center rounded-full shadow-xl">
-                <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-8 h-8 text-black ml-1"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
@@ -63,7 +69,28 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
           </p>
 
           <div className="flex items-center justify-center text-sm font-bold uppercase tracking-wider space-x-4">
-            <span className="text-foreground border-b-2 border-primary pb-1 group-hover:border-accent group-hover:text-accent transition-colors">Read Full Story</span>
+            <span className="text-foreground border-b-2 border-primary pb-1 group-hover:border-accent group-hover:text-accent transition-colors">
+              Read Full Story
+            </span>
+            {article.sourceUrl && (
+              <>
+                <span className="text-muted-foreground">•</span>
+                <span
+                  className="text-muted-foreground border-b-2 border-transparent hover:border-accent hover:text-accent transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(
+                      article.sourceUrl,
+                      "_blank",
+                      "noopener,noreferrer"
+                    );
+                  }}
+                >
+                  Source
+                </span>
+              </>
+            )}
             {article.author && (
               <>
                 <span className="text-muted-foreground">•</span>
@@ -72,7 +99,6 @@ export default function TopStoryCard({ article }: TopStoryCardProps) {
             )}
           </div>
         </div>
-
       </article>
     </Link>
   );
