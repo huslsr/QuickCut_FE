@@ -21,8 +21,4 @@ if (typeof window !== 'undefined') {
   console.log('🚀 Connected Backend URL:', process.env.NEXT_PUBLIC_API_URL);
 }
 
-
-
-
-
 export default apiClient;
