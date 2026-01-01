@@ -30,7 +30,7 @@ export default function ArticleClient({
   // Local state for image source to handle fallbacks
   const [imgSrc, setImgSrc] = useState(
     article?.imageUrl ||
-      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070"
+    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070"
   );
 
   // Update state when article changes
@@ -50,45 +50,54 @@ export default function ArticleClient({
 
       <main className="flex-1 w-full">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Category & Date */}
-          {/* Title */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black font-serif leading-tight mb-6 text-gray-900 dark:text-white">
-            {article.title}
-          </h1>
-
-          {/* Metadata & Actions */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-gray-100 dark:border-gray-800 gap-4">
-            <div className="flex items-center space-x-4 flex-wrap">
-              <span className="bg-accent/10 text-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
+          {/* Header Section */}
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4 text-sm font-bold tracking-widest text-muted-foreground uppercase">
+              <span className="text-accent">
                 {categoryMap[article.categoryId] || categoryName || "General"}
               </span>
-              <span className="text-gray-500 dark:text-gray-400 text-sm font-serif whitespace-nowrap">
-                {formatDate(article.publishedAt)}
-              </span>
-              {article.url && (
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
-                >
-                  Source
-                </a>
-              )}
+              <span>•</span>
+              <span>{formatDate(article.publishedAt)}</span>
             </div>
-            <div className="flex items-center space-x-2 flex-wrap">
-              <AudioPlayer
-                text={`${article.title}. ${article.summary}. ${article.content}`}
-              />
-              <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
-              <ShareButtons
-                title={article.title}
-                url={`https://quickcut.info/article/${article.id}`}
-              />
-              <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-2"></div>
 
-              <BookmarkButton articleId={article.id} />
-              <LikeButton articleId={article.id} />
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black font-serif leading-tight text-foreground mb-8">
+              {article.title}
+            </h1>
+
+            {/* Actions Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-y border-border">
+              {/* Left Actions: Listen & Source */}
+              <div className="flex items-center gap-6">
+                <AudioPlayer
+                  text={`${article.title}. ${article.summary}. ${article.content}`}
+                />
+                {article.url && (
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm font-bold hover:text-accent transition-colors group"
+                  >
+                    <span className="bg-muted group-hover:bg-accent/10 p-2 rounded-full transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </span>
+                    <span>Read Source</span>
+                  </a>
+                )}
+              </div>
+
+              {/* Right Actions: Social */}
+              <div className="flex items-center gap-3">
+                <LikeButton articleId={article.id} />
+                <div className="w-px h-6 bg-border mx-2 hidden sm:block"></div>
+                <BookmarkButton articleId={article.id} />
+                <ShareButtons
+                  title={article.title}
+                  url={`https://quickcut.info/article/${article.id}`}
+                />
+              </div>
             </div>
           </div>
 
