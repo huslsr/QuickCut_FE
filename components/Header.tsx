@@ -1,22 +1,26 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context/AuthProvider';
-import { useCategories } from '@/app/context/CategoryContext';
-import ThemeToggle from './ThemeToggle';
-import LanguageSwitcher from './LanguageSwitcher';
-import dynamic from 'next/dynamic';
-import WeatherWidget from './WeatherWidget';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthProvider";
+import { useCategories } from "@/app/context/CategoryContext";
+import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
+import dynamic from "next/dynamic";
+import WeatherWidget from "./WeatherWidget";
 
-const StockTicker = dynamic(() => import('./StockTicker'), {
+const StockTicker = dynamic(() => import("./StockTicker"), {
   ssr: false,
-  loading: () => <div className="h-10 w-full bg-black border-b border-gray-800" />
+  loading: () => (
+    <div className="h-10 w-full bg-black border-b border-gray-800" />
+  ),
 });
 
-const ExploreContent = dynamic(() => import('./ExploreContent'), {
-  loading: () => <div className="animate-pulse h-96 bg-gray-100 dark:bg-gray-800 rounded-xl" />
+const ExploreContent = dynamic(() => import("./ExploreContent"), {
+  loading: () => (
+    <div className="animate-pulse h-96 bg-gray-100 dark:bg-gray-800 rounded-xl" />
+  ),
 });
 
 export default function Header() {
@@ -24,7 +28,7 @@ export default function Header() {
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname();
   const { user, logout } = useAuth();
@@ -34,7 +38,7 @@ export default function Header() {
   useEffect(() => {
     setMounted(true);
     const timer = setInterval(() => {
-      setMounted(prev => prev);
+      setMounted((prev) => prev);
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -42,7 +46,7 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
-    if (isSearchOpen) setSearchQuery(''); // Clear on close
+    if (isSearchOpen) setSearchQuery(""); // Clear on close
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -50,7 +54,7 @@ export default function Header() {
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
       setIsSearchOpen(false);
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
@@ -60,7 +64,6 @@ export default function Header() {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20 md:h-28">
-
             {/* Left: Date & Menu */}
             <div className="flex items-center space-x-2 md:space-x-6 text-sm font-medium text-muted-foreground flex-1 overflow-hidden">
               <button
@@ -68,21 +71,45 @@ export default function Header() {
                 className="text-foreground hover:text-accent active:scale-95 transition-all focus:outline-none flex-shrink-0"
                 aria-label="Toggle menu"
               >
-                <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="w-6 h-6 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
               <div className="flex flex-col flex-shrink-0">
                 <span className="uppercase tracking-widest text-xs md:text-sm font-bold text-foreground">
-                  {mounted ? new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : ''}
+                  {mounted
+                    ? new Date().toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : ""}
                 </span>
                 <span className="text-[10px] md:text-xs tracking-wider text-muted-foreground">
-                  {mounted ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
+                  {mounted
+                    ? new Date().toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : ""}
                 </span>
               </div>
               <div className="hidden lg:block border-l border-border h-8 md:h-12 mx-2"></div>
               <div className="flex items-center ml-2 md:ml-12 lg:ml-16 overflow-hidden">
-                <Link href="/" className="cursor-pointer group flex flex-col items-start truncate">
+                <Link
+                  href="/"
+                  className="cursor-pointer group flex flex-col items-start truncate"
+                >
                   <h1 className="text-xl md:text-5xl font-black font-serif tracking-tighter leading-none group-hover:text-accent transition-colors text-foreground truncate">
                     QUICKCUT
                   </h1>
@@ -95,13 +122,11 @@ export default function Header() {
 
             {/* Mobile Menu Button (Visible on small screens) */}
 
-
             {/* Center: Logo */}
             <div className="hidden"></div>
 
             {/* Right: Actions */}
             <div className="flex items-center space-x-2 md:space-x-6 flex-shrink-0">
-
               <div className="hidden lg:block">
                 <WeatherWidget />
               </div>
@@ -116,14 +141,43 @@ export default function Header() {
                     className="border-b-2 border-primary bg-transparent focus:outline-none px-2 py-1 text-sm font-serif w-32 sm:w-48 transition-all text-foreground placeholder-muted-foreground"
                     autoFocus
                   />
-                  <button type="submit" className="ml-2 text-foreground hover:text-accent">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <button
+                    type="submit"
+                    className="ml-2 text-foreground hover:text-accent"
+                    aria-label="Search"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </button>
-                  <button type="button" onClick={toggleSearch} className="ml-2 text-muted-foreground hover:text-foreground">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <button
+                    type="button"
+                    onClick={toggleSearch}
+                    className="ml-2 text-muted-foreground hover:text-foreground"
+                    aria-label="Close search"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </form>
@@ -131,16 +185,29 @@ export default function Header() {
                 <button
                   onClick={toggleSearch}
                   className="text-foreground hover:text-accent active:scale-95 transition-all"
+                  aria-label="Open search"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </button>
               )}
 
               {user ? (
                 <div className="hidden sm:flex items-center space-x-4">
-                  <span className="text-sm font-bold font-serif text-muted-foreground">Hi, {user.name || user.username}</span>
+                  <span className="text-sm font-bold font-serif text-muted-foreground">
+                    Hi, {user.name || user.username}
+                  </span>
                   <button
                     onClick={logout}
                     className="text-sm font-bold uppercase tracking-wider text-red-600 hover:text-red-800 transition-colors"
@@ -149,7 +216,12 @@ export default function Header() {
                   </button>
                 </div>
               ) : (
-                <Link href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`} className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-foreground">
+                <Link
+                  href={`/login?redirect=${
+                    pathname !== "/login" ? pathname : "/"
+                  }`}
+                  className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-foreground"
+                >
                   Login
                 </Link>
               )}
@@ -159,9 +231,9 @@ export default function Header() {
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  const footer = document.getElementById('footer-subscribe');
+                  const footer = document.getElementById("footer-subscribe");
                   if (footer) {
-                    footer.scrollIntoView({ behavior: 'smooth' });
+                    footer.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
                 className="hidden sm:block text-sm font-bold uppercase tracking-wider border-2 border-primary px-5 py-2 text-primary hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all"
@@ -184,19 +256,33 @@ export default function Header() {
 
       {/* Sidebar Drawer */}
       <div
-        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div className="p-6 h-full flex flex-col overflow-y-auto">
           {/* Close Button */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-black font-serif tracking-tight text-foreground">MENU</h2>
+            <h2 className="text-2xl font-black font-serif tracking-tight text-foreground">
+              MENU
+            </h2>
             <button
               onClick={toggleMenu}
               className="text-foreground hover:text-accent transition-colors"
+              aria-label="Close menu"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -236,7 +322,7 @@ export default function Header() {
 
             {/* Categories */}
             <div className="pt-4 border-t border-border">
-              <button 
+              <button
                 onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
                 className="flex items-center justify-between w-full group mb-4"
               >
@@ -244,13 +330,19 @@ export default function Header() {
                   Categories
                 </h3>
                 <span className="text-foreground transition-colors text-xl font-bold">
-                  {isCategoriesOpen ? '−' : '+'}
+                  {isCategoriesOpen ? "−" : "+"}
                 </span>
               </button>
-              
-              <div className={`space-y-3 overflow-hidden transition-all duration-300 ease-in-out ${isCategoriesOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+
+              <div
+                className={`space-y-3 overflow-hidden transition-all duration-300 ease-in-out ${
+                  isCategoriesOpen
+                    ? "max-h-[500px] opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
                 {categories.length > 0 ? (
-                  categories.map(cat => (
+                  categories.map((cat) => (
                     <Link
                       key={cat.id}
                       href={`/category/${cat.id}`}
@@ -261,7 +353,9 @@ export default function Header() {
                     </Link>
                   ))
                 ) : (
-                  <p className="text-sm text-muted-foreground italic">Loading categories...</p>
+                  <p className="text-sm text-muted-foreground italic">
+                    Loading categories...
+                  </p>
                 )}
               </div>
             </div>
@@ -290,7 +384,9 @@ export default function Header() {
               </>
             ) : (
               <Link
-                href={`/login?redirect=${pathname !== '/login' ? pathname : '/'}`}
+                href={`/login?redirect=${
+                  pathname !== "/login" ? pathname : "/"
+                }`}
                 className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground"
                 onClick={toggleMenu}
               >
@@ -301,8 +397,8 @@ export default function Header() {
               onClick={(e) => {
                 e.preventDefault();
                 toggleMenu();
-                const footer = document.getElementById('footer-subscribe');
-                if (footer) footer.scrollIntoView({ behavior: 'smooth' });
+                const footer = document.getElementById("footer-subscribe");
+                if (footer) footer.scrollIntoView({ behavior: "smooth" });
               }}
               className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground text-left w-full"
             >
@@ -335,18 +431,32 @@ export default function Header() {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto ${isExploreOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto ${
+          isExploreOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-black font-serif tracking-tight text-foreground">EXPLORE</h2>
+            <h2 className="text-2xl font-black font-serif tracking-tight text-foreground">
+              EXPLORE
+            </h2>
             <button
               onClick={() => setIsExploreOpen(false)}
               className="text-foreground hover:text-accent transition-colors"
+              aria-label="Close explore"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -355,4 +465,4 @@ export default function Header() {
       </div>
     </>
   );
- }
+}

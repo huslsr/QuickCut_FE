@@ -25,6 +25,7 @@ const nextConfig = {
         hostname: "files.catbox.moe",
       },
     ],
+    formats: ["image/avif", "image/webp"],
   },
 };
 

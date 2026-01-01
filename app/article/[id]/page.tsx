@@ -87,20 +87,34 @@ export default async function ArticlePage({ params }: PageProps) {
   }
 
   // Create JSON-LD for Google Structure
+  // Create JSON-LD for Google Structure
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://quickcut.info/article/${article.id}`,
+    },
     headline: article.title,
-    image: [article.imageUrl],
+    image: article.imageUrl
+      ? [article.imageUrl]
+      : ["https://images.unsplash.com/photo-1504711434969-e33886168f5c"],
     datePublished: article.publishedAt,
+    dateModified: article.publishedAt, // Fallback as we don't track update time yet
     description: article.summary,
-    author: [
-      {
-        "@type": "Organization",
-        name: "QuickCut News",
-        url: "https://quickcut.info",
+    author: {
+      "@type": "Organization",
+      name: "QuickCut News",
+      url: "https://quickcut.info",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "QuickCut News",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://quickcut.info/icon.png",
       },
-    ],
+    },
   };
 
   return (
