@@ -45,5 +45,13 @@ export const articleService = {
 
     async getArticlesByCategory(categoryId: string): Promise<{ content: Article[], totalPages: number }> {
         return this.getAllArticles(categoryId);
+    },
+
+    async getSitemapArticles(page: number = 0, size: number = 10000): Promise<{ id: string, publishedAt: string }[]> {
+        console.log(`[Frontend] Fetching sitemap articles...`);
+        const response = await apiClient.get<{ id: string, publishedAt: string }[]>('/articles/sitemap', { 
+            params: { page, size } 
+        });
+        return response.data;
     }
 };
