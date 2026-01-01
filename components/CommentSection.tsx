@@ -23,18 +23,18 @@ export default function CommentSection({
   const [guestName, setGuestName] = useState("");
   const [loading, setLoading] = useState(initialComments === undefined);
 
-  const fetchComments = async () => {
-    try {
-      const data = await interactionService.getComments(articleId);
-      setComments(data);
-    } catch (err) {
-      console.error("Failed to fetch comments", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const data = await interactionService.getComments(articleId);
+        setComments(data);
+      } catch (err) {
+        console.error("Failed to fetch comments", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (initialComments === undefined) {
       fetchComments();
     }
