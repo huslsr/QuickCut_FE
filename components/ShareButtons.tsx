@@ -90,6 +90,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           onClick={() => handleShareClick(link.name, link.url)}
           className={`p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors ${link.color}`}
           title={`Share on ${link.name}`}
+          aria-label={`Share on ${link.name}`}
         >
           {link.icon}
         </button>
@@ -98,6 +99,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
         onClick={handleCopyLink}
         className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors relative"
         title="Copy Link"
+        aria-label="Copy Link"
       >
         {copied ? (
           <svg

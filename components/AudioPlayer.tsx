@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 interface AudioPlayerProps {
   text: string;
@@ -13,7 +13,7 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
   const [supported, setSupported] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       setSupported(true);
     }
   }, []);
@@ -30,7 +30,9 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
     utterance.pitch = 1.0;
     // Try to select a good voice
     const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Samantha')); // Good default voices
+    const preferredVoice = voices.find(
+      (v) => v.name.includes("Google US English") || v.name.includes("Samantha")
+    ); // Good default voices
     if (preferredVoice) utterance.voice = preferredVoice;
 
     utterance.onend = () => {
@@ -65,9 +67,9 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
   };
 
   const stop = () => {
-      window.speechSynthesis.cancel();
-      setIsPlaying(false);
-      setIsPaused(false);
+    window.speechSynthesis.cancel();
+    setIsPlaying(false);
+    setIsPaused(false);
   };
 
   if (!supported) return null;
@@ -77,35 +79,53 @@ export default function AudioPlayer({ text }: AudioPlayerProps) {
       <button
         onClick={togglePlay}
         className={`flex items-center justify-center w-10 h-10 rounded-full transition-all ${
-            isPlaying && !isPaused ? 'bg-accent text-white shadow-lg scale-105' : 'bg-primary/10 text-primary hover:bg-primary/20'
+          isPlaying && !isPaused
+            ? "bg-accent text-white shadow-lg scale-105"
+            : "bg-primary/10 text-primary hover:bg-primary/20"
         }`}
         title={isPlaying && !isPaused ? "Pause" : "Listen to this story"}
+        aria-label={isPlaying && !isPaused ? "Pause" : "Listen to this story"}
       >
         {isPlaying && !isPaused ? (
-           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
         ) : (
-           <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg
+            className="w-4 h-4 ml-0.5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8 5v14l11-7z" />
+          </svg>
         )}
       </button>
 
       {isPlaying && (
-          <button onClick={stop} className="p-2 text-muted-foreground hover:text-destructive transition-colors" title="Stop">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-          </button>
+        <button
+          onClick={stop}
+          className="p-2 text-muted-foreground hover:text-destructive transition-colors"
+          title="Stop"
+          aria-label="Stop playback"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 6h12v12H6z" />
+          </svg>
+        </button>
       )}
-      
+
       <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground pr-3">
-          {isPlaying && !isPaused ? 'Playing...' : isPaused ? 'Paused' : 'Listen'}
+        {isPlaying && !isPaused ? "Playing..." : isPaused ? "Paused" : "Listen"}
       </span>
-      
+
       {/* Sound Wave Animation (Fake) */}
-      {(isPlaying && !isPaused) && (
-          <div className="flex space-x-0.5 items-center h-4">
-              <div className="w-1 bg-accent/50 animate-[pulse_0.6s_ease-in-out_infinite] h-2"></div>
-              <div className="w-1 bg-accent/50 animate-[pulse_0.8s_ease-in-out_infinite] h-4"></div>
-              <div className="w-1 bg-accent/50 animate-[pulse_0.5s_ease-in-out_infinite] h-3"></div>
-              <div className="w-1 bg-accent/50 animate-[pulse_0.7s_ease-in-out_infinite] h-2"></div>
-          </div>
+      {isPlaying && !isPaused && (
+        <div className="flex space-x-0.5 items-center h-4">
+          <div className="w-1 bg-accent/50 animate-[pulse_0.6s_ease-in-out_infinite] h-2"></div>
+          <div className="w-1 bg-accent/50 animate-[pulse_0.8s_ease-in-out_infinite] h-4"></div>
+          <div className="w-1 bg-accent/50 animate-[pulse_0.5s_ease-in-out_infinite] h-3"></div>
+          <div className="w-1 bg-accent/50 animate-[pulse_0.7s_ease-in-out_infinite] h-2"></div>
+        </div>
       )}
     </div>
   );
