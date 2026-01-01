@@ -325,6 +325,16 @@ export default function Header() {
               Latest News
             </Link>
 
+            <a
+              href="https://forms.gle/Sh7MfDmzj9HuqgMR7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-xl font-bold font-serif hover:text-accent transition-colors text-foreground"
+              onClick={toggleMenu}
+            >
+              Survey
+            </a>
+
             {/* Categories */}
             <div className="pt-4 border-t border-border">
               <button
