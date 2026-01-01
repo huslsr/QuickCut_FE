@@ -26,7 +26,7 @@ export default function CategoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      
+
       // Fetch Articles
       try {
         console.log(`[CategoryPage] Requesting articles for category ${id}, page ${page}`);
@@ -47,21 +47,21 @@ export default function CategoryPage() {
       } catch (error) {
         console.error('[CategoryPage] Failed to fetch category details:', error);
       }
-      
+
       setLoading(false);
     };
 
-      if (id) {
-        fetchData();
-      }
-    }, [id, page]);
-  
-    // Update Page Title for UX/SEO
-    useEffect(() => {
-      if (category?.name) {
-          document.title = `${category.name} News | QuickCut`;
-      }
-    }, [category]);
+    if (id) {
+      fetchData();
+    }
+  }, [id, page, pageSize]);
+
+  // Update Page Title for UX/SEO
+  useEffect(() => {
+    if (category?.name) {
+      document.title = `${category.name} News | QuickCut`;
+    }
+  }, [category]);
 
   const mapToNewsArticle = (article: Article): NewsArticle => ({
     id: article.id.toString(),
@@ -75,39 +75,39 @@ export default function CategoryPage() {
   });
 
   if (loading) {
-      return (
-        <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
-          <Header />
-          <SubNav />
-          <main className="flex-1 w-full">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-              <div className="mb-12 border-b-4 border-black dark:border-white pb-4">
-                 <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
-                  {category?.name || 'Loading...'}
-                </h1>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
-                 {Array.from({ length: 6 }).map((_, i) => (
-                    <SkeletonStoryCard key={i} />
-                 ))}
-              </div>
+    return (
+      <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
+        <Header />
+        <SubNav />
+        <main className="flex-1 w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="mb-12 border-b-4 border-black dark:border-white pb-4">
+              <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
+                {category?.name || 'Loading...'}
+              </h1>
             </div>
-          </main>
-          <Footer />
-        </div>
-      );
-    }
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <SkeletonStoryCard key={i} />
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-background transition-colors">
       <Header />
       <SubNav />
-      
+
       <main className="flex-1 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-12 border-b-4 border-black dark:border-white pb-4">
-             <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
+            <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
               {category?.name || 'Category'}
             </h1>
             {category?.description && (
@@ -119,64 +119,62 @@ export default function CategoryPage() {
 
           {articles.length > 0 ? (
             <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
                 {articles.map((article) => (
-                    <StoryCard key={article.id} article={mapToNewsArticle(article)} />
+                  <StoryCard key={article.id} article={mapToNewsArticle(article)} />
                 ))}
-                </div>
+              </div>
 
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                    <div className="flex justify-center items-center space-x-8 mt-16 border-t border-gray-100 dark:border-gray-800 pt-8">
-                        <button
-                            onClick={() => setPage(p => Math.max(0, p - 1))}
-                            disabled={page === 0}
-                            className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
-                                page === 0 
-                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-neutral-900 dark:text-gray-600 dark:border-neutral-800' 
-                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
-                            }`}
-                        >
-                            Previous
-                        </button>
-                        <div className="flex items-center space-x-2 font-serif italic text-gray-500 dark:text-gray-400">
-                            <span>Page</span>
-                            <input
-                                type="number"
-                                min={1}
-                                max={totalPages}
-                                value={page + 1}
-                                onChange={(e) => {
-                                    const val = parseInt(e.target.value);
-                                    if (!isNaN(val) && val >= 1 && val <= totalPages) {
-                                        setPage(val - 1);
-                                    }
-                                }}
-                                className="w-16 text-center border-b-2 border-gray-300 dark:border-gray-700 focus:border-black dark:focus:border-white outline-none bg-transparent font-sans font-bold not-italic text-black dark:text-white"
-                            />
-                            <span>of {totalPages}</span>
-                        </div>
-                        <button
-                            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
-                            disabled={page >= totalPages - 1}
-                            className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${
-                                page >= totalPages - 1 
-                                ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-neutral-900 dark:text-gray-600 dark:border-neutral-800' 
-                                : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
-                            }`}
-                        >
-                            Next
-                        </button>
-                    </div>
-                )}
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center space-x-8 mt-16 border-t border-gray-100 dark:border-gray-800 pt-8">
+                  <button
+                    onClick={() => setPage(p => Math.max(0, p - 1))}
+                    disabled={page === 0}
+                    className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${page === 0
+                        ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-neutral-900 dark:text-gray-600 dark:border-neutral-800'
+                        : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                      }`}
+                  >
+                    Previous
+                  </button>
+                  <div className="flex items-center space-x-2 font-serif italic text-gray-500 dark:text-gray-400">
+                    <span>Page</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={totalPages}
+                      value={page + 1}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value);
+                        if (!isNaN(val) && val >= 1 && val <= totalPages) {
+                          setPage(val - 1);
+                        }
+                      }}
+                      className="w-16 text-center border-b-2 border-gray-300 dark:border-gray-700 focus:border-black dark:focus:border-white outline-none bg-transparent font-sans font-bold not-italic text-black dark:text-white"
+                    />
+                    <span>of {totalPages}</span>
+                  </div>
+                  <button
+                    onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                    disabled={page >= totalPages - 1}
+                    className={`px-6 py-3 border-2 border-black dark:border-white font-bold uppercase tracking-widest transition-colors ${page >= totalPages - 1
+                        ? 'cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200 dark:bg-neutral-900 dark:text-gray-600 dark:border-neutral-800'
+                        : 'text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                      }`}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </>
           ) : (
-             <div className="flex items-center justify-center min-h-[300px]">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold font-serif mb-2 dark:text-white">No Stories Found</h2>
-                  <p className="text-gray-500 dark:text-gray-400">There are no articles in this category yet.</p>
-                </div>
-             </div>
+            <div className="flex items-center justify-center min-h-[300px]">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold font-serif mb-2 dark:text-white">No Stories Found</h2>
+                <p className="text-gray-500 dark:text-gray-400">There are no articles in this category yet.</p>
+              </div>
+            </div>
           )}
         </div>
       </main>
