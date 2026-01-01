@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Header from '@/components/Header';
@@ -107,7 +109,13 @@ export default function CompanyPage() {
                 <div key={member.name} className="group flex flex-col items-center p-8 bg-card rounded-2xl border border-border hover:border-accent hover:shadow-xl transition-all duration-300">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 mb-6 overflow-hidden flex items-center justify-center relative">
                     {member.image ? (
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                      />
                     ) : (
                       <span className="text-2xl font-bold text-muted-foreground">
                         {member.name.charAt(0)}
@@ -175,7 +183,7 @@ export default function CompanyPage() {
               Shape the Future of News
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-serif">
-              We're looking for passionate storytellers, innovators, and dreamers to build the next generation of digital journalism.
+              We&apos;re looking for passionate storytellers, innovators, and dreamers to build the next generation of digital journalism.
             </p>
           </div>
 
@@ -277,7 +285,7 @@ export default function CompanyPage() {
 
               {!selectedDept && filteredJobs.length > 0 && (
                 <div className="text-center py-12 text-muted-foreground text-sm">
-                  Don't see your role? <a href="mailto:hussler340@gmail.com" className="text-accent hover:underline">Email us</a> your resume.
+                  Don&apos;t see your role? <a href="mailto:hussler340@gmail.com" className="text-accent hover:underline">Email us</a> your resume.
                 </div>
               )}
             </div>

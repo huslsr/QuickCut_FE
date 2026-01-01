@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
     syncWithGoogle();
-  }, [session, user]);
+  }, [session, user, showToast]);
 
   useEffect(() => {
     // Check local storage on mount
