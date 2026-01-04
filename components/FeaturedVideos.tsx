@@ -1,5 +1,6 @@
 import { NewsArticle } from '@/types/news';
 import Image from 'next/image';
+import { getFallbackImage } from '@/app/config/fallbacks';
 
 interface FeaturedVideosProps {
   videos: NewsArticle[];
@@ -14,13 +15,13 @@ export default function FeaturedVideos({ videos }: FeaturedVideosProps) {
           View All
         </button>
       </div>
-      
+
       <div className="space-y-8">
         {videos.map((video) => (
           <div key={video.id} className="group cursor-pointer">
             <div className="relative w-full aspect-video mb-3 bg-black">
               <Image
-                src={video.imageUrl}
+                src={video.imageUrl || getFallbackImage(video.category)}
                 alt={video.title}
                 fill
                 className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
@@ -33,7 +34,7 @@ export default function FeaturedVideos({ videos }: FeaturedVideosProps) {
                 </div>
               </div>
             </div>
-            
+
             <h4 className="text-lg font-bold font-serif leading-tight group-hover:text-accent transition-colors">
               {video.title}
             </h4>

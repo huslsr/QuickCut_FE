@@ -14,7 +14,9 @@ interface TopStoryCardProps {
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   const { categoryMap } = useCategories();
   const categoryName = categoryMap[article.category] || article.category;
-  const [imgSrc, setImgSrc] = useState(article.imageUrl);
+  const [imgSrc, setImgSrc] = useState(
+    article.imageUrl || getFallbackImage(categoryName)
+  );
 
   return (
     <Link
