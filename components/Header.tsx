@@ -7,7 +7,13 @@ import { useAuth } from "@/app/context/AuthProvider";
 import { useCategories } from "@/app/context/CategoryContext";
 import ThemeToggle from "./ThemeToggle";
 import dynamic from "next/dynamic";
-import WeatherWidget from "./WeatherWidget";
+
+const WeatherWidget = dynamic(() => import("./WeatherWidget"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-8 w-24 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+  ),
+});
 
 const LanguageSwitcher = dynamic(() => import("./LanguageSwitcher"), {
   ssr: false,

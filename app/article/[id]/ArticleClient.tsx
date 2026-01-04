@@ -30,7 +30,7 @@ export default function ArticleClient({
   // Local state for image source to handle fallbacks
   const [imgSrc, setImgSrc] = useState(
     article?.imageUrl ||
-    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070"
+      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070"
   );
 
   // Update state when article changes
@@ -79,8 +79,18 @@ export default function ArticleClient({
                     className="flex items-center gap-2 text-sm font-bold hover:text-accent transition-colors group"
                   >
                     <span className="bg-muted group-hover:bg-accent/10 p-2 rounded-full transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
                       </svg>
                     </span>
                     <span>Read Source</span>
@@ -102,7 +112,7 @@ export default function ArticleClient({
           </div>
 
           {/* Featured Image */}
-          <div className="relative w-full h-[50vh] min-h-[400px] mb-12 overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
+          <div className="relative w-full h-[50vh] min-h-[400px] mb-12 overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner notranslate">
             <Image
               src={imgSrc}
               alt={article.title}
