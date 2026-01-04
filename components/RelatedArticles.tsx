@@ -61,7 +61,7 @@ export default function RelatedArticles({
   return (
     <div
       id="related-articles-section"
-      className="mt-16 border-t-8 border-black dark:border-white pt-12 min-h-[100px]"
+      className="mt-16 border-t-8 border-black dark:border-white pt-12 min-h-[100px] notranslate"
     >
       {articles.length > 0 && (
         <>

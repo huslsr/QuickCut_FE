@@ -458,7 +458,7 @@ export default function Header() {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto notranslate ${
           isExploreOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

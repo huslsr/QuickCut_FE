@@ -64,7 +64,7 @@ export default function StockTicker() {
   if (data.length === 0) return null;
 
   return (
-    <div className="bg-black text-white text-xs font-bold uppercase tracking-widest overflow-hidden py-2 border-b border-gray-800">
+    <div className="bg-black text-white text-xs font-bold uppercase tracking-widest overflow-hidden py-2 border-b border-gray-800 notranslate">
       <div className="flex animate-scroll whitespace-nowrap hover:pause">
         {/* Render multiple times for seamless infinite scroll */}
         {[...data, ...data, ...data].map((item, i) => (

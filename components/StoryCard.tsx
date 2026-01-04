@@ -40,7 +40,7 @@ export default function StoryCard({
       href={`/article/${article.id}`}
       className="group cursor-pointer flex flex-col h-full"
     >
-      <article className="flex flex-col h-full bg-card text-card-foreground border border-border/50 shadow-md hover:shadow-2xl hover:shadow-accent/10 hover:border-accent/30 hover:-translate-y-2 transition-all duration-300 ease-out rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
+      <article className="flex flex-col h-full bg-card text-card-foreground border border-border/50 shadow-md hover:shadow-2xl hover:shadow-accent/10 hover:border-accent/30 hover:-translate-y-2 transition-all duration-300 ease-out rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 notranslate">
         <div className="relative w-full aspect-video overflow-hidden bg-muted">
           <Image
             src={imgSrc}

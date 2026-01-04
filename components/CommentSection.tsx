@@ -64,7 +64,7 @@ export default function CommentSection({
   };
 
   return (
-    <div className="mt-12 border-t-4 border-black dark:border-gray-700 pt-8">
+    <div className="mt-12 border-t-4 border-black dark:border-gray-700 pt-8 notranslate">
       <h3 className="text-2xl font-black font-serif mb-6 dark:text-white">
         Discussion
       </h3>
