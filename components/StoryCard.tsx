@@ -33,7 +33,9 @@ export default function StoryCard({
 }: StoryCardProps) {
   const { user } = useAuth();
   const categoryName = CATEGORY_MAP[article.category] || article.category;
-  const [imgSrc, setImgSrc] = useState(article.imageUrl);
+  const [imgSrc, setImgSrc] = useState(
+    article.imageUrl || getFallbackImage(categoryName)
+  );
 
   return (
     <Link
