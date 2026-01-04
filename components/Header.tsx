@@ -21,6 +21,7 @@ const StockTicker = dynamic(() => import("./StockTicker"), {
 });
 
 const ExploreContent = dynamic(() => import("./ExploreContent"), {
+  ssr: false,
   loading: () => (
     <div className="animate-pulse h-96 bg-gray-100 dark:bg-gray-800 rounded-xl" />
   ),
