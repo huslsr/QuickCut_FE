@@ -6,9 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthProvider";
 import { useCategories } from "@/app/context/CategoryContext";
 import ThemeToggle from "./ThemeToggle";
-import LanguageSwitcher from "./LanguageSwitcher";
 import dynamic from "next/dynamic";
 import WeatherWidget from "./WeatherWidget";
+
+const LanguageSwitcher = dynamic(() => import("./LanguageSwitcher"), {
+  ssr: false,
+});
 
 const StockTicker = dynamic(() => import("./StockTicker"), {
   ssr: false,
@@ -38,7 +41,7 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
-    // Update time immediately to avoid hydration mismatch delay if possible, 
+    // Update time immediately to avoid hydration mismatch delay if possible,
     // but primarily start the interval.
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -92,22 +95,22 @@ export default function Header() {
                 <span className="uppercase tracking-widest text-xs md:text-sm font-bold text-foreground">
                   {mounted
                     ? currentTime.toLocaleDateString("en-US", {
-                      weekday: "short",
-                      month: "short",
-                      day: "numeric",
-                      timeZone: "Asia/Kolkata",
-                    })
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "Asia/Kolkata",
+                      })
                     : ""}
                 </span>
                 <span className="text-[10px] md:text-xs tracking-wider text-muted-foreground">
                   {mounted
                     ? `${currentTime.toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                      hour12: true,
-                      timeZone: "Asia/Kolkata",
-                    })} IST`
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        hour12: true,
+                        timeZone: "Asia/Kolkata",
+                      })} IST`
                     : ""}
                 </span>
               </div>
@@ -224,8 +227,9 @@ export default function Header() {
                 </div>
               ) : (
                 <Link
-                  href={`/login?redirect=${pathname !== "/login" ? pathname : "/"
-                    }`}
+                  href={`/login?redirect=${
+                    pathname !== "/login" ? pathname : "/"
+                  }`}
                   className="hidden sm:block text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors text-foreground"
                 >
                   Login
@@ -262,8 +266,9 @@ export default function Header() {
 
       {/* Sidebar Drawer */}
       <div
-        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        className={`fixed top-0 left-0 h-full w-[300px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-r-4 border-primary ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div className="p-6 h-full flex flex-col overflow-y-auto">
           {/* Close Button */}
@@ -350,10 +355,11 @@ export default function Header() {
               </button>
 
               <div
-                className={`space-y-3 overflow-hidden transition-all duration-300 ease-in-out ${isCategoriesOpen
-                  ? "max-h-[500px] opacity-100"
-                  : "max-h-0 opacity-0"
-                  }`}
+                className={`space-y-3 overflow-hidden transition-all duration-300 ease-in-out ${
+                  isCategoriesOpen
+                    ? "max-h-[500px] opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
               >
                 {categories.length > 0 ? (
                   categories.map((cat) => (
@@ -398,8 +404,9 @@ export default function Header() {
               </>
             ) : (
               <Link
-                href={`/login?redirect=${pathname !== "/login" ? pathname : "/"
-                  }`}
+                href={`/login?redirect=${
+                  pathname !== "/login" ? pathname : "/"
+                }`}
                 className="block text-2xl font-bold font-serif hover:text-accent transition-colors text-foreground"
                 onClick={toggleMenu}
               >
@@ -444,8 +451,9 @@ export default function Header() {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto ${isExploreOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-background z-[100] transform transition-transform duration-300 ease-in-out shadow-2xl border-l-4 border-primary overflow-y-auto ${
+          isExploreOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
