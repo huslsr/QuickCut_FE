@@ -35,19 +35,89 @@ const INDIAN_STOCKS: TickerItem[] = [
 
 export default function StockTicker() {
   const [data, setData] = useState<TickerItem[]>(INDIAN_STOCKS);
+  const [isVisible, setIsVisible] = useState(true);
 
-  // Removed simulation: Stock prices should be static unless we have a real-time API.
-  // This prevents "changing after market closure" issues.
   useEffect(() => {
-    // No-op for now.
-    // TODO: Integrate real stock API (e.g. Yahoo Finance / AlphaVantage) if needed.
+    // Check session storage
+    if (typeof window !== "undefined") {
+      const closed = sessionStorage.getItem("ticker_closed");
+      if (closed === "true") {
+        setIsVisible(false);
+        return;
+      }
+    }
+
+    async function fetchStocks() {
+      try {
+        // Mapping of Display Name -> Yahoo Symbol
+        const symbolMap: Record<string, string> = {
+          "NIFTY 50": "^NSEI",
+          SENSEX: "^BSESN",
+          RELIANCE: "RELIANCE.NS",
+          TCS: "TCS.NS",
+          HDFCBANK: "HDFCBANK.NS",
+          INFY: "INFY.NS",
+          ICICIBANK: "ICICIBANK.NS",
+          SBIN: "SBIN.NS",
+          BHARTIARTL: "BHARTIARTL.NS",
+          ITC: "ITC.NS",
+          "L&T": "LT.NS",
+          AXISBANK: "AXISBANK.NS",
+          KOTAKBANK: "KOTAKBANK.NS",
+          MARUTI: "MARUTI.NS",
+          TATAMOTORS: "TATAMOTORS.NS",
+          SUNPHARMA: "SUNPHARMA.NS",
+          TITAN: "TITAN.NS",
+          ADANIENT: "ADANIENT.NS",
+          BAJFINANCE: "BAJFINANCE.NS",
+          ASIANPAINT: "ASIANPAINT.NS",
+        };
+
+        const yahooSymbols = Object.values(symbolMap).join(",");
+        const res = await fetch(`/api/stocks?symbols=${yahooSymbols}`);
+        const json = await res.json();
+
+        if (json.quoteResponse && json.quoteResponse.result) {
+          const newTickerData: TickerItem[] = Object.keys(symbolMap)
+            .map((displayName) => {
+              const yahooSymbol = symbolMap[displayName];
+              const quote = json.quoteResponse.result.find(
+                (q: any) => q.symbol === yahooSymbol
+              );
+
+              if (quote) {
+                return {
+                  symbol: displayName,
+                  price: quote.regularMarketPrice,
+                  change: quote.regularMarketChangePercent,
+                  up: quote.regularMarketChangePercent >= 0,
+                };
+              }
+              // Fallback to static if specific quote missing
+              return { symbol: displayName, price: 0, change: 0, up: true };
+            })
+            .filter((item) => item.price !== 0);
+
+          if (newTickerData.length > 0) {
+            setData(newTickerData);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch stocks", error);
+      }
+    }
+
+    fetchStocks();
+    // Refresh every 15 minutes to respect "delayed" nature
+    const interval = setInterval(fetchStocks, 15 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  if (data.length === 0) return null;
+  if (!isVisible || data.length === 0) return null;
 
   return (
-    <div className="bg-black text-white text-xs font-bold uppercase tracking-widest overflow-hidden py-2 border-b border-gray-800 notranslate">
-      <div className="flex animate-scroll whitespace-nowrap hover:pause">
+    <div className="relative bg-black text-white text-xs font-bold uppercase tracking-widest overflow-hidden py-2 border-b border-gray-800 notranslate group/ticker">
+      <div className="flex animate-scroll whitespace-nowrap hover:pause pr-8">
         {/* Render multiple times for seamless infinite scroll */}
         {[...data, ...data, ...data].map((item, i) => (
           <div
@@ -62,6 +132,31 @@ export default function StockTicker() {
           </div>
         ))}
       </div>
+
+      {/* Close Button */}
+      <button
+        onClick={() => {
+          setIsVisible(false);
+          sessionStorage.setItem("ticker_closed", "true");
+        }}
+        className="absolute right-0 top-0 bottom-0 px-2 bg-black/80 hover:bg-black flex items-center justify-center z-10 text-gray-400 hover:text-white transition-colors"
+        title="Hide Ticker"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
     </div>
   );
 }
