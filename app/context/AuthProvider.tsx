@@ -61,8 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     };
-    // Disabled per user request
-    // syncWithGoogle();
+    syncWithGoogle();
   }, [session, user, showToast]);
 
   useEffect(() => {
