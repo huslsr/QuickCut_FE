@@ -30,14 +30,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 1,
     }));
 
-    /* 
     try {
         // Dynamic routes for articles (Fetch last 1000 to prevent timeout)
         const articles = await articleService.getSitemapArticles(0, 1000);
 
         const articleRoutes = articles.map((article) => ({
             url: `${baseUrl}/article/${article.id}`,
-            lastModified: new Date(article.publishedAt),
+            // Ensure valid date, fallback to current time if missing
+            lastModified: article.publishedAt ? new Date(article.publishedAt) : new Date(),
             changeFrequency: 'weekly' as const,
             priority: 0.8,
         }));
@@ -45,15 +45,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         return [...routes, ...articleRoutes];
     } catch (error: any) {
         console.error('Failed to generate sitemap:', error);
-        if (error.response) {
-            console.error('Error response:', error.response.status, error.response.data);
-        } else if (error.request) {
-            console.error('No response received:', error.request);
-        } else {
-            console.error('Error details:', error.message);
-        }
+        // Error logging...
         return [...routes];
-    } 
-    */
-    return [...routes];
+    }
+}
 }
