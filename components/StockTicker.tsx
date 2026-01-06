@@ -36,29 +36,11 @@ const INDIAN_STOCKS: TickerItem[] = [
 export default function StockTicker() {
   const [data, setData] = useState<TickerItem[]>(INDIAN_STOCKS);
 
+  // Removed simulation: Stock prices should be static unless we have a real-time API.
+  // This prevents "changing after market closure" issues.
   useEffect(() => {
-    // Simulate live updates
-    const interval = setInterval(() => {
-      setData((currentData) =>
-        currentData.map((item) => {
-          // Randomly fluctuate price by -0.1% to +0.1%
-          const volatility = (Math.random() - 0.5) * 0.002;
-          const newPrice = item.price * (1 + volatility);
-
-          // Calculate generic change percent based on movement
-          const newChange = item.change + volatility * 100;
-
-          return {
-            ...item,
-            price: newPrice,
-            change: newChange,
-            up: newChange >= 0,
-          };
-        })
-      );
-    }, 3000); // Update every 3 seconds
-
-    return () => clearInterval(interval);
+    // No-op for now.
+    // TODO: Integrate real stock API (e.g. Yahoo Finance / AlphaVantage) if needed.
   }, []);
 
   if (data.length === 0) return null;

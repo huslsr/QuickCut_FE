@@ -136,17 +136,26 @@ export default function WeatherWidget() {
           // 3. Fetch City Name
           let cityName = "Local";
           try {
+            console.log(
+              `[WeatherWidget] Fetching address for ${latitude}, ${longitude}`
+            );
             const geoRes = await fetch(
               `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latitude}&longitude=${longitude}&count=1&format=json`
             );
             const geoData = await geoRes.json();
+            console.log("[WeatherWidget] Geo Response:", geoData);
+
             if (geoData.results && geoData.results[0]) {
-              cityName = geoData.results[0].name;
+              const res = geoData.results[0];
+              // Try specific fields if 'name' is just a building or street
+              cityName =
+                res.name || res.city || res.town || res.village || "Local";
             }
           } catch (error) {
-            console.error("Geocoding error", error);
+            console.error("[WeatherWidget] Geocoding error", error);
             // Retry logic or keeping "Local" is fine here, user can click again
           }
+          console.log("[WeatherWidget] Setting city name:", cityName);
           setLocalCityName(cityName);
 
           // 4. Persist
