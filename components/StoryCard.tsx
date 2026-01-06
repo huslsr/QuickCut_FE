@@ -9,15 +9,19 @@ import { useAuth } from "@/app/context/AuthProvider";
 import { useState } from "react";
 import { getFallbackImage } from "@/app/config/fallbacks";
 
+import { useToast } from "@/app/context/ToastContext";
+
 interface StoryCardProps {
   article: NewsArticle;
   priority?: boolean;
+  initialBookmarked?: boolean;
+  onBookmarkChange?: (isBookmarked: boolean) => void;
 }
 
 const CATEGORY_MAP: Record<string, string> = {
-  "1": "Cricket",
-  "2": "Football",
-  "3": "Movies",
+  "1": "India",
+  "2": "Sports",
+  "3": "Entertainment",
   "4": "Politics",
   "5": "Tech",
   "6": "Business",
@@ -25,17 +29,59 @@ const CATEGORY_MAP: Record<string, string> = {
   "8": "General",
   "9": "Health",
   "10": "Stocks",
+  "11": "Cricket",
 };
 
 export default function StoryCard({
   article,
   priority = false,
+  initialBookmarked = false,
+  onBookmarkChange,
 }: StoryCardProps) {
   const { user } = useAuth();
+  const { showToast } = useToast(); // Use toast instead of alert
   const categoryName = CATEGORY_MAP[article.category] || article.category;
   const [imgSrc, setImgSrc] = useState(
     article.imageUrl || getFallbackImage(categoryName)
   );
+
+  // Local state for bookmark status
+  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
+  const [loading, setLoading] = useState(false);
+
+  const handleBookmarkToggle = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      showToast("Please login to bookmark stories!", "error");
+      return;
+    }
+
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      if (isBookmarked) {
+        // Remove
+        await bookmarkService.removeBookmark(user.id, article.id);
+        setIsBookmarked(false);
+        showToast("Access Removed", "success");
+        if (onBookmarkChange) onBookmarkChange(false);
+      } else {
+        // Add
+        await bookmarkService.addBookmark(user.id, article.id);
+        setIsBookmarked(true);
+        showToast("Story Saved", "success");
+        if (onBookmarkChange) onBookmarkChange(true);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to update bookmark.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Link
@@ -60,29 +106,18 @@ export default function StoryCard({
           </div>
 
           <div
-            className="absolute top-4 right-16 bg-white/90 dark:bg-black/80 p-2 rounded-full cursor-pointer hover:scale-110 active:scale-90 transition-transform shadow-md z-10"
-            onClick={async (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (!user) {
-                // Optional: router.push('/login') or alert
-                alert("Please login to bookmark stories!");
-                return;
-              }
-              try {
-                if (user?.id) {
-                  await bookmarkService.addBookmark(user.id, article.id);
-                  alert("Story bookmarked!");
-                }
-              } catch (err) {
-                alert("Failed to bookmark.");
-              }
-            }}
-            title="Bookmark this story"
+            className={`absolute top-4 right-16 p-2 rounded-full cursor-pointer hover:scale-110 active:scale-90 transition-all shadow-md z-10 ${
+              isBookmarked
+                ? "bg-blue-600 text-white dark:bg-blue-500"
+                : "bg-white/90 dark:bg-black/80 text-black dark:text-white"
+            }`}
+            onClick={handleBookmarkToggle}
+            title={isBookmarked ? "Remove Bookmark" : "Bookmark this story"}
           >
             <svg
-              className="w-4 h-4 text-black dark:text-white"
-              fill="none"
+              className={`w-4 h-4 ${
+                isBookmarked ? "fill-current" : "fill-none"
+              }`}
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
@@ -112,7 +147,7 @@ export default function StoryCard({
                 });
               }
 
-              alert("Link copied to clipboard!");
+              showToast("Link copied to clipboard!", "success");
             }}
             title="Share this story"
           >

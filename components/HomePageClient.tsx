@@ -139,6 +139,7 @@ export default function HomePageClient({
       category: catName,
       timestamp: article.publishedAt,
       sourceUrl: article.url || "#",
+      viewCount: article.viewCount,
     };
   };
 
