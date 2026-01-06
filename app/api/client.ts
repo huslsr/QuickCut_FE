@@ -7,9 +7,13 @@ const apiClient = axios.create({
    */
   // @ts-ignore
   baseURL: typeof window === 'undefined' 
-    ? ((process.env.NEXT_PUBLIC_API_URL || process.env.API_URL)?.endsWith('/api/v1') 
-        ? (process.env.NEXT_PUBLIC_API_URL || process.env.API_URL) 
-        : `${process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'http://localhost:8080'}/api/v1`)
+    ? ((process.env.NEXT_PUBLIC_API_URL || process.env.API_URL) 
+        ? ((process.env.NEXT_PUBLIC_API_URL || process.env.API_URL)?.includes('/api/v1') 
+            ? (process.env.NEXT_PUBLIC_API_URL || process.env.API_URL) 
+            : `${process.env.NEXT_PUBLIC_API_URL || process.env.API_URL}/api/v1`)
+        : (process.env.NODE_ENV === 'production' 
+            ? "https://quickcut-backend-omj57a5mba-uc.a.run.app/api/v1" 
+            : "http://localhost:8080/api/v1"))
     : '/api/v1', // Client side: Use proxy
   headers: {
     'Content-Type': 'application/json',
