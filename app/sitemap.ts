@@ -11,6 +11,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         '',
         '/login',
         '/register',
+        // Categories
+        '/category/1', // India
+        '/category/2', // Sports
+        '/category/3', // Entertainment
+        '/category/4', // Politics
+        '/category/5', // Tech
+        '/category/6', // Business
+        '/category/7', // World
+        '/category/8', // General
+        '/category/9', // Health
+        '/category/10', // Stocks
+        '/category/11', // Cricket
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date(),
