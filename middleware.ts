@@ -5,7 +5,11 @@ export function middleware(request: NextRequest) {
   // Only handle /api/v1 routes
   if (request.nextUrl.pathname.startsWith('/api/v1')) {
     // Get the runtime API URL
-    const apiUrl = "http://localhost:8080/api/v1";
+    // PRIORITIZE Environment Variable, then toggle based on Environment, then fallback to localhost
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 
+                   (process.env.NODE_ENV === 'production' 
+                     ? "https://quickcut-backend-omj57a5mba-uc.a.run.app/api/v1" 
+                     : "http://localhost:8080/api/v1");
     
     if (!apiUrl) {
       console.error('❌ API_URL is not defined!');
