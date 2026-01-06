@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const MAJOR_CITIES = [
   { name: "New York", lat: 40.7128, long: -74.006 },
@@ -15,11 +15,16 @@ export default function WeatherWidget() {
     null
   );
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Lazy initialization to prevent flash and race conditions
   const [isLocal, setIsLocal] = useState(false);
   const [localCityName, setLocalCityName] = useState("Local");
   const [loading, setLoading] = useState(true);
 
-  // Memoize fetchWeather to avoid dependency cycle
+  // Ref to track if we should fetch cycle weather
+  const initRef = useRef(false);
+
+  // Memoize fetchWeather
   const fetchWeather = useCallback(async (lat: number, long: number) => {
     try {
       setLoading(true);
@@ -38,19 +43,72 @@ export default function WeatherWidget() {
     }
   }, []);
 
-  // Initial Cycle Effect
+  // Initialize from LocalStorage
   useEffect(() => {
-    if (isLocal) return; // Stop cycling if user selected local
+    if (initRef.current) return;
+    initRef.current = true;
 
-    const city = MAJOR_CITIES[currentIndex];
+    const saved = localStorage.getItem("weather_location");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.isLocal) {
+          console.log("Loading saved weather location:", parsed);
+          setIsLocal(true);
+          setLocalCityName(parsed.name || "Local");
+          fetchWeather(parsed.lat, parsed.long);
+
+          // Retry City Name Fetch if it was stuck on "Local"
+          if (parsed.name === "Local" || !parsed.name) {
+            console.log("Retrying city name fetch...");
+            fetch(
+              `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${parsed.lat}&longitude=${parsed.long}&count=1&format=json`
+            )
+              .then((res) => res.json())
+              .then((geoData) => {
+                if (geoData.results && geoData.results[0]) {
+                  const newName = geoData.results[0].name;
+                  setLocalCityName(newName);
+                  // Update storage
+                  localStorage.setItem(
+                    "weather_location",
+                    JSON.stringify({
+                      ...parsed,
+                      name: newName,
+                    })
+                  );
+                }
+              })
+              .catch((e) => console.error("Retry geo failed", e));
+          }
+          return;
+        }
+      } catch (e) {
+        console.error("Failed to parse saved weather", e);
+      }
+    }
+
+    // If no saved local, start cycle default
+    const city = MAJOR_CITIES[0];
     fetchWeather(city.lat, city.long);
+  }, [fetchWeather]);
 
+  // Cycle Effect (only if NOT local and NOT loading initial)
+  useEffect(() => {
+    if (isLocal) return;
+
+    // Skip first run as it's handled by init effect or ignored if local
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % MAJOR_CITIES.length);
-    }, 10000); // Change every 10 seconds
+      setCurrentIndex((prev) => {
+        const nextIndex = (prev + 1) % MAJOR_CITIES.length;
+        const city = MAJOR_CITIES[nextIndex];
+        fetchWeather(city.lat, city.long);
+        return nextIndex;
+      });
+    }, 10000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isLocal, fetchWeather]);
+  }, [isLocal, fetchWeather]);
 
   const getWeatherIcon = (code: number) => {
     if (code === 0) return "☀️";
@@ -68,20 +126,50 @@ export default function WeatherWidget() {
       setLoading(true);
       navigator.geolocation.getCurrentPosition(
         async (position) => {
+          // 1. Immediate UI Feedback
           setIsLocal(true);
           const { latitude, longitude } = position.coords;
+
+          // 2. Fetch Weather
           fetchWeather(latitude, longitude);
 
-          // User requested validation: "dont change it to city wise"
-          // We keep it as "Local" (default state) instead of fetching the specific city name.
-          setLocalCityName("Local");
+          // 3. Fetch City Name
+          let cityName = "Local";
+          try {
+            const geoRes = await fetch(
+              `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latitude}&longitude=${longitude}&count=1&format=json`
+            );
+            const geoData = await geoRes.json();
+            if (geoData.results && geoData.results[0]) {
+              cityName = geoData.results[0].name;
+            }
+          } catch (error) {
+            console.error("Geocoding error", error);
+            // Retry logic or keeping "Local" is fine here, user can click again
+          }
+          setLocalCityName(cityName);
+
+          // 4. Persist
+          localStorage.setItem(
+            "weather_location",
+            JSON.stringify({
+              isLocal: true,
+              name: cityName,
+              lat: latitude,
+              long: longitude,
+              timestamp: Date.now(),
+            })
+          );
         },
         (err) => {
           console.error(err);
           setLoading(false);
-          setIsLocal(false); // Fallback to cycle if permission denied
+          setIsLocal(false);
+          alert("Could not access location. Please check permissions.");
         }
       );
+    } else {
+      alert("Geolocation is not supported by your browser.");
     }
   };
 
@@ -90,7 +178,9 @@ export default function WeatherWidget() {
       onClick={handleLocate}
       className="flex items-center space-x-4 text-xs font-bold font-mono tracking-wider text-foreground cursor-pointer transition-all group bg-background px-4 py-2 rounded-lg border border-border/60 shadow-sm hover:shadow-md hover:border-accent/30"
       title={
-        isLocal ? "Updating location..." : "Click to show your local weather"
+        isLocal
+          ? `Current Location: ${localCityName}. Click to refresh.`
+          : "Click to show your local weather"
       }
     >
       {/* City Label */}
