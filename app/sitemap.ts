@@ -31,8 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     try {
-        // Dynamic routes for articles (Fetch last 10000 using lightweight endpoint)
-        const articles = await articleService.getSitemapArticles(0, 10000);
+        // Dynamic routes for articles (Fetch last 1000 to prevent timeout)
+        const articles = await articleService.getSitemapArticles(0, 1000);
 
         const articleRoutes = articles.map((article) => ({
             url: `${baseUrl}/article/${article.id}`,
