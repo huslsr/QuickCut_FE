@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   // Only handle /api/v1 routes
   if (request.nextUrl.pathname.startsWith('/api/v1')) {
     // Get the runtime API URL
-    const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = "http://localhost:8080/api/v1";
     
     if (!apiUrl) {
       console.error('❌ API_URL is not defined!');

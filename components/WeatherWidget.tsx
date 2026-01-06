@@ -72,28 +72,9 @@ export default function WeatherWidget() {
           const { latitude, longitude } = position.coords;
           fetchWeather(latitude, longitude);
 
-          // Fetch City Name (Nominatim / OpenStreetMap)
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
-            );
-            const data = await res.json();
-
-            // Prioritize common city names
-            const addr = data.address;
-            const city =
-              addr.city ||
-              addr.town ||
-              addr.village ||
-              addr.suburb ||
-              addr.county ||
-              "Local";
-
-            setLocalCityName(city);
-          } catch (e) {
-            console.error("City fetch error", e);
-            setLocalCityName("Local");
-          }
+          // User requested validation: "dont change it to city wise"
+          // We keep it as "Local" (default state) instead of fetching the specific city name.
+          setLocalCityName("Local");
         },
         (err) => {
           console.error(err);

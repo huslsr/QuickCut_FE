@@ -8,6 +8,7 @@ export interface NewsArticle {
   timestamp: string;
   sourceUrl: string;
   videoUrl?: string;
+  viewCount?: number;
 }
 
 export interface Category {

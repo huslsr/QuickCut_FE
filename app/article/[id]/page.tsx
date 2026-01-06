@@ -4,6 +4,8 @@ import ArticleClient from "./ArticleClient";
 import { articleService } from "../../api/services/articleService";
 import { categoryService } from "../../api/services/categoryService";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };

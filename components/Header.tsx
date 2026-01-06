@@ -74,7 +74,7 @@ export default function Header() {
   return (
     <>
       <StockTicker />
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
+      <header className="relative z-50 bg-background/80 backdrop-blur-md border-b-4 border-primary transition-colors supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20 md:h-28">
             {/* Left: Date & Menu */}

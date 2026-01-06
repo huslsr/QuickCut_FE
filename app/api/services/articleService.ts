@@ -13,6 +13,7 @@ export interface Article {
     isPrivate?: boolean;
     visibility?: 'public' | 'draft' | 'archived';
     externalId?: string;
+    viewCount?: number;
 }
 
 export const articleService = {
