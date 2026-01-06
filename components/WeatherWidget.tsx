@@ -139,17 +139,26 @@ export default function WeatherWidget() {
             console.log(
               `[WeatherWidget] Fetching address for ${latitude}, ${longitude}`
             );
+            // Use internal proxy to avoid CORS
             const geoRes = await fetch(
-              `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latitude}&longitude=${longitude}&count=1&format=json`
+              `/api/weather/geocode?latitude=${latitude}&longitude=${longitude}`
             );
             const geoData = await geoRes.json();
             console.log("[WeatherWidget] Geo Response:", geoData);
 
             if (geoData.results && geoData.results[0]) {
               const res = geoData.results[0];
-              // Try specific fields if 'name' is just a building or street
+              // City -> State (admin1) -> Country -> Local
               cityName =
-                res.name || res.city || res.town || res.village || "Local";
+                res.city ||
+                res.name ||
+                res.town ||
+                res.village ||
+                res.municipality ||
+                res.suburb ||
+                res.admin1 || // State
+                res.country ||
+                "Local";
             }
           } catch (error) {
             console.error("[WeatherWidget] Geocoding error", error);
