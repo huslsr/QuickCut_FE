@@ -3,45 +3,44 @@
 @tailwind utilities;
 
 :root {
-  /* Modern Editorial Palette (Slate/Blue) */
-  --background: #f8fafc;
-  /* Slate 50 - Premium Cool Paper */
-  --foreground: #0f172a;
-  /* Slate 900 - Deepest Navy/Black */
+  /* Modern Premium Palette (Zinc/Neutral) */
+  --background: #fdfdfd;
+  /* Almost White - Clean & Crisp */
+  --foreground: #09090b;
+  /* Zinc 950 - Sharpest Black */
 
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #09090b;
 
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --popover-foreground: #09090b;
 
-  --primary: #0f172a;
-  /* Slate 900 */
-  --primary-foreground: #f8fafc;
+  --primary: #18181b;
+  /* Zinc 900 */
+  --primary-foreground: #fafafa;
 
-  --secondary: #e2e8f0;
-  /* Slate 200 */
-  --secondary-foreground: #0f172a;
+  --secondary: #f4f4f5;
+  /* Zinc 100 */
+  --secondary-foreground: #18181b;
 
-  --muted: #f1f5f9;
-  /* Slate 100 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
+  --muted: #f4f4f5;
+  /* Zinc 100 */
+  --muted-foreground: #71717a;
+  /* Zinc 500 */
 
   --accent: #2563eb;
-  /* Blue 600 - Smart, Trustworthy, Vibrant */
+  /* Royal Blue - Keeping a color splash for interactions */
   --accent-foreground: #ffffff;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: #e2e8f0;
-  /* Slate 200 */
-  --input: #e2e8f0;
-  --ring: #0f172a;
+  --border: #e4e4e7;
+  /* Zinc 200 */
+  --input: #e4e4e7;
+  --ring: #18181b;
 
   --radius: 0.75rem;
-  /* 12px rounded corners for modern feel */
 }
 
 /* @media (prefers-color-scheme: dark) block removed to prevent overriding manual toggle */
@@ -69,7 +68,6 @@
 }
 
 @layer base {
-
   html,
   body {
     @apply bg-background text-foreground antialiased;
