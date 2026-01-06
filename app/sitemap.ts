@@ -30,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 1,
     }));
 
+    /* 
     try {
         // Dynamic routes for articles (Fetch last 1000 to prevent timeout)
         const articles = await articleService.getSitemapArticles(0, 1000);
@@ -52,5 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             console.error('Error details:', error.message);
         }
         return [...routes];
-    }
+    } 
+    */
+    return [...routes];
 }
