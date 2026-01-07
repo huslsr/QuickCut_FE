@@ -33,10 +33,18 @@ export default function ArticleClient({
       "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2070"
   );
 
-  // Update state when article changes
+  // Update state when article changes and increment view count ONCE (Client Side)
   useEffect(() => {
     if (article?.imageUrl) {
       setImgSrc(article.imageUrl);
+    }
+
+    // Increment view count on mount (Client-only)
+    if (article?.id) {
+      // Fire and forget - don't await
+      import("../../api/services/articleService").then(({ articleService }) => {
+        articleService.incrementViewCount(article.id);
+      });
     }
   }, [article]);
 

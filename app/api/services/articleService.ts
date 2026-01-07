@@ -54,5 +54,13 @@ export const articleService = {
             params: { page, size } 
         });
         return response.data;
+    },
+
+    async incrementViewCount(id: string): Promise<void> {
+        try {
+            await apiClient.post(`/articles/${id}/view`);
+        } catch (error) {
+            console.error(`[Frontend] Failed to increment view count for ${id}`, error);
+        }
     }
 };
