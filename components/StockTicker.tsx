@@ -9,33 +9,10 @@ type TickerItem = {
   up: boolean;
 };
 
-// Initial Data for Indian Stocks
-const INDIAN_STOCKS: TickerItem[] = [
-  { symbol: "NIFTY 50", price: 21740.5, change: 0.55, up: true },
-  { symbol: "SENSEX", price: 72350.25, change: 0.48, up: true },
-  { symbol: "RELIANCE", price: 2650.1, change: -0.25, up: false },
-  { symbol: "TCS", price: 3890.0, change: 1.1, up: true },
-  { symbol: "HDFCBANK", price: 1680.5, change: -0.45, up: false },
-  { symbol: "INFY", price: 1540.2, change: 0.85, up: true },
-  { symbol: "ICICIBANK", price: 1020.75, change: 0.3, up: true },
-  { symbol: "SBIN", price: 640.3, change: -0.15, up: false },
-  { symbol: "BHARTIARTL", price: 1050.6, change: 1.25, up: true },
-  { symbol: "ITC", price: 460.4, change: -0.1, up: false },
-  { symbol: "L&T", price: 3550.0, change: 1.5, up: true },
-  { symbol: "AXISBANK", price: 1120.9, change: 0.6, up: true },
-  { symbol: "KOTAKBANK", price: 1850.25, change: -0.35, up: false },
-  { symbol: "MARUTI", price: 10250.0, change: 0.75, up: true },
-  { symbol: "TATAMOTORS", price: 810.5, change: 2.1, up: true },
-  { symbol: "SUNPHARMA", price: 1320.4, change: 0.2, up: true },
-  { symbol: "TITAN", price: 3750.6, change: -0.5, up: false },
-  { symbol: "ADANIENT", price: 3150.8, change: 1.8, up: true },
-  { symbol: "BAJFINANCE", price: 7650.3, change: 0.95, up: true },
-  { symbol: "ASIANPAINT", price: 3300.2, change: -0.65, up: false },
-];
-
 export default function StockTicker() {
-  const [data, setData] = useState<TickerItem[]>(INDIAN_STOCKS);
+  const [data, setData] = useState<TickerItem[]>([]);
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Check session storage
@@ -49,67 +26,31 @@ export default function StockTicker() {
 
     async function fetchStocks() {
       try {
-        // Mapping of Display Name -> Yahoo Symbol
-        const symbolMap: Record<string, string> = {
-          "NIFTY 50": "^NSEI",
-          SENSEX: "^BSESN",
-          RELIANCE: "RELIANCE.NS",
-          TCS: "TCS.NS",
-          HDFCBANK: "HDFCBANK.NS",
-          INFY: "INFY.NS",
-          ICICIBANK: "ICICIBANK.NS",
-          SBIN: "SBIN.NS",
-          BHARTIARTL: "BHARTIARTL.NS",
-          ITC: "ITC.NS",
-          "L&T": "LT.NS",
-          AXISBANK: "AXISBANK.NS",
-          KOTAKBANK: "KOTAKBANK.NS",
-          MARUTI: "MARUTI.NS",
-          TATAMOTORS: "TATAMOTORS.NS",
-          SUNPHARMA: "SUNPHARMA.NS",
-          TITAN: "TITAN.NS",
-          ADANIENT: "ADANIENT.NS",
-          BAJFINANCE: "BAJFINANCE.NS",
-          ASIANPAINT: "ASIANPAINT.NS",
-        };
+        const { stockService } = await import(
+          "../app/api/services/stockService"
+        );
+        const backendData = await stockService.getLatestStocks();
 
-        const yahooSymbols = Object.values(symbolMap).join(",");
-        const res = await fetch(`/api/stocks?symbols=${yahooSymbols}`);
-        const json = await res.json();
-
-        if (json.quoteResponse && json.quoteResponse.result) {
-          const newTickerData: TickerItem[] = Object.keys(symbolMap)
-            .map((displayName) => {
-              const yahooSymbol = symbolMap[displayName];
-              const quote = json.quoteResponse.result.find(
-                (q: any) => q.symbol === yahooSymbol
-              );
-
-              if (quote) {
-                return {
-                  symbol: displayName,
-                  price: quote.regularMarketPrice,
-                  change: quote.regularMarketChangePercent,
-                  up: quote.regularMarketChangePercent >= 0,
-                };
-              }
-              // Fallback to static if specific quote missing
-              return { symbol: displayName, price: 0, change: 0, up: true };
-            })
-            .filter((item) => item.price !== 0);
-
-          if (newTickerData.length > 0) {
-            setData(newTickerData);
-          }
+        if (backendData && backendData.length > 0) {
+          setData(
+            backendData.map((item) => ({
+              symbol: item.symbol,
+              price: item.price,
+              change: item.changePercent,
+              up: item.up,
+            }))
+          );
         }
       } catch (error) {
-        console.error("Failed to fetch stocks", error);
+        console.error("Failed to fetch stocks from backend", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchStocks();
-    // Refresh every 15 minutes to respect "delayed" nature
-    const interval = setInterval(fetchStocks, 15 * 60 * 1000);
+    // Refresh every 30 minutes (since data is EOD, frequent refresh is not needed)
+    const interval = setInterval(fetchStocks, 30 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
