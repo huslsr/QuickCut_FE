@@ -83,10 +83,6 @@ export const metadata: Metadata = {
     },
   },
   // Removed viewport from metadata as it is exported separately
-
-  alternates: {
-    canonical: "https://quickcut.info",
-  },
 };
 
 export default function RootLayout({
