@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCategories } from "@/app/context/CategoryContext";
-import PrivacyTermsSheet from "./PrivacyTermsSheet";
 
 export default function Footer() {
   const { categories } = useCategories();
@@ -13,7 +12,6 @@ export default function Footer() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
-  const [showPrivacySheet, setShowPrivacySheet] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,30 +177,21 @@ export default function Footer() {
                 { name: "Contact", slug: "contact" },
               ].map((item) => (
                 <li key={item.slug}>
-                  {item.slug === "privacy-terms" ? (
-                    <button
-                      onClick={() => setShowPrivacySheet(true)}
-                      className="hover:text-indigo-400 transition-colors text-left"
-                    >
-                      {item.name}
-                    </button>
-                  ) : (
-                    <Link
-                      href={`/company/${item.slug}`}
-                      className="hover:text-indigo-400 transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  )}
+                  {/* Modified to use direct link for crawlability */}
+                  <Link
+                    href={
+                      item.slug === "privacy-terms"
+                        ? "/company/privacy-terms"
+                        : `/company/${item.slug}`
+                    }
+                    className="hover:text-indigo-400 transition-colors"
+                  >
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
-
-          <PrivacyTermsSheet
-            isOpen={showPrivacySheet}
-            onClose={() => setShowPrivacySheet(false)}
-          />
 
           <div>
             <h3 className="text-lg font-bold font-serif mb-6">Newsletter</h3>
