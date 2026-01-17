@@ -121,7 +121,7 @@ export default function CategoryPage() {
       <main className="flex-1 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-12 border-b-4 border-black dark:border-white pb-4">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
               <div>
                 <h1 className="text-5xl font-black font-serif uppercase tracking-tighter text-black dark:text-white">
                   {category?.name || "Category"}
@@ -139,9 +139,9 @@ export default function CategoryPage() {
                   href="https://jefferies.streamlit.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden md:flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest hover:opacity-80 transition-opacity mb-2"
+                  className="flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest hover:opacity-80 transition-opacity mb-2"
                 >
-                  <span>Analyze with Proffessionals</span>
+                  <span>Analyze stock with Professionals</span>
                   <svg
                     className="w-4 h-4"
                     fill="none"
