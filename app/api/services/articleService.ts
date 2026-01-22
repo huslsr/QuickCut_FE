@@ -16,6 +16,16 @@ export interface Article {
     viewCount?: number;
 }
 
+export interface DailyViews {
+    date: string;
+    views: number;
+}
+
+export interface AnalyticsData {
+    totalViews: number;
+    dailyViews: DailyViews[];
+}
+
 export const articleService = {
     async getAllArticles(categoryId?: string, query?: string, page: number = 0, size: number = 10): Promise<{ content: Article[], totalPages: number }> {
         console.log(`[Frontend] Fetching articles - Category: ${categoryId}, Query: ${query}, Page: ${page}, Size: ${size}`);
@@ -62,5 +72,10 @@ export const articleService = {
         } catch (error) {
             console.error(`[Frontend] Failed to increment view count for ${id}`, error);
         }
+    },
+
+    async getAnalytics(): Promise<AnalyticsData> {
+        const response = await apiClient.get<AnalyticsData>('/articles/analytics');
+        return response.data;
     }
 };
