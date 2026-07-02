@@ -224,45 +224,27 @@ export default function ArticleClient({
             </div>
 
             {/* Main Content */}
-            {article.content ? (
-              <div className="prose prose-lg md:prose-xl max-w-none font-serif text-gray-800 dark:text-gray-200 leading-loose dark:prose-invert">
-                {article.content.split("\n").map((paragraph, index) => {
-                  if (!paragraph.trim()) return null;
+            <div className="prose prose-lg md:prose-xl max-w-none font-serif text-gray-800 dark:text-gray-200 leading-loose dark:prose-invert">
+              {article.content.split("\n").map((paragraph, index) => {
+                if (!paragraph.trim()) return null;
 
-                  // Drop Cap for the very first paragraph
-                  const isFirst = index === 0;
+                // Drop Cap for the very first paragraph
+                const isFirst = index === 0;
 
-                  return (
-                    <p
-                      key={index}
-                      className={`mb-8 opacity-90 hover:opacity-100 transition-opacity ${
-                        isFirst
-                          ? "first-letter:float-left first-letter:text-7xl first-letter:font-bold first-letter:text-accent first-letter:mr-3 first-letter:mt-2"
-                          : ""
-                      }`}
-                    >
-                      {paragraph}
-                    </p>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-12 px-6 bg-muted/20 dark:bg-muted/10 rounded-2xl border border-dashed border-border/80 max-w-xl mx-auto my-8">
-                <p className="text-muted-foreground mb-6 font-serif text-lg leading-relaxed">
-                  A full briefing could not be generated for this article, or it might be behind a paywall.
-                </p>
-                {article.url && (
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent/90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                return (
+                  <p
+                    key={index}
+                    className={`mb-8 opacity-90 hover:opacity-100 transition-opacity ${
+                      isFirst
+                        ? "first-letter:float-left first-letter:text-7xl first-letter:font-bold first-letter:text-accent first-letter:mr-3 first-letter:mt-2"
+                        : ""
+                    }`}
                   >
-                    Read Full Article on Source
-                  </a>
-                )}
-              </div>
-            )}
+                    {paragraph}
+                  </p>
+                );
+              })}
+            </div>
 
             {/* Divider */}
             <hr className="my-16 border-t font-serif text-center relative after:content-['***'] after:bg-background after:px-4 after:relative after:top-[-14px] after:text-muted-foreground" />
